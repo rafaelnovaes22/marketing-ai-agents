@@ -1,0 +1,154 @@
+{
+  "manifest_version": "0.1.0",
+  "_doc": "Manifest local do projeto consumidor Acme Social. Inventário dos artefatos LOCAIS (criados aqui, não copiados do forge canônico). Forge canônico (Constitution, Guardians, hooks, templates) reside em ../agent-governance-framework/.",
+
+  "framework": {
+    "_doc": "Espelha versão do agent-governance-framework que este consumidor adotou. Atualizar ao sincronizar com upstream via `cp -r ../agent-governance-framework/.claude/* .claude/` (mantendo settings.local.json + .forge-mode locais).",
+    "version": "0.14.0",
+    "phase": "Forge-13 Sprint 2 consumido — consumer-mode automation. Sync executado 2026-05-13 (sessão D2).",
+    "constitution_version": "0.3.0",
+    "upstream_path": "../agent-governance-framework",
+    "last_sync_at": "2026-05-13",
+    "previous_version_consumed": "0.12.0"
+  },
+
+  "consumer": {
+    "name": "marketing-ai-agents",
+    "version": "0.1.0",
+    "phase": "Adoção inicial — Forge-12 Fase 2 (v0.12.0). 7 SKUs declarados em project.json com current_stage=draft. Próximo passo: /acme:diagnose social-media-agent.",
+    "forge_version_consumed": "0.12.0",
+    "constitution_version_consumed": "0.3.0",
+    "project_type": "agentic_saas",
+    "ai_enabled": true,
+    "adopted_at": "2026-05-13"
+  },
+
+  "local_artifacts": {
+    "_doc": "Artefatos LOCAIS criados especificamente para este projeto consumidor. Não inclui artefatos canônicos (Constitution, Guardians, hooks, templates) que são cópias do forge.",
+
+    "project_config": [
+      {
+        "id": "consumer-project-json",
+        "path": "docs/forge/project.json",
+        "type": "consumer_declaration",
+        "version": "0.1.0",
+        "linked_principles": ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8"],
+        "description": "Declaração canônica do consumidor Acme Social — project_type=agentic_saas, ai_enabled=true, 7 SKUs agentic declarados"
+      }
+    ],
+
+    "sku_specs": {
+      "_doc": "Specs locais dos 7 agentes. Criadas via /acme:diagnose + /acme:spec conforme o pipeline avança.",
+      "social-media-agent": [
+        {"path": "docs/forge/sku/social-media-agent/diagnostic.md", "type": "diagnostic", "linked_principle": "C1", "status": "po_guardian_pending"},
+        {"path": "docs/forge/sku/social-media-agent/spec.md", "type": "platform-sku-spec", "linked_principle": "C2", "status": "draft"},
+        {"path": "docs/forge/sku/social-media-agent/unit-economics.md", "type": "unit-economics", "linked_principle": "C3", "status": "approved", "approved_by": "@unit-economist", "margin_percent": 76.25},
+        {"path": "docs/forge/sku/social-media-agent/plan.md", "type": "plan", "linked_principle": "C5", "status": "approved", "approved_by": "@artifact-architect"},
+        {"path": "docs/forge/sku/social-media-agent/tasks.md", "type": "tasks", "linked_principle": "C5", "status": "draft", "total_tasks": 32, "estimated_days": "4-6"},
+        {"path": "docs/forge/sku/social-media-agent/eval-cases.md", "type": "eval-cases", "linked_principle": "C4", "status": "draft", "total_cases": 22, "critical_path_count": 5},
+        {"path": "docs/forge/sku/social-media-agent/decisions.md", "type": "adr-local", "linked_principle": "C5", "adrs": ["ADR-001-DS", "ADR-002-DS", "ADR-003-DS", "ADR-004-DS"]},
+        {"path": "docs/forge/sku/social-media-agent/lifecycle-stage.md", "type": "lifecycle-stage", "linked_principle": "C4", "current_stage": "draft", "target_next": "shadow"},
+        {"path": "docs/forge/sku/social-media-agent/tom-brand-voice-ceo.md", "type": "voice-calibration", "linked_principle": "C2", "status": "captured_2026-05-13", "quotes_count": 22, "fontes_consultadas": 8, "few_shots_count": 5, "_doc": "Calibração de tom de voz the CEO extraída de fontes públicas (livro Desistir Não É Opção, Exame, Pensador, Conta Azul, Infomoney, Forbes BR, site oficial). 8 dimensões de tom analisadas. Insumo crítico para prompt engineering do social-media-agent."}
+      ],
+      "copywriter-agent": [
+        {"path": "docs/forge/sku/copywriter-agent/diagnostic.md", "type": "diagnostic", "linked_principle": "C1", "status": "po_guardian_pending", "_diagnose_by": "subagent_parallel"},
+        {"path": "docs/forge/sku/copywriter-agent/spec.md", "type": "platform-sku-spec", "linked_principle": "C2", "status": "draft", "adrs": ["ADR-001-CW", "ADR-002-CW", "ADR-003-CW"]},
+        {"path": "docs/forge/sku/copywriter-agent/unit-economics.md", "type": "unit-economics", "linked_principle": "C3", "status": "approved", "approved_by": "@unit-economist", "margin_percent": 95.6, "cost_brl": 3.55, "price_brl": 80.00}
+      ],
+      "designer-agent": [
+        {"path": "docs/forge/sku/designer-agent/diagnostic.md", "type": "diagnostic", "linked_principle": "C1", "status": "po_guardian_pending", "_diagnose_by": "subagent_parallel"},
+        {"path": "docs/forge/sku/designer-agent/spec.md", "type": "platform-sku-spec", "linked_principle": "C2", "status": "draft", "adrs": ["ADR-001-DES", "ADR-002-DES", "ADR-003-DES"]},
+        {"path": "docs/forge/sku/designer-agent/unit-economics.md", "type": "unit-economics", "linked_principle": "C3", "status": "approved", "approved_by": "@unit-economist", "margin_percent": 89.9, "cost_brl": 2.03, "price_brl": 20.00}
+      ],
+      "trafego-agent": [
+        {"path": "docs/forge/sku/trafego-agent/diagnostic.md", "type": "diagnostic", "linked_principle": "C1", "status": "po_guardian_pending", "_diagnose_by": "subagent_parallel"},
+        {"path": "docs/forge/sku/trafego-agent/spec.md", "type": "platform-sku-spec", "linked_principle": "C2", "status": "draft", "adrs": ["ADR-001-TF", "ADR-002-TF", "ADR-003-TF"]},
+        {"path": "docs/forge/sku/trafego-agent/unit-economics.md", "type": "unit-economics", "linked_principle": "C3", "status": "approved", "approved_by": "@unit-economist", "margin_percent": 87.0, "cost_brl": 6.50, "price_brl": 50.00, "_note": "Ad spend cobrado separadamente do cliente (Meta direto)"}
+      ],
+      "video-editor-agent": [
+        {"path": "docs/forge/sku/video-editor-agent/diagnostic.md", "type": "diagnostic", "linked_principle": "C1", "status": "po_guardian_pending", "_diagnose_by": "subagent_parallel"},
+        {"path": "docs/forge/sku/video-editor-agent/spec.md", "type": "platform-sku-spec", "linked_principle": "C2", "status": "draft_split_recommended", "adrs": ["ADR-001-VE", "ADR-002-VE", "ADR-003-VE"], "_critical_decision": "ADR-001-VE recomenda split: video-editor-agent R$ 30 (cortar input) + video-editor-agent-premium R$ 150 (Veo 3 do zero, wave 2)"},
+        {"path": "docs/forge/sku/video-editor-agent/unit-economics.md", "type": "unit-economics", "linked_principle": "C3", "status": "approved_cenario_A_only", "approved_by": "@unit-economist", "margin_percent": 84.0, "cost_brl": 4.80, "price_brl": 30.00, "_note": "Cenário A (corte de input) aprovado. Cenário B (Veo 3 do zero) violou C3 brutalmente — diferido para video-editor-agent-premium."}
+      ],
+      "estrategista-agent": [
+        {"path": "docs/forge/sku/estrategista-agent/diagnostic.md", "type": "diagnostic", "linked_principle": "C1", "status": "po_guardian_pending", "_diagnose_by": "subagent_parallel"},
+        {"path": "docs/forge/sku/estrategista-agent/spec.md", "type": "platform-sku-spec", "linked_principle": "C2", "status": "draft", "adrs": ["ADR-001-EST", "ADR-002-EST", "ADR-003-EST"]},
+        {"path": "docs/forge/sku/estrategista-agent/unit-economics.md", "type": "unit-economics", "linked_principle": "C3", "status": "approved", "approved_by": "@unit-economist", "margin_percent": 87.0, "cost_brl": 13.00, "price_brl": 100.00}
+      ],
+      "atendimento-dm-agent": [
+        {"path": "docs/forge/sku/atendimento-dm-agent/diagnostic.md", "type": "diagnostic", "linked_principle": "C1", "status": "po_guardian_pending", "_diagnose_by": "subagent_parallel", "criticality": "A"},
+        {"path": "docs/forge/sku/atendimento-dm-agent/spec.md", "type": "platform-sku-spec", "linked_principle": "C2", "status": "draft", "adrs": ["ADR-001-DM", "ADR-002-DM", "ADR-003-DM"]},
+        {"path": "docs/forge/sku/atendimento-dm-agent/unit-economics.md", "type": "unit-economics", "linked_principle": "C3", "status": "approved_conditional", "approved_by": "@unit-economist", "margin_percent": 92.6, "cost_brl": 0.37, "price_brl": 5.00, "_conditional": "AUTONOMOUS exige ≥30 DMs/dia comprovados; LGPD DPA obrigatório antes de SHADOW (criticality A)"}
+      ]
+    },
+
+    "decisions": {
+      "_doc": "ADRs executivas do projeto (escopo cross-SKU). ADRs locais ficam em docs/forge/sku/<nome>/decisions.md.",
+      "path": "docs/forge/decisions.md",
+      "exists": true,
+      "adrs": [
+        {"id": "ADR-001-PROJ", "title": "Video Editor split em 2 SKUs", "status": "accepted", "founder_approved": true},
+        {"id": "ADR-002-PROJ", "title": "Copywriter pricing R$ 80 + R$ 110 upsell", "status": "accepted", "founder_approved": true},
+        {"id": "ADR-003-PROJ", "title": "Atendimento DM SHADOW interno-only até LGPD", "status": "accepted_with_restriction", "founder_approved": true, "_blocker": "Fase 2 LGPD pendente (DPO/consultoria)"},
+        {"id": "ADR-004-PROJ", "title": "Pendências críticas registradas (não-decisões)", "status": "registry"}
+      ]
+    },
+
+    "brand_assets": [
+      {
+        "id": "acme-brand-guide-extracted",
+        "path": "documentacao/BRAND_GUIDE_DANTUIA.md",
+        "type": "brand_reference",
+        "extracted_from": "WhatsApp Video 2026-05-13 at 11.20.21.mp4",
+        "description": "Brand guide Acme extraído automaticamente via FFmpeg + Whisper + Vision multimodal"
+      }
+    ],
+
+    "documentation": [
+      {
+        "id": "executive-summary",
+        "path": "documentacao/EXECUTIVE_SUMMARY_ACME.md",
+        "type": "business_documentation",
+        "description": "Síntese 1 página: investimento R$ 441.490, ROI 204%, payback 4 meses, operação 100% autônoma"
+      },
+      {
+        "id": "as-is-to-be",
+        "path": "documentacao/AS_IS_TO_BE_ACME.md",
+        "type": "business_documentation",
+        "description": "17 slides estruturados para apresentação executiva"
+      },
+      {
+        "id": "plano-tecnico",
+        "path": "documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md",
+        "type": "business_documentation",
+        "description": "Plano técnico completo dos 7 agentes (versão 3.0)"
+      }
+    ]
+  },
+
+  "forge_provenance": {
+    "_doc": "Quais artefatos canônicos foram copiados do agent-governance-framework para este consumidor. Ao atualizar Forge, sincronizar com: cp -r ../agent-governance-framework/.claude .claude && cp -r ../agent-governance-framework/hooks hooks && cp -r ../agent-governance-framework/templates templates",
+    "constitution": ".claude/CONSTITUTION.md",
+    "settings": ".claude/settings.json",
+    "guardians_count": 10,
+    "slash_commands_count": 15,
+    "skills_count": 9,
+    "hooks_count": 10,
+    "templates_count": 19,
+    "scripts": ["scripts/forge", "scripts/forge-doctor.sh"]
+  },
+
+  "implementation_roadmap": {
+    "_doc": "Roadmap dos 7 agentes em 14 dias. Detalhes em documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md.",
+    "week_1": {
+      "days_1_2": "Setup + diagnose dos 7 agentes em paralelo (subagents Claude)",
+      "days_3_5": "Specs P0 (social, copywriter, designer) + eval-cases",
+      "days_6_7": "Implementação P0 (TDD-first via /acme:aios-run)"
+    },
+    "week_2": {
+      "days_8_10": "Implementação P1 (tráfego, vídeo) + promoções",
+      "days_11_13": "Implementação P2 (estrategista, DM) + integração",
+      "day_14": "Monthly audit DeepAgent + documentação final"
+    }
+  }
+}

@@ -1,0 +1,225 @@
+// Acme Social — schema Prisma 6
+// Multi-tenant ready (C8) — single-tenant fase 1, mas tenant_id está em todas as tabelas
+// Audit trail obrigatório para SKUs com criticality ≥ B
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Carrossel (entidade principal do social-media-agent) ─────────
+
+model Carrossel {
+  id            String   @id @default(cuid())
+  tenantId      String   @map("tenant_id")
+  briefingText  String   @map("briefing_text") @db.Text
+  tom           String   // 'brand_voice_ceo' | 'executivo_b2b' | 'casual_b2c' | etc.
+  redePrincipal String   @map("rede_principal") // 'linkedin' | 'instagram' | 'facebook' | 'twitter'
+  slidesCount   Int      @map("slides_count")   // 4-5 padrão; 6-7 upsell
+  isUpsell      Boolean  @default(false) @map("is_upsell")
+  status        String   // 'pending' | 'generating' | 'completed' | 'failed' | 'cancelled'
+
+  // Outputs
+  slidesJson    Json?    @map("slides_json")    // Array<{order, imageUrl, brandScore, provider}>
+  captionsJson  Json?    @map("captions_json")  // {linkedin, instagram, facebook, twitter: thread[]}
+
+  // Telemetry agregada
+  totalCostBrl  Decimal? @map("total_cost_brl") @db.Decimal(10, 4)
+  totalLatencyMs Int?    @map("total_latency_ms")
+  tomScore      Float?   @map("tom_score")      // LLM-as-judge 1-10
+  brandScoreAvg Float?   @map("brand_score_avg") // 0.0-1.0
+
+  // Lifecycle
+  createdAt     DateTime @default(now()) @map("created_at")
+  completedAt   DateTime? @map("completed_at")
+  publishedAt   DateTime? @map("published_at")
+
+  // Relations
+  execution     Execution[]
+  publications  Publication[]
+
+  @@index([tenantId, createdAt])
+  @@index([status])
+  @@map("carrossel")
+}
+
+// ─── Execution (uma execução end-to-end, linkada a 1 carrossel) ────
+
+model Execution {
+  id            String   @id @default(cuid())
+  tenantId      String   @map("tenant_id")
+  carrosselId   String   @map("carrossel_id")
+
+  // Modo de operação (lifecycle Forge)
+  mode          String   // 'shadow' | 'assisted' | 'autonomous'
+
+  // Outcome
+  outcomeAchieved Boolean? @map("outcome_achieved")
+  slaViolated     Boolean  @default(false) @map("sla_violated")
+
+  // Cost breakdown (C3)
+  costCopyBrl       Decimal? @map("cost_copy_brl") @db.Decimal(10, 4)
+  costImagesBrl     Decimal? @map("cost_images_brl") @db.Decimal(10, 4)
+  costValidationBrl Decimal? @map("cost_validation_brl") @db.Decimal(10, 4)
+  costPublishBrl    Decimal? @map("cost_publish_brl") @db.Decimal(10, 4)
+  costInfraBrl      Decimal? @map("cost_infra_brl") @db.Decimal(10, 4)
+
+  // Langfuse link
+  langfuseTraceId String? @map("langfuse_trace_id")
+
+  // Timestamps
+  startedAt     DateTime @default(now()) @map("started_at")
+  finishedAt    DateTime? @map("finished_at")
+
+  carrossel     Carrossel @relation(fields: [carrosselId], references: [id])
+
+  @@index([tenantId, mode, startedAt])
+  @@index([carrosselId])
+  @@map("execution")
+}
+
+// ─── Publication (cada rede social = 1 row) ───────────────────────
+
+model Publication {
+  id            String   @id @default(cuid())
+  tenantId      String   @map("tenant_id")
+  carrosselId   String   @map("carrossel_id")
+
+  network       String   // 'linkedin' | 'instagram' | 'facebook' | 'twitter'
+  status        String   // 'pending' | 'publishing' | 'published' | 'failed' | 'manual_required'
+  externalPostId String? @map("external_post_id")
+  externalUrl   String?  @map("external_url")
+
+  attemptsCount Int      @default(0) @map("attempts_count")
+  lastError     String?  @map("last_error") @db.Text
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  publishedAt   DateTime? @map("published_at")
+
+  carrossel     Carrossel @relation(fields: [carrosselId], references: [id])
+
+  @@index([tenantId, network, status])
+  @@index([carrosselId, network])
+  @@map("publication")
+}
+
+// ─── CopywriterExecution (copywriter-agent — 1 row por execução) ──
+
+model CopywriterExecution {
+  id            String   @id @default(cuid())
+  tenantId      String   @map("tenant_id")
+
+  // Briefing (resumo — full payload em outputJson.briefing)
+  outputType    String   @map("output_type")    // 'landing' | 'email_sequence' | 'ad_set'
+  framework     String   // 'pas' | 'aida' | '4ps' | 'storybrand' | 'soap_opera'
+  tomSlug       String   @map("tom_slug")
+  isUpsell      Boolean  @default(false) @map("is_upsell")
+  briefingHash  String   @map("briefing_hash")
+
+  // Lifecycle Forge
+  mode          String   // 'shadow' | 'assisted' | 'autonomous'
+  status        String   // 'pending' | 'generating' | 'completed' | 'failed' | 'cancelled'
+
+  // Output (JSON estável versionado — ADR-003-CW)
+  schemaVersion String?  @map("schema_version") // '1.0.0' etc.
+  outputJson    Json?    @map("output_json")    // Landing | EmailSequence | AdSet serializado
+
+  // Outcome
+  outcomeAchieved Boolean? @map("outcome_achieved")
+  slaViolated     Boolean  @default(false) @map("sla_violated")
+  tomScore        Float?   @map("tom_score")          // LLM-as-judge 1-10
+  diversityScore  Float?   @map("diversity_score")    // só ad_set
+  wordCount       Int?     @map("word_count")
+
+  // Cost breakdown (C3)
+  costLlmBrl        Decimal? @map("cost_llm_brl") @db.Decimal(10, 4)
+  costEmbeddingBrl  Decimal? @map("cost_embedding_brl") @db.Decimal(10, 4)
+  costJudgeBrl      Decimal? @map("cost_judge_brl") @db.Decimal(10, 4)
+  costInfraBrl      Decimal? @map("cost_infra_brl") @db.Decimal(10, 4)
+
+  // Telemetry
+  langfuseTraceId String? @map("langfuse_trace_id")
+  totalLatencyMs  Int?    @map("total_latency_ms")
+  rerollCount     Int     @default(0) @map("reroll_count")
+
+  // Timestamps
+  startedAt   DateTime  @default(now()) @map("started_at")
+  finishedAt  DateTime? @map("finished_at")
+
+  @@index([tenantId, outputType, mode, startedAt])
+  @@index([status])
+  @@index([briefingHash])
+  @@map("copywriter_execution")
+}
+
+// ─── Designer Agent (SKU separado, composable com social-media) ───
+
+model DesignerExecution {
+  id            String   @id @default(cuid())
+  tenantId      String   @map("tenant_id")
+
+  // Briefing
+  caller        String   // 'social-media-agent' | 'client_direct' | 'founder_direct'
+  tema          String   @db.Text
+  numSlides     Int      @map("num_slides")     // 5–7
+  dominantMode  String   @map("dominant_mode")  // 'dark' | 'light'
+  variant       String   // 'standard' | 'economic'
+  brandStrictness Float  @map("brand_strictness") @default(0.99)
+
+  // Modo Forge lifecycle
+  mode          String   // 'shadow' | 'assisted' | 'autonomous'
+
+  // Outputs
+  slidesJson    Json?    @map("slides_json")    // Array<{order, imageUrl, brandScore, providerUsed, retryCount, fallbackTriggered}>
+  status        String   // 'pending' | 'generating' | 'completed' | 'degraded' | 'failed'
+
+  // Telemetry agregada
+  brandComplianceAvg    Float?  @map("brand_compliance_avg")  // 0.0–1.0 (informacional)
+  brandAllPassed        Boolean @default(false) @map("brand_all_passed") // gate hard individual
+  retryCount            Int     @default(0) @map("retry_count")          // total agregado
+  fallbackTriggered     Int     @default(0) @map("fallback_triggered")   // # slides cross-provider
+  providerSplitImagen   Int     @default(0) @map("provider_split_imagen")
+  providerSplitIdeogram Int     @default(0) @map("provider_split_ideogram")
+
+  totalCostBrl   Decimal? @map("total_cost_brl") @db.Decimal(10, 4)
+  totalLatencyMs Int?     @map("total_latency_ms")
+  slaViolated    Boolean  @default(false) @map("sla_violated")
+
+  // Langfuse
+  langfuseTraceId String? @map("langfuse_trace_id")
+
+  // Lifecycle
+  createdAt     DateTime  @default(now()) @map("created_at")
+  completedAt   DateTime? @map("completed_at")
+
+  @@index([tenantId, mode, createdAt])
+  @@index([status])
+  @@index([caller])
+  @@map("designer_execution")
+}
+
+// ─── Audit Trail (C8 — toda mutação crítica) ──────────────────────
+
+model AuditTrail {
+  id            String   @id @default(cuid())
+  tenantId      String   @map("tenant_id")
+
+  actor         String   // 'system' | 'user:<id>' | 'agent:<name>'
+  action        String   // 'carrossel.created' | 'carrossel.published' | 'lifecycle.promoted'
+  entityType    String   @map("entity_type") // 'Carrossel' | 'Execution' | 'Publication'
+  entityId      String   @map("entity_id")
+
+  beforeJson    Json?    @map("before_json")
+  afterJson     Json?    @map("after_json")
+  metadataJson  Json?    @map("metadata_json")
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([tenantId, createdAt])
+  @@index([entityType, entityId])
+  @@map("audit_trail")
+}

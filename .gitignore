@@ -1,0 +1,44 @@
+# Acme Social — gitignore
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+
+# Claude Code per-developer overrides (NUNCA commitar)
+.claude/settings.local.json
+
+# Forge-12 — preferência de modo por usuário (vibe/dev/agent)
+.forge-mode
+
+# Audit outputs (geram localmente; contêm dados de produção)
+docs/forge/audits/
+docs/forge/session-gate-reports/
+docs/forge/bypass-log/
+!docs/forge/bypass-log/.gitkeep
+
+# Node
+node_modules/
+dist/
+*.log
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Tooling
+.tsbuildinfo
+coverage/
+
+# Artefatos brutos da extração de brand (já processados em documentacao/BRAND_GUIDE)
+# Comentado por enquanto — mantemos visíveis para referência
+# brand_extraction/
