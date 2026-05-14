@@ -1,6 +1,6 @@
 # LangGraph Adoption — Handoff (C1 → C4 entregues)
 
-> **Status:** ✅ C1 (ADRs) + C2 (instalação + BaseGraphState) + C3 (LangSmithAdapter) + C4 (SocialMediaOrchestrator) entregues
+> **Status:** ✅ C1 (ADRs) + C2 (instalação + BaseGraphState) + C3 (LangSmithAdapter) + C4 (SocialMediaOrchestrator) + C5 (P3 full + composition root) entregues
 > **Data última atualização:** 2026-05-14
 
 ---
@@ -59,20 +59,26 @@
 | **Test integration** | [tests/orchestration/social-media-orchestrator.test.ts](../../tests/orchestration/social-media-orchestrator.test.ts) — 7 testes verdes cobrindo: compilação, pipeline default, pipeline com design_validation, trace raiz registrado, composição cross-agent (3 SKUs distintos no mesmo run), C8 boundary, propagação de erro |
 | **Suite final** | 144 testes verdes (137 + 7 novos) |
 
-### Limitação documentada (P3 parcial)
+## ✅ C5 — P3 full + composition root (entregues)
 
-`GenerateCarrosselUseCase` e `DesignCarrosselUseCase` ainda chamam `observability.startTrace()` próprio — produzem traces siblings em vez de filhos do trace raiz do grafo. No `LangSmithAdapter` real, o vínculo aparecerá via `metadata.parent_trace_id` (a registrar em refator C5 — full P3 com `parentTrace` propagado).
-
-`PublishMultiNetworkUseCase` já é parent-aware (aceita `traceContext` opcional) e suprime trace próprio — usado como referência para o refator.
+| Item | Detalhe |
+|---|---|
+| **parentTrace em GenerateCarrosselUseCase** | `GenerateCarrosselInput.parentTrace?: TraceContext` — quando fornecido, usa como trace pai e suprime `startTrace`/`endTrace` próprios |
+| **parentTrace em DesignCarrosselUseCase** | `DesignCarrosselUseCaseInput.parentTrace?: TraceContext` — mesmo padrão |
+| **Orchestrator propaga parentTrace** | `runGenerateCarrosselNode` e `runDesignValidationNode` passam `parentTrace: trace` para os use cases |
+| **Hierarquia de trace consolidada** | 1 trace raiz (social-media-orchestrator) com todos os spans como filhos diretos. Spans de use cases (copy_generation, image_generation_batch, parallel_slide_generation) aparecem dentro do trace do orchestrator |
+| **Composition root** | [src/infrastructure/composition/CompositionRoot.ts](../composition/CompositionRoot.ts) — `createSocialMediaDeps()` instancia todos os adapters reais a partir do `.env`. `createProductionSocialMediaPipeline()` expõe `run()` pronto para uso em SHADOW |
+| **`.env.example` completo** | Variáveis Twitter adicionadas (TWITTER_API_KEY/SECRET/ACCESS_TOKEN/ACCESS_TOKEN_SECRET) |
+| **Teste cross-agent atualizado** | `cross-agent composition (P3 full)` verifica 1 único trace raiz com spans de todos os use cases como filhos |
+| **Typecheck** | 0 erros |
+| **Suite** | 144 testes verdes (sem regressão) |
 
 ---
 
-## ⏳ C5 (próximo) — P3 full + tarefas adiadas
+## ⏳ Tarefas adiadas (pós C5)
 
 | Tarefa | Quando | Notas |
 |---|---|---|
-| Refatorar `GenerateCarrosselUseCase` e `DesignCarrosselUseCase` para aceitar `parentTrace?: TraceContext` opcional e suprimir trace próprio (mesmo padrão de `PublishMultiNetworkUseCase`) | C5 | Quebra o sibling-traces atual; consolida hierarquia única em LangSmith |
-| Composition root — wire real do LangSmithAdapter a partir do `.env` | Antes do 1º run E2E em SHADOW | Requer `LANGSMITH_API_KEY`, `LANGSMITH_PROJECT` no `.env` |
 | PR upstream em `agent-governance-framework` propondo `llm_trace_provider: langsmith \| langfuse \| dual` | Pós C5 estável | Founder autorizou; PR em paralelo |
 | `EvalRunnerGraph` (versão integration-style do eval runner para grafos) | Wave 5 social-media-agent | |
 | Checkpointer Postgres para `atendimento-dm` multi-turn | Fase B (D6) | |
@@ -97,4 +103,6 @@
 - [ ] Criar 2 projetos: `marketing-ai-agents-dev` e `marketing-ai-agents-prod`
 - [ ] Gerar `LANGSMITH_API_KEY` (formato `lsv2_pt_...`) e popular `.env` (não `.env.example`)
 - [ ] **Rotacionar** qualquer chave que tenha vazado em `.env.example` (placeholder agora limpo)
-- [ ] Composition root wire-up (C5)
+- [x] Composition root wire-up — `src/infrastructure/composition/CompositionRoot.ts` (C5 ✅)
+- [ ] Popular `.env` com todas as variáveis reais (ver `.env.example` completo)
+- [ ] Verificar que `prompts/social-media-agent/system-prompts/brand_voice_ceo.md` está completo

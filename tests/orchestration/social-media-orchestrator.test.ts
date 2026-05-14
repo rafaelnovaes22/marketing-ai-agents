@@ -249,10 +249,10 @@ describe('SocialMediaOrchestrator (integration com fakes)', () => {
     expect(orchestratorTrace?.output).toBeDefined();
   });
 
-  it('cross-agent composition: trace do social-media + designer no mesmo run', async () => {
+  it('cross-agent composition (P3 full): spans de generate + design dentro do trace raiz do orchestrator', async () => {
     const graph = createSocialMediaOrchestrator(bundle.deps);
 
-    await runSocialMediaOrchestrator(graph, bundle.deps, {
+    const result = await runSocialMediaOrchestrator(graph, bundle.deps, {
       tenantId: 'acme-internal',
       mode: 'shadow',
       briefing: {
@@ -265,13 +265,24 @@ describe('SocialMediaOrchestrator (integration com fakes)', () => {
       }
     });
 
-    // Espera-se ≥3 traces distintos: orchestrator + social-media-agent + designer-agent
-    const skus = bundle.obs.traces.map((t) => t.context.sku);
-    expect(skus).toEqual(
+    // P3 full: apenas 1 trace raiz (orchestrator).
+    // Use cases não chamam startTrace quando invocados com parentTrace.
+    expect(bundle.obs.traces).toHaveLength(1);
+    expect(bundle.obs.traces[0].context.sku).toBe('social-media-orchestrator');
+
+    // Spans de todos os use cases aparecem como filhos do trace raiz do orchestrator.
+    const orchestratorSpans = bundle.obs.spans.filter(
+      (s) => s.traceId === result.traceId
+    );
+    const spanNames = orchestratorSpans.map((s) => s.span.name);
+    expect(spanNames).toEqual(
       expect.arrayContaining([
-        'social-media-orchestrator',
-        'social-media-agent',
-        'designer-agent'
+        'node:generate_carrossel',   // node wrapper
+        'copy_generation',           // GenerateCarrosselUseCase interno
+        'image_generation_batch',    // GenerateCarrosselUseCase interno
+        'node:design_validation',    // node wrapper
+        'parallel_slide_generation', // DesignCarrosselUseCase interno
+        'node:publish_multi_network' // node wrapper
       ])
     );
   });

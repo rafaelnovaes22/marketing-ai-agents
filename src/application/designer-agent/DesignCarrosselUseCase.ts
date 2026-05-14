@@ -35,6 +35,8 @@ export interface DesignCarrosselUseCaseInput {
   briefing: DesignBriefing;
   slideSpecs: SlideDesignSpec[];
   mode: 'shadow' | 'assisted' | 'autonomous';
+  /** Quando fornecido (ex.: orchestrator), usa como trace pai e suprime startTrace/endTrace próprios (P3 full). */
+  parentTrace?: TraceContext;
 }
 
 export interface DesignCarrosselUseCaseDeps {
@@ -69,8 +71,9 @@ export class DesignCarrosselUseCase {
       );
     }
 
+    const ownTrace = !input.parentTrace;
     const startedAt = Date.now();
-    const trace = this.deps.observability.startTrace({
+    const trace = input.parentTrace ?? this.deps.observability.startTrace({
       tenantId: input.briefing.tenantId,
       sku: 'designer-agent',
       mode: input.mode,
@@ -122,22 +125,26 @@ export class DesignCarrosselUseCase {
         totalCostBrl
       });
 
-      await this.deps.observability.endTrace(trace, {
-        status: carrossel.status,
-        outcome_achieved: carrossel.outcomeAlcancado(),
-        brand_score_avg: report.scoreMedio(),
-        total_retries: report.totalRetries(),
-        sla_violated: carrossel.slaViolated(),
-        provider_split: report.providerSplit()
-      });
+      if (ownTrace) {
+        await this.deps.observability.endTrace(trace, {
+          status: carrossel.status,
+          outcome_achieved: carrossel.outcomeAlcancado(),
+          brand_score_avg: report.scoreMedio(),
+          total_retries: report.totalRetries(),
+          sla_violated: carrossel.slaViolated(),
+          provider_split: report.providerSplit()
+        });
+      }
 
       return carrossel;
     } catch (err) {
-      await this.deps.observability.endTrace(
-        trace,
-        undefined,
-        err instanceof Error ? err : new Error(String(err))
-      );
+      if (ownTrace) {
+        await this.deps.observability.endTrace(
+          trace,
+          undefined,
+          err instanceof Error ? err : new Error(String(err))
+        );
+      }
       throw err;
     }
   }

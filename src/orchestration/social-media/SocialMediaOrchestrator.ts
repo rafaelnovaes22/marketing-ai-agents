@@ -162,7 +162,8 @@ async function runGenerateCarrosselNode(
         slidesDesejados: state.briefing.slidesDesejados,
         isUpsell: state.briefing.isUpsell,
         tenantId: state.tenantId,
-        mode: state.mode
+        mode: state.mode,
+        parentTrace: trace
       })
   );
 
@@ -204,7 +205,8 @@ async function runDesignValidationNode(
       deps.designCarrossel.execute({
         briefing,
         slideSpecs,
-        mode: state.mode
+        mode: state.mode,
+        parentTrace: trace
       })
   );
 

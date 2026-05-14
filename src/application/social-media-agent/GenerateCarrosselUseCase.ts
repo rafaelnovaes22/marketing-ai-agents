@@ -24,6 +24,8 @@ export interface GenerateCarrosselInput {
   isUpsell: boolean;
   tenantId: string;
   mode: 'shadow' | 'assisted' | 'autonomous';
+  /** Quando fornecido (ex.: orchestrator), usa como trace pai e suprime startTrace/endTrace próprios (P3 full). */
+  parentTrace?: TraceContext;
 }
 
 export interface GenerateCarrosselDeps {
@@ -54,7 +56,8 @@ export class GenerateCarrosselUseCase {
   constructor(private readonly deps: GenerateCarrosselDeps) {}
 
   async execute(input: GenerateCarrosselInput): Promise<Carrossel> {
-    const traceContext = this.deps.observability.startTrace({
+    const ownTrace = !input.parentTrace;
+    const traceContext = input.parentTrace ?? this.deps.observability.startTrace({
       tenantId: input.tenantId,
       sku: 'social-media-agent',
       mode: input.mode,
@@ -112,19 +115,23 @@ export class GenerateCarrosselUseCase {
         this.deps.brandGuide.tolerance.exact_match_required / 100
       );
 
-      await this.deps.observability.endTrace(traceContext, {
-        outcome_achieved: outcomeOk,
-        slides_count: carrosselCompleto.slides.length,
-        brand_score_avg: this.calcBrandMedio(carrosselCompleto.slides)
-      });
+      if (ownTrace) {
+        await this.deps.observability.endTrace(traceContext, {
+          outcome_achieved: outcomeOk,
+          slides_count: carrosselCompleto.slides.length,
+          brand_score_avg: this.calcBrandMedio(carrosselCompleto.slides)
+        });
+      }
 
       return carrosselCompleto;
     } catch (err) {
-      await this.deps.observability.endTrace(
-        traceContext,
-        undefined,
-        err instanceof Error ? err : new Error(String(err))
-      );
+      if (ownTrace) {
+        await this.deps.observability.endTrace(
+          traceContext,
+          undefined,
+          err instanceof Error ? err : new Error(String(err))
+        );
+      }
       throw err;
     }
   }
