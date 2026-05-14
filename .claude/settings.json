@@ -1,8 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "_comment": "Acme Forge layer (versioned). Per-developer overrides go in settings.local.json (gitignored).",
-  "_forge_version": "0.14.0",
-  "_constitution_version": "0.3.0",
   "permissions": {
     "allow": [
       "Bash(npm install*)",
@@ -35,7 +32,8 @@
       "Bash(curl http://localhost:*)",
       "Bash(redis-cli -p 6380*)",
       "WebSearch",
-      "WebFetch"
+      "WebFetch",
+      "Bash(npm run *)"
     ],
     "deny": [
       "Bash(rm -rf*)",
@@ -54,8 +52,6 @@
   "hooks": {
     "PreToolUse": [
       {
-        "_forge_hooks": "active-forge-4",
-        "_ids": ["outcome-clause-guard", "adr-approval-gate", "secret-scan", "any-type-guard"],
         "matcher": "Edit|Write",
         "hooks": [
           {
@@ -83,8 +79,6 @@
     ],
     "PostToolUse": [
       {
-        "_forge_hooks": "active-forge-4",
-        "_ids": ["langfuse-trace-check", "unit-economics-recalc", "manifest-sync", "friendly-errors"],
         "matcher": "Edit|Write",
         "hooks": [
           {
@@ -112,8 +106,6 @@
     ],
     "Stop": [
       {
-        "_forge_hooks": "active-forge-4",
-        "_ids": ["five-gates-summary", "eval-suite-fresh"],
         "hooks": [
           {
             "type": "command",
@@ -129,6 +121,9 @@
       }
     ]
   },
+  "_comment": "Acme Forge layer (versioned). Per-developer overrides go in settings.local.json (gitignored).",
+  "_forge_version": "0.14.0",
+  "_constitution_version": "0.3.0",
   "_forge_features": {
     "skills_path": ".claude/skills/{L0,L1,L2}/",
     "agents_path": ".claude/agents/",
