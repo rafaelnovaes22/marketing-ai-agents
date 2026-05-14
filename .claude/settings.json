@@ -33,7 +33,8 @@
       "Bash(redis-cli -p 6380*)",
       "WebSearch",
       "WebFetch",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(git push *)"
     ],
     "deny": [
       "Bash(rm -rf*)",
