@@ -23,7 +23,9 @@
     "db:migrate:dev": "prisma migrate dev",
     "db:studio": "prisma studio",
     "forge:doctor": "bash scripts/forge doctor",
-    "forge:version": "bash scripts/forge version"
+    "forge:version": "bash scripts/forge version",
+    "benchmark:llm": "tsx --env-file=.env scripts/benchmark-llm.ts",
+    "benchmark:llm:quick": "tsx --env-file=.env scripts/benchmark-llm.ts --runs=1 --skip-vision"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.0",
