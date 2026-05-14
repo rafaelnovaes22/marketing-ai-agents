@@ -1,0 +1,91 @@
+# Acme Social — Validate (typecheck + portability lint)
+#
+# Gates leves antes do merge. Custo ~1min, sem dependência externa.
+# Não roda forge-doctor (consumer repo → warnings esperados, ver CLAUDE.md).
+
+name: validate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: tsc --noEmit
+        run: npm run typecheck
+
+  portability-lint:
+    name: G1 — C7 portability (SDK isolation)
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+
+      # G1.a — SDKs de LLM/imagem/social só podem ser importados em adapters
+      - name: Bloquear imports de SDKs fora de src/infrastructure/adapters/
+        shell: bash
+        run: |
+          set -euo pipefail
+          pattern='from .@anthropic-ai/sdk.|from .@google-cloud/aiplatform.|from .langsmith.'
+          # Procura matches em src/, excluindo a pasta de adapters
+          violations=$(grep -rE "$pattern" src/ --include='*.ts' \
+            | grep -v '^src/infrastructure/adapters/' || true)
+          if [ -n "$violations" ]; then
+            echo "::error::G1 FAIL — import de SDK fora de src/infrastructure/adapters/:"
+            echo "$violations"
+            exit 1
+          fi
+          echo "✓ G1.a PASS — SDKs isolados em adapters"
+
+      # G1.b — @langchain/langgraph apenas em src/orchestration/ (ADR-005-PROJ)
+      - name: Bloquear @langchain/langgraph fora de src/orchestration/
+        shell: bash
+        run: |
+          set -euo pipefail
+          violations=$(grep -rE "from .@langchain/langgraph" src/ --include='*.ts' \
+            | grep -vE '^src/orchestration/' || true)
+          if [ -n "$violations" ]; then
+            echo "::error::G1.b FAIL — @langchain/langgraph fora de src/orchestration/ (ADR-005-PROJ):"
+            echo "$violations"
+            exit 1
+          fi
+          echo "✓ G1.b PASS — LangGraph confinado em orchestration"
+
+  tenant-hardcode-lint:
+    name: G2 — C8 anti-hardcode por tenant
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detectar hardcode de tenantId em src/
+        shell: bash
+        run: |
+          set -euo pipefail
+          pattern="if\s*\(\s*tenantId\s*===\s*['\"]|switch\s*\(\s*tenantName\b"
+          violations=$(grep -rEn "$pattern" src/ --include='*.ts' || true)
+          if [ -n "$violations" ]; then
+            echo "::error::G2 FAIL — hardcode por tenant (C8 violation):"
+            echo "$violations"
+            exit 1
+          fi
+          echo "✓ G2 PASS — sem hardcode por tenant"

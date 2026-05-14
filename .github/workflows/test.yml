@@ -1,0 +1,50 @@
+# Acme Social — Test (vitest)
+#
+# Roda toda a suíte (unit + integration). Sem secrets reais — fakes cobrem
+# tudo. Eval suite e adapters reais com APIs externas ficam em workflow
+# separado quando LANGSMITH_API_KEY e ANTHROPIC_API_KEY estiverem configurados.
+
+name: test
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  vitest:
+    name: Vitest (unit + integration)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Prisma generate (sem DB)
+        run: npm run db:generate
+        continue-on-error: true
+
+      - name: Vitest run
+        run: npm test
+
+      - name: Upload vitest output em caso de falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitest-output
+          path: |
+            test-results/
+            coverage/
+          retention-days: 14
+          if-no-files-found: ignore
