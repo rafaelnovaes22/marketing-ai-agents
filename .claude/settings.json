@@ -34,7 +34,8 @@
       "WebSearch",
       "WebFetch",
       "Bash(npm run *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(npm list *)"
     ],
     "deny": [
       "Bash(rm -rf*)",
