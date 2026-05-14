@@ -35,7 +35,13 @@
       "WebFetch",
       "Bash(npm run *)",
       "Bash(git push *)",
-      "Bash(npm list *)"
+      "Bash(npm list *)",
+      "Bash(git checkout *)",
+      "Bash(gh pr create --base master --head feat/add-langsmith-trace-provider --title 'feat\\(constitution\\): adiciona langsmith como llm_trace_provider válido' --body ' *)",
+      "Bash(gh pr *)",
+      "Bash(npm uninstall *)",
+      "Bash(npm test *)",
+      "Bash(git mv *)"
     ],
     "deny": [
       "Bash(rm -rf*)",
