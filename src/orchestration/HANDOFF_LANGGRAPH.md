@@ -1,8 +1,7 @@
-# LangGraph Adoption — Handoff C1+C2 → C3+C4
+# LangGraph Adoption — Handoff (C1 → C4 entregues)
 
-> **Status:** ✅ C1 (ADRs) + C2 (instalação + BaseGraphState + smoke) entregues
-> **Data:** 2026-05-14
-> **Próxima sessão:** C3 (LangSmithAdapter + delete Langfuse) + C4 (SocialMediaOrchestrator 1º grafo) — requer `LANGSMITH_API_KEY`
+> **Status:** ✅ C1 (ADRs) + C2 (instalação + BaseGraphState) + C3 (LangSmithAdapter) + C4 (SocialMediaOrchestrator) entregues
+> **Data última atualização:** 2026-05-14
 
 ---
 
@@ -21,84 +20,81 @@
 |---|---|
 | **Deps instaladas** | `@langchain/langgraph@1.3.0` + `@langchain/core@1.1.46` |
 | **BaseGraphState** | [src/orchestration/state/BaseGraphState.ts](state/BaseGraphState.ts) — `Annotation.Root` com `tenantId` (C8) + `traceContext` (P3) + `mode`; `BaseGraphStateSchema` Zod para validação no boundary |
-| **Smoke ESM** | [tests/orchestration/base-state.test.ts](../../tests/orchestration/base-state.test.ts) — 10 testes verdes: importa `StateGraph/Annotation/START/END`, BaseGraphState spreadable, validação Zod C8, grafo trivial compila + executa |
+| **Smoke ESM** | [tests/orchestration/base-state.test.ts](../../tests/orchestration/base-state.test.ts) — 10 testes verdes |
 | **Typecheck** | 0 erros |
-| **Suite total** | 137 testes verdes (127 anteriores + 10 orchestration) |
 
-### Padrões já fixados nesta sessão
+## ✅ C3 — LangSmith adapter + delete Langfuse (entregues)
 
-- **P2 (C8):** `Annotation.Root({...BaseGraphState.spec, ...})` é a única forma de criar state. `validateBaseInput()` roda no boundary do grafo.
-- **Type safety:** `hasBaseState(state)` é o type guard para narrowing dentro de nodes.
-
----
-
-## ⏳ C3 — LangSmith adapter + delete Langfuse (próxima sessão)
-
-### Pré-requisitos (você executa antes)
-
-- [ ] Criar conta LangSmith (https://smith.langchain.com) — org sugerida: `acme`
-- [ ] Criar 2 projetos: `marketing-ai-agents-dev` e `marketing-ai-agents-prod`
-- [ ] Gerar `LANGSMITH_API_KEY` (formato `lsv2_pt_...`)
-- [ ] Atualizar `.env` local com:
-  ```
-  LANGSMITH_API_KEY=lsv2_pt_...
-  LANGSMITH_PROJECT=marketing-ai-agents-dev
-  LANGSMITH_TRACING=true
-  ```
-
-### Trabalho da próxima sessão
-
-1. **Criar `LangSmithAdapter`** implementando port `Observability` (mesmo contrato — `startTrace`, `span`, `endTrace`). Usa `Client` do `langsmith` package (vem junto com `@langchain/core`).
-2. **Deletar `LangfuseAdapter.ts`** (founder confirmou).
-3. **Remover dep `langfuse`** do `package.json`.
-4. **Atualizar `.env.example`**: substituir bloco `LANGFUSE_*` por `LANGSMITH_*`.
-5. **Atualizar `docs/forge/project.json`**: `telemetry.llm_trace_provider` de `"langfuse"` para `"langsmith"`.
-6. **Refatorar use cases que importam `LangfuseAdapter` diretamente**: trocar por `LangSmithAdapter` (porta é a mesma — só muda a fábrica em `composition root`).
-7. **Atualizar pre-merge-check G1**: permitir `@langchain/langgraph` em `src/orchestration/` (não em `src/application/` nem `src/domain/`).
-8. **Testes:** validar que 137 testes existentes continuam verdes (porta `Observability` inalterada).
-
-**Estimativa:** ~4h. Bloqueante: `LANGSMITH_API_KEY` configurada.
-
-## ⏳ C4 — SocialMediaOrchestrator 1º grafo (após C3)
-
-### Trabalho
-
-1. Criar `src/orchestration/social-media/SocialMediaOrchestrator.ts` com 3 nodes:
-   - `generate_caption` — invoca `GenerateCarrosselUseCase` para captions (sem imagens)
-   - `design_carrossel` — invoca `DesignCarrosselUseCase` para slides
-   - `publish_multi_network` — invoca `PublishMultiNetworkUseCase`
-2. State herda `BaseGraphState` + chaves específicas (`briefing`, `slides`, `publications`)
-3. Factory `createSocialMediaOrchestrator(deps)` — DI manual (P4)
-4. Use cases internos recebem `parentTrace` → suprimem spans próprios (P3)
-5. Test integration: `runner-e2e.test.ts` com fakes existentes + assertion de trace aninhado
-
-**Estimativa:** ~2h.
-
-### Saídas esperadas
-
-- Composição cross-agent funcional (social-media usa designer-agent)
-- Trace visualizável em LangSmith
-- Eliminação de duplicação de lógica de design entre social-media e designer
-- 1º caso de uso real de `BaseGraphState` em produção
-
----
-
-## Tarefas adiadas (não bloqueiam Fase B)
-
-| Tarefa | Quando |
+| Item | Detalhe |
 |---|---|
-| PR upstream em `agent-governance-framework` propondo `llm_trace_provider: langsmith \| langfuse \| dual` | Após C3 estável (founder autorizou main) |
-| `EvalRunnerGraph` (versão integration-style do eval runner para grafos) | Wave 5 do social-media-agent |
-| Checkpointer Postgres para `atendimento-dm` multi-turn | Fase B (D6) |
-| Streaming via `LLMProvider.generateStream()` | Fase B (B4 do plano técnico) |
+| **Dep instalada** | `langsmith@0.7.0` (já vinha como sub-dep de `@langchain/core`; agora declarada raiz) |
+| **Dep removida** | `langfuse@3.x` deletada do `package.json` |
+| **Adapter novo** | [src/infrastructure/adapters/observability/LangSmithAdapter.ts](../infrastructure/adapters/observability/LangSmithAdapter.ts) — usa `RunTree` da API LangSmith. Mantém `Map<traceId, RunTree>` interno para permitir spans aninhados e endTrace stateless. Falha de telemetria é fire-and-forget — nunca derruba produção. |
+| **Adapter deletado** | `LangfuseAdapter.ts` removido |
+| **`.env.example`** | Bloco `LANGFUSE_*` substituído por `LANGSMITH_API_KEY/PROJECT/API_URL/TRACING` |
+| **`docs/forge/project.json`** | `telemetry.llm_trace_provider: "langfuse"` → `"langsmith"` + `_llm_trace_provider_doc` referenciando ADR-006-PROJ |
+| **`pre-merge-check.md` G1** | Atualizado: permite `@langchain/langgraph` em `src/orchestration/` e `tests/orchestration/`; bloqueia em `src/application/` e `src/domain/` |
+| **Comentários** | 4 referências stale a "Langfuse" em comentários atualizadas para "LangSmith" |
+| **Typecheck** | 0 erros |
+| **Suite** | 137 testes verdes (sem regressão) |
+
+### Padrões fixados em C3
+
+- **Porta `Observability` inalterada** — adapter pluggable mantém contratos `startTrace/span/endTrace`.
+- **Telemetria assíncrona não-bloqueante** — `RunTree.postRun()` e `.end()` são fire-and-forget com `.catch()` swallow.
+- **Span sem trace pai conhecido** — quando `activeRuns.get(traceId)` retorna `undefined`, `span()` apenas executa `fn()` sem instrumentar (graceful degradation).
+
+## ✅ C4 — SocialMediaOrchestrator 1º grafo (entregues)
+
+| Item | Detalhe |
+|---|---|
+| **Arquivo** | [src/orchestration/social-media/SocialMediaOrchestrator.ts](social-media/SocialMediaOrchestrator.ts) |
+| **State** | `SocialMediaState` herda `BaseGraphState` + `briefing`, `carrossel`, `designReport`, `publications`, `error` (todos com reducer `overwrite`) |
+| **Nodes** | 3 nodes ativos: `generate_carrossel` → (`design_validation`?) → `publish_multi_network` |
+| **Edge condicional** | `briefing.enableDesignValidation === true` roteia para `design_validation`; senão pula para `publish_multi_network` |
+| **Factory P4** | `createSocialMediaOrchestrator(deps)` recebe `{ generateCarrossel, designCarrossel, publishMultiNetwork, observability }` via DI manual e devolve `CompiledStateGraph` |
+| **Runner helper** | `runSocialMediaOrchestrator(graph, deps, input)` encapsula `startTrace` + `graph.invoke` + `endTrace` com o sku raiz `"social-media-orchestrator"` |
+| **Spans no traceContext do grafo (P3)** | Cada node abre 1 span no `state.traceContext`: `node:generate_carrossel`, `node:design_validation`, `node:publish_multi_network` |
+| **Composability cross-agent** | Quando `enableDesignValidation: true`, o orchestrator invoca `DesignCarrosselUseCase` reaproveitando o designer-agent — 1º caso real de composição cross-SKU |
+| **Test integration** | [tests/orchestration/social-media-orchestrator.test.ts](../../tests/orchestration/social-media-orchestrator.test.ts) — 7 testes verdes cobrindo: compilação, pipeline default, pipeline com design_validation, trace raiz registrado, composição cross-agent (3 SKUs distintos no mesmo run), C8 boundary, propagação de erro |
+| **Suite final** | 144 testes verdes (137 + 7 novos) |
+
+### Limitação documentada (P3 parcial)
+
+`GenerateCarrosselUseCase` e `DesignCarrosselUseCase` ainda chamam `observability.startTrace()` próprio — produzem traces siblings em vez de filhos do trace raiz do grafo. No `LangSmithAdapter` real, o vínculo aparecerá via `metadata.parent_trace_id` (a registrar em refator C5 — full P3 com `parentTrace` propagado).
+
+`PublishMultiNetworkUseCase` já é parent-aware (aceita `traceContext` opcional) e suprime trace próprio — usado como referência para o refator.
 
 ---
 
-## Riscos e mitigações
+## ⏳ C5 (próximo) — P3 full + tarefas adiadas
+
+| Tarefa | Quando | Notas |
+|---|---|---|
+| Refatorar `GenerateCarrosselUseCase` e `DesignCarrosselUseCase` para aceitar `parentTrace?: TraceContext` opcional e suprimir trace próprio (mesmo padrão de `PublishMultiNetworkUseCase`) | C5 | Quebra o sibling-traces atual; consolida hierarquia única em LangSmith |
+| Composition root — wire real do LangSmithAdapter a partir do `.env` | Antes do 1º run E2E em SHADOW | Requer `LANGSMITH_API_KEY`, `LANGSMITH_PROJECT` no `.env` |
+| PR upstream em `agent-governance-framework` propondo `llm_trace_provider: langsmith \| langfuse \| dual` | Pós C5 estável | Founder autorizou; PR em paralelo |
+| `EvalRunnerGraph` (versão integration-style do eval runner para grafos) | Wave 5 social-media-agent | |
+| Checkpointer Postgres para `atendimento-dm` multi-turn | Fase B (D6) | |
+| Streaming via `LLMProvider.generateStream()` | Fase B (B4 do plano técnico) | |
+
+---
+
+## Riscos remanescentes
 
 | Risco | Probabilidade | Mitigação |
 |-------|:-------------:|-----------|
 | LangSmith free tier (5k traces/mês) saturado em SHADOW | 🟡 Média | Plus $39/mês quando volume cruzar 4k. Monitor em audit mensal. |
-| Annotation API em strict mode forçar `any` casts | 🟢 Baixa | Isolar em `src/orchestration/state/` apenas. Já validado em C2 — funcionou sem casts. |
-| Bundle CI lento (40-60MB extras) | 🟢 Baixa | npm install ~30s a mais; aceitável. Monitorar se `forge-test` CI passar do orçamento. |
+| Sibling traces dificultam debug em LangSmith antes do C5 | 🟢 Baixa | Metadata carrega `tenantId` + `sku` + `mode` — query por tags resolve. |
+| Bundle CI mais lento com langsmith | 🟢 Baixa | Já era sub-dep de `@langchain/core`; impacto adicional zero. |
 | Audit mensal flagar `llm_trace_provider: langsmith` como não-conforme | 🟡 Média | ADR-006-PROJ documenta divergência. PR upstream em paralelo. |
+
+---
+
+## Pré-requisitos para o 1º run E2E em SHADOW
+
+- [ ] Criar conta LangSmith (https://smith.langchain.com) — org sugerida: `acme`
+- [ ] Criar 2 projetos: `marketing-ai-agents-dev` e `marketing-ai-agents-prod`
+- [ ] Gerar `LANGSMITH_API_KEY` (formato `lsv2_pt_...`) e popular `.env` (não `.env.example`)
+- [ ] **Rotacionar** qualquer chave que tenha vazado em `.env.example` (placeholder agora limpo)
+- [ ] Composition root wire-up (C5)
