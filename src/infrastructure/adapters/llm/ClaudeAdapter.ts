@@ -31,7 +31,7 @@ export class ClaudeAdapter implements LLMProvider {
       throw new Error('ClaudeAdapter requer ANTHROPIC_API_KEY');
     }
     this.client = new Anthropic({ apiKey: config.apiKey });
-    this.model = config.model ?? 'claude-sonnet-4-6-20250220';
+    this.model = config.model ?? 'claude-sonnet-4-6';
     this.defaultMaxTokens = config.defaultMaxTokens ?? 4096;
   }
 

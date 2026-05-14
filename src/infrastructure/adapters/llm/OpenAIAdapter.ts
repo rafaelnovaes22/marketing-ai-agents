@@ -25,10 +25,18 @@ interface ModelPricing {
 }
 
 const PRICING: Record<string, ModelPricing> = {
+  // GPT-5.x (2026)
+  'gpt-5.5':         { inputPerMTok: 5.00,  outputPerMTok: 30.00, cachedPerMTok: 2.50  },
+  'gpt-5.5-pro':     { inputPerMTok: 30.00, outputPerMTok:180.00, cachedPerMTok:15.00  },
+  'gpt-5.4':         { inputPerMTok: 2.50,  outputPerMTok: 15.00, cachedPerMTok: 1.25  },
+  // GPT-4.x (2025)
   'gpt-4o':          { inputPerMTok: 2.50,  outputPerMTok: 10.00, cachedPerMTok: 1.25  },
   'gpt-4o-mini':     { inputPerMTok: 0.15,  outputPerMTok:  0.60, cachedPerMTok: 0.075 },
   'gpt-4.1':         { inputPerMTok: 2.00,  outputPerMTok:  8.00, cachedPerMTok: 0.50  },
   'gpt-4.1-mini':    { inputPerMTok: 0.40,  outputPerMTok:  1.60, cachedPerMTok: 0.10  },
+  // Reasoning (o-series)
+  'o3':              { inputPerMTok: 2.00,  outputPerMTok:  8.00, cachedPerMTok: 0.50  },
+  'o4-mini':         { inputPerMTok: 0.55,  outputPerMTok:  2.20, cachedPerMTok: 0.14  },
 };
 
 export interface OpenAIAdapterConfig {
@@ -67,7 +75,7 @@ export class OpenAIAdapter implements LLMProvider {
     const body = {
       model:      this.model,
       messages,
-      max_tokens: input.maxTokens ?? this.defaultMaxTokens,
+      ...this.tokenParam(input.maxTokens ?? this.defaultMaxTokens),
       temperature: input.temperature ?? 0.7
     };
 
@@ -114,7 +122,7 @@ export class OpenAIAdapter implements LLMProvider {
     const body = {
       model:       this.model,
       messages,
-      max_tokens:  input.maxTokens ?? this.defaultMaxTokens,
+      ...this.tokenParam(input.maxTokens ?? this.defaultMaxTokens),
       temperature: input.temperature ?? 0.3
     };
 
@@ -139,6 +147,12 @@ export class OpenAIAdapter implements LLMProvider {
 
   modelName(): string {
     return this.model;
+  }
+
+  /** GPT-5.x e o-series usam max_completion_tokens; modelos antigos usam max_tokens. */
+  private tokenParam(n: number): Record<string, number> {
+    const usesNew = /^(gpt-5|o\d)/.test(this.model);
+    return usesNew ? { max_completion_tokens: n } : { max_tokens: n };
   }
 
   private async post<T>(body: unknown): Promise<T> {

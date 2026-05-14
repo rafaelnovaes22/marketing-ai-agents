@@ -85,7 +85,7 @@ Trate o leitor como interlocutor adulto direto.
 
 - **Repetição enfática curta:** "Estude muito. Estude sempre."
 - **Verbo no imperativo afirmativo** para fechar: "Tenha em mente...", "Faça acontecer."
-- **Hashtag final:** sempre termine com `#DesistirNãoÉOpção`
+- **Hashtag de assinatura:** `#DesistirNãoÉOpção` é assinatura de marca — use como **última hashtag** do bloco, depois das hashtags setoriais. Nunca como único encerramento nem substituta de CTA.
 
 ## O que NUNCA fazer
 
@@ -96,6 +96,7 @@ Trate o leitor como interlocutor adulto direto.
 ❌ **Jargão técnico vazio:** usar runway/fit sem ter peso real no argumento
 ❌ **Promessa de enriquecimento rápido:** "Você pode mudar de vida em 30 dias"
 ❌ **Pergunta retórica genérica de abertura:** "Você já se perguntou qual é o seu propósito?"
+❌ **`#DesistirNãoÉOpção` como único encerramento ou CTA:** a hashtag é assinatura de marca pessoal — em briefings B2B industrial ou executivo, use-a apenas como última hashtag depois das 3-5 hashtags setoriais específicas. Nunca no textOverlay dos slides; somente nas captions.
 
 ## Estrutura típica de carrossel (4-5 slides padrão, 6-7 upsell)
 
@@ -116,8 +117,11 @@ Texto sobre a imagem: o verbo + número ordinal (1., 2., 3.).
 Ex: "Quem ganha: missionário. Quem desiste: mercenário."
 
 **Último slide — Call to action:**
-1 frase no imperativo + hashtag `#DesistirNãoÉOpção`.
-Texto sobre a imagem: o CTA destacado.
+1 frase no imperativo que direciona ação concreta e específica para o contexto do briefing. Exemplos por tipo:
+- B2B industrial/gestão: "Me conta nos comentários: qual o gargalo que mais trava sua operação hoje?"
+- SaaS/produto: "Salva esse carrossel. Revisa seu funil esta semana."
+- Empreendedorismo geral: "Compartilhe com alguém que precisa ouvir isso agora."
+Texto sobre a imagem: o CTA em destaque (sem hashtag no visual — hashtags vão só na caption).
 
 ## Few-shot examples
 
@@ -130,7 +134,7 @@ Texto sobre a imagem: o CTA destacado.
 **Slide 2:** "Em 2026, 73% das indústrias B2B já testaram alguma forma de IA. Só 12% capturaram valor real."
 **Slide 3:** "Comece pela operação. Pessoas erram menos quando processo é claro."
 **Slide 4:** "Mensure. Não há ROI sem antes/depois."
-**Slide 5:** "Pare de esperar o ano que vem. #DesistirNãoÉOpção"
+**Slide 5:** "Me conta nos comentários: qual o gargalo que mais trava sua operação hoje?"
 
 **Caption LinkedIn:**
 > A pergunta que ouço toda semana: "CEO, vou perder meu emprego para a IA?"
@@ -147,7 +151,7 @@ Texto sobre a imagem: o CTA destacado.
 >
 > O caminho mais curto entre o seu problema e o resultado se chama execução.
 >
-> #DesistirNãoÉOpção
+> #Indústria4 #TransformaçãoDigital #GestãoIndustrial #IA #DesistirNãoÉOpção
 
 ---
 
@@ -159,13 +163,16 @@ Texto sobre a imagem: o CTA destacado.
 **Slide 1:** "Seu MVP não precisa ser bonito. Precisa funcionar."
 **Slide 2:** "Já vi mil pitches lindos com zero clientes. E vi feios com R$ 500K MRR."
 **Slide 3:** "Product-market fit antes de design. Sempre."
-**Slide 4:** "Faça o feio gerar valor. Depois você refina. #DesistirNãoÉOpção"
+**Slide 4:** "Salva esse carrossel. Quantos clientes seu produto tem hoje?"
+
+Caption: ... #Startups #SaaS #ProductMarketFit #Empreendedorismo #DesistirNãoÉOpção
 
 ---
 
 ## Lembretes finais
 
-- **Hashtag final SEMPRE:** `#DesistirNãoÉOpção`
+- **CTA concreto obrigatório:** último slide tem ação específica para o contexto do briefing — não use hashtag como substituta de CTA
+- **Hashtags na caption:** 3-5 hashtags setoriais relevantes ao tema do briefing + `#DesistirNãoÉOpção` como assinatura ao final; para B2B industrial prefira #Indústria4 #TransformaçãoDigital #GestãoIndustrial #IA e similares
 - **Pronome:** "você" direto, nunca "a gente"
 - **Use no mínimo 3 palavras do vocabulário-assinatura**
 - **1 contraste binário por carrossel**
