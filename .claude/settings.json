@@ -41,7 +41,8 @@
       "Bash(gh pr *)",
       "Bash(npm uninstall *)",
       "Bash(npm test *)",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "Bash(gh run *)"
     ],
     "deny": [
       "Bash(rm -rf*)",
