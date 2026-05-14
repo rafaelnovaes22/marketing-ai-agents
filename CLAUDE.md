@@ -11,7 +11,7 @@ Acme Social é um SaaS² (SaaS de agentes) que entrega marketing digital autôno
 - **7 agentes especializados** (social media, copywriter, designer, tráfego, vídeo, estrategista, atendimento DM)
 - **4 redes sociais** (LinkedIn, Instagram, Facebook, Twitter) com 3 posts/semana = 52 posts/mês
 - **Operação 100% autônoma** — 0 pessoas operacionais, apenas 1 Eng AI manutenção + founder estratégia
-- **Stack consolidado** — Anthropic (Claude) + Google Vertex AI (Imagen 4 + Veo 3) + Meta
+- **Stack consolidado** — Anthropic (Claude) + Google Vertex AI (Imagen 4 + Veo 3) + Meta + **LangGraph (orchestration runtime) + LangSmith (tracing)** [ver [ADR-005-PROJ](./docs/forge/decisions/ADR-005-PROJ-orchestration-runtime.md) e [ADR-006-PROJ](./docs/forge/decisions/ADR-006-PROJ-tracing-substitution.md)]
 
 **Números-chave:**
 - Investimento Ano 1: R$ 441.490
@@ -49,10 +49,10 @@ Os 8 princípios C1-C8 aplicam-se com **interpretação local**:
 | **C2** Outcome contratual | Cada um dos 7 SKUs tem outcome verificável em `project.json` (ex: "carrossel publicado em ≤8min") |
 | **C3** Unit economics | Custo de tokens + imagem ≤ 25% do preço por outcome (auditado por `@unit-economist`) |
 | **C4** Verifiable evaluation | Eval-suite LLM com 20+ casos por SKU; lifecycle SHADOW→ASSISTED→AUTONOMOUS |
-| **C5** ADR | Toda decisão arquitetural em `docs/forge/decisions.md` (Fxx-DS) |
-| **C6** Observability | Langfuse obrigatório (ai_enabled=true) — traces de prompt/output/cost por execução |
-| **C7** Portability | Adapter pattern: Claude/Imagen/Veo isolados em `lib/<provider>-adapter/` |
-| **C8** Tenant context | Single-tenant fase 1 (Acme própria); multi-tenant planejado fase 2 |
+| **C5** ADR | Toda decisão arquitetural em `docs/forge/decisions.md` raiz + detalhes em `docs/forge/decisions/ADR-NNN-PROJ-*.md` |
+| **C6** Observability | **LangSmith** obrigatório (ai_enabled=true, ADR-006-PROJ — substitui Langfuse) — traces de prompt/output/cost por execução |
+| **C7** Portability | Adapter pattern: Claude/Imagen/Veo isolados em `src/infrastructure/adapters/`. **Exceção declarada (ADR-005-PROJ):** `src/orchestration/` acopla a LangGraph |
+| **C8** Tenant context | Single-tenant fase 1 (Acme própria); multi-tenant planejado fase 2. `BaseGraphState` impõe `tenantId` no boundary |
 
 ---
 

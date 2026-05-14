@@ -176,6 +176,59 @@ A cada review mensal:
 
 ---
 
+## ADR-005-PROJ — Orchestration Runtime: LangGraph (1ª classe)
+
+**Status:** ✅ Aceito 2026-05-14 — aprovado pelo founder
+**Princípios relacionados:** C5 (ADR) + **C7 (Portability — exceção declarada)** + C8 (Tenant context)
+**Detalhe completo:** [decisions/ADR-005-PROJ-orchestration-runtime.md](./decisions/ADR-005-PROJ-orchestration-runtime.md)
+
+### Resumo
+
+Adoção de `@langchain/langgraph` como orchestration runtime canônico para os 7 SKUs. Aplicação atual (`src/application/{sku}/`) preservada como tier inferior — grafos coordenam, use cases executam. Nova pasta `src/orchestration/`.
+
+**Motivações (3 hipóteses confirmadas):**
+1. Runtime único para consistência operacional cross-SKU
+2. LangSmith debug visual em produção (ADR-006-PROJ)
+3. Antecipar complexidade dos SKUs stateful (`atendimento-dm`, `estrategista`)
+
+**Padrões obrigatórios:**
+- P1 — Nodes invocam LLM **somente** via `LLMProvider` port (proibido `@langchain/anthropic` direto)
+- P2 — `BaseGraphState` obrigatório com `tenantId` + `traceContext` validados no boundary (C8)
+- P3 — Spans: LangGraph emite span do node; use cases internos suprimem spans próprios quando rodam com `parentTrace`
+- P4 — Composição via DI manual (factory functions com `deps` explícitas)
+
+**Trade-offs assumidos:**
+- ✅ Padrão unificado + state/checkpoint + human-in-the-loop nativo
+- ⚠️ C7 violado conscientemente na orchestration layer (não há adapter swap)
+- ⚠️ Bundle +40-60MB
+- ⚠️ Eval runner text-only fica desalinhado com produção até `EvalRunnerGraph` (Wave 5)
+
+---
+
+## ADR-006-PROJ — Tracing Substitution: LangSmith substitui Langfuse
+
+**Status:** ✅ Aceito 2026-05-14 — aprovado pelo founder
+**Princípios relacionados:** C6 (Observability) — **divergência consciente do schema canônico**
+**Depende de:** ADR-005-PROJ
+**Detalhe completo:** [decisions/ADR-006-PROJ-tracing-substitution.md](./decisions/ADR-006-PROJ-tracing-substitution.md)
+
+### Resumo
+
+Substituir `LangfuseAdapter` por `LangSmithAdapter` como implementação do port `Observability`. Caminho A escolhido entre 3 opções (A=substituir, B=dual, C=ignorar nativo) — debug visual nativo de LangGraph era 1 das 3 motivações para adotar o framework.
+
+**Mudanças:**
+- Novo: `src/infrastructure/adapters/observability/LangSmithAdapter.ts`
+- Deletar: `LangfuseAdapter.ts` (founder confirmou)
+- `project.json`: `llm_trace_provider` muda para `"langsmith"`
+- `package.json`: remover `langfuse`, adicionar `@langchain/core`
+- `.env.example`: substituir `LANGFUSE_*` por `LANGSMITH_API_KEY` + `LANGSMITH_PROJECT`
+
+**Pré-Shadow:** decisão tomada antes de ter traces históricos a migrar — momento ideal.
+
+**Divergência com Forge canônico:** PR upstream em `agent-governance-framework` propondo `llm_trace_provider: langsmith | langfuse | dual` no schema v1.1. Enquanto não merja, este ADR serve como waiver local.
+
+---
+
 ## ADR-004-PROJ — Pendências críticas (não-decisões, mas registro)
 
 **Status:** 📋 Registro 2026-05-13
