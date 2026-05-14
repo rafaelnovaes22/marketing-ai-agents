@@ -20,7 +20,8 @@
   },
 
   "telemetry": {
-    "llm_trace_provider": "langfuse",
+    "llm_trace_provider": "langsmith",
+    "_llm_trace_provider_doc": "ADR-006-PROJ — substituído de 'langfuse' para 'langsmith'. Divergência consciente do enum canônico do Forge; PR upstream em paralelo para langfuse | langsmith | dual.",
     "audit_log_provider": "postgres-audit",
     "structured_logging_provider": "pino",
     "metrics_provider": "prometheus"

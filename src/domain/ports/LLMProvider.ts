@@ -12,7 +12,7 @@ export interface LLMGenerateInput {
   maxTokens?: number;
   temperature?: number;
   cacheControl?: boolean;  // Anthropic prompt caching
-  metadata?: Record<string, string>;  // Para Langfuse
+  metadata?: Record<string, string>;  // Para LangSmith
 }
 
 export interface LLMGenerateOutput {

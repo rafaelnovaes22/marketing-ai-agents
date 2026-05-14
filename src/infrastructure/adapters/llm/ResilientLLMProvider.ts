@@ -3,7 +3,7 @@
 //   • Retry com backoff exponencial em 429/529/5xx (até `maxRetries`).
 //   • Circuit breaker: após `breakerThreshold` 529 consecutivos no `breakerWindowMs`,
 //     o breaker abre e roteia para `fallback` (Mistral) até `breakerCooldownMs`.
-//   • Métricas expostas via callback opcional `onFallback` para Langfuse.
+//   • Métricas expostas via callback opcional `onFallback` para LangSmith.
 //
 // Os adapters primário e fallback continuam implementando LLMProvider — este wrapper
 // é também um LLMProvider, mantendo o resto da aplicação inalterada.

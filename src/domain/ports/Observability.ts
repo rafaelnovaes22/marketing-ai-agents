@@ -1,5 +1,5 @@
 // Port: Observability (C6)
-// Implementação primária: Langfuse. Fallback: logs estruturados Pino.
+// Implementação primária: LangSmith (ADR-006-PROJ). Fallback: logs estruturados Pino.
 
 export interface TraceContext {
   traceId: string;

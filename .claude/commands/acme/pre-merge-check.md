@@ -49,14 +49,26 @@ reviewer_format: false        # se true, output adicional consumível pelo revie
 ## Os 5 gates
 
 ### G1 — C7 (Portability)
-**Regra**: imports do SDK do provider apenas em `src/llm/adapters/`.
+**Regra**: imports do SDK do provider apenas em `src/infrastructure/adapters/`
+(ou `src/llm/adapters/` em projetos Forge canônicos).
+
+**Exceção ADR-005-PROJ (LangGraph como orchestration runtime):** imports de
+`@langchain/langgraph` são permitidos exclusivamente em `src/orchestration/`
+(camada de runtime de grafos) e em `tests/orchestration/`. Proibidos em
+`src/application/` e `src/domain/` — use cases e domain continuam puros.
 
 ```
-Lint: grep -r "import .* from ['\"]@anthropic-ai/sdk['\"]\|import .* from ['\"]openai['\"]\|import .* from ['\"]@google-ai\b" src/ --include="*.ts" --include="*.js" \
-  | grep -v "src/llm/adapters/"
+Lint principal:
+  grep -r "import .* from ['\"]@anthropic-ai/sdk['\"]\|import .* from ['\"]openai['\"]\|import .* from ['\"]@google-ai\b\|import .* from ['\"]langsmith\b" \
+    src/ --include="*.ts" --include="*.js" \
+    | grep -v "src/infrastructure/adapters/"
+
+Lint LangGraph (ADR-005-PROJ):
+  grep -r "import .* from ['\"]@langchain/langgraph" src/ --include="*.ts" \
+    | grep -vE "^(src/orchestration/|tests/orchestration/)"
 ```
 
-Se output vazio → PASS. Senão → FAIL (lista violations).
+Se ambos vazios → PASS. Senão → FAIL (lista violations).
 
 ### G2 — C8 (Anti-customização heroica)
 **Regra**: nenhum hardcode por nome de tenant em código de produção.

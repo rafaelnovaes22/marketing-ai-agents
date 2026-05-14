@@ -72,7 +72,7 @@ export class CopywriterBriefing {
   }
 
   /**
-   * Hash determinístico do briefing — usado em metadata Langfuse (C6).
+   * Hash determinístico do briefing — usado em metadata LangSmith (C6).
    * Implementação simples sem dep externa.
    */
   briefingHash(): string {
