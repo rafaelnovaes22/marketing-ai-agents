@@ -13,13 +13,14 @@ priority: P0
 
 ## Estado atual
 
-**`draft`** — spec, plan, tasks, eval-cases e decisions criados. Implementação ainda não iniciada.
+**`draft`** — Waves 1+2 entregues (foundation + domain + application + integration tests). Pré-SHADOW: precisa de Wave 3 (TDD RED) + Wave 4 (build refinement) + Wave 5 (eval-suite + coverage Tier B).
 
 ## Histórico de transições
 
 | Stage | Data | Aprovador | Gates aprovados | Notas |
 |-------|------|-----------|-----------------|-------|
 | `(new)` → `draft` | 2026-05-13 | @po-guardian (pending review) | Diagnose preliminar + spec + unit-economics (APPROVED) + plan (APPROVED) | Segundo SKU do Acme Social. Reusa stack do social-media-agent (langfuse, claude-adapter base, voice loader). |
+| `draft (W1)` → `draft (W2 complete)` | 2026-05-14 | dev | T2.1–T2.6, T2.8–T2.15 ✅ (T2.7 deferido para Wave 4) | Wave 2 entregou: `GenerateCopywriterOutputUseCase` unificado (3 caminhos), `DiversityCheckUseCase` + `EmbeddingsProvider` port + OpenAI adapter (T2.12), `VoiceValidator` port + `ClaudeVoiceValidator` adapter (T2.13), `ResilientLLMProvider` wrapper com circuit breaker 3×529 (T2.14), 28 integration tests + 32 domain unit = 60 testes verdes. |
 
 ## Próximas transições previstas
 

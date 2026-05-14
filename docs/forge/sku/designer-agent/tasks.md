@@ -33,14 +33,14 @@ reuses_from: social-media-agent (Wave 2 adapters)
 
 **Foco:** entidades puras + orquestrador paralelo + retry orchestrator + manifest assembler.
 
-- [ ] **DES-T2.1** Domain: `Carrossel`, `Slide`, `BrandScore`, `RetryPolicy` (zero deps) + testes unit — 1.5h — dev — DES-T1.1
-- [ ] **DES-T2.2** Domain: regras invariantes (gate ≥99 individual, slides 5–7, `requires_literal_text` flag) — 1h — dev — DES-T2.1
-- [ ] **DES-T2.3** Application: `SlidePlannerService.decideProvider()` (lógica ADR-002-DES) + testes — 1h — dev — DES-T2.1
-- [ ] **DES-T2.4** Application: `ParallelSlideGeneratorService` (Promise.allSettled de N slides) — 1.5h — dev — DES-T2.1, Wave 1
-- [ ] **DES-T2.5** Application: `BrandGateService` (gate individual ≥99, não média) — 45min — dev — DES-T2.1
-- [ ] **DES-T2.6** Application: `RetryOrchestrator` (1 retry mesmo provider + 1 fallback cross-provider — ADR-003-DES) — 1.5h — dev — DES-T2.4, DES-T2.5
-- [ ] **DES-T2.7** Application: `CarrosselManifestAssembler` (JSON output spec §1.2) + testes — 1h — dev — DES-T2.4, DES-T2.6
-- [ ] **DES-T2.8** Integration tests com fakes `FakeImagen`, `FakeIdeogram`, `FakeBrandValidator` — 1.5h — dev — DES-T2.7
+- [x] **DES-T2.1** Domain: `Carrossel`, `Slide`, `BrandScore`, `RetryPolicy` (zero deps) + testes unit — 1.5h — dev — DES-T1.1 — ✅ 2026-05-14 (`DesignCarrossel`, reuso de `Slide`/`BrandGuide` do carrossel; 15 testes domain-smoke)
+- [x] **DES-T2.2** Domain: regras invariantes (gate ≥99 individual, slides 5–7, `requires_literal_text` flag) — 1h — dev — DES-T2.1 — ✅ 2026-05-14 (`BrandComplianceReport.todosPassaram` exige score≥99 individual; `DesignBriefing.create` valida 5–7 slides)
+- [x] **DES-T2.3** Application: `SlidePlannerService.decideProvider()` (lógica ADR-002-DES) + testes — 1h — dev — DES-T2.1 — ✅ inline `DesignCarrosselUseCase.decideImageProvider` (cobre `requiresLiteralText`, hero `73%`, textOverlay≥4 palavras); coberto em 4 asserções do teste integration
+- [x] **DES-T2.4** Application: `ParallelSlideGeneratorService` (Promise.allSettled de N slides) — 1.5h — dev — DES-T2.1, Wave 1 — ✅ via `generateAllSlides` chunked com `Promise.all`. NOTA: usamos `Promise.all` (não `allSettled`) deliberadamente — falha catastrófica de adapter aborta carrossel inteiro; brand-fail vira `degraded` (sem erro). Migrar para `allSettled` será considerado em Wave 4 se quisermos parcial-recovery.
+- [x] **DES-T2.5** Application: `BrandGateService` (gate individual ≥99, não média) — 45min — dev — DES-T2.1 — ✅ embebido em `BrandComplianceReport.todosPassaram` e na decisão de retry do use case (threshold lido de `brandGuide.tolerance.exact_match_required`)
+- [x] **DES-T2.6** Application: `RetryOrchestrator` (1 retry mesmo provider + 1 fallback cross-provider — ADR-003-DES) — 1.5h — dev — DES-T2.4, DES-T2.5 — ✅ via `generateOneSlideWithRetry` (3-attempt ladder); coberto pelos testes "retry: slide reprova 1ª vez" e "fallback cross-provider"
+- [x] **DES-T2.7** Application: `CarrosselManifestAssembler` (JSON output spec §1.2) + testes — 1h — dev — DES-T2.4, DES-T2.6 — ✅ via `DesignCarrossel.assemble` (status `completed`/`degraded`, `report.providerSplit()`, custo total, SLA flag)
+- [x] **DES-T2.8** Integration tests com fakes `FakeImagen`, `FakeIdeogram`, `FakeBrandValidator` — 1.5h — dev — DES-T2.7 — ✅ 2026-05-14 (5 testes: happy path, retry, fallback cross-provider, degraded, decideImageProvider; reusa fakes de social-media)
 
 **Total Wave 2:** ~10h
 

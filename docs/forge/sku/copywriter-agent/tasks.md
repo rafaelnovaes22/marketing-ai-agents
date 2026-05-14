@@ -36,24 +36,24 @@ priority: P0
 
 ### Dia 2a — Domain + Landing
 
-- [ ] **T2.1** Domain: entidades `LandingPage`, `Block`, `Framework`, `Voice`, `Briefing` — 1.5h — dev — T1.1
-- [ ] **T2.2** Domain: regras de validação (blocos obrigatórios, range 1.500-2.000 palavras default, upsell 2.500-3.500) — 1h — dev — T2.1
-- [ ] **T2.3** Domain: testes unit puros (sem mock externo) — 1h — dev — T2.1, T2.2
-- [ ] **T2.4** `BriefingIntake` + reject if invalid (NÃO consome tokens Opus em briefing inválido) — 1h — dev — T1.10
-- [ ] **T2.5** `CopyRouter` (output_type → use case correto) — 30min — dev — T2.4
-- [ ] **T2.6** `GenerateLandingUseCase` (orquestra Claude + voice validator + schema validator) — 2.5h — dev — Wave 1
-- [ ] **T2.7** UseCase: re-roll por bloco (se schema valida falha em 1 bloco, refaz só esse bloco) — 1h — dev — T2.6
+- [x] **T2.1** Domain: entidades `LandingPage`, `Block`, `Framework`, `Voice`, `Briefing` — 1.5h — dev — T1.1 — ✅ 2026-05-14
+- [x] **T2.2** Domain: regras de validação (blocos obrigatórios, range 1.500-2.000 palavras default, upsell 2.500-3.500) — 1h — dev — T2.1 — ✅ 2026-05-14
+- [x] **T2.3** Domain: testes unit puros (sem mock externo) — 1h — dev — T2.1, T2.2 — ✅ 32 testes (`domain-smoke.test.ts`)
+- [x] **T2.4** `BriefingIntake` + reject if invalid (NÃO consome tokens Opus em briefing inválido) — 1h — dev — T1.10 — ✅ via `CopywriterBriefing.create` (rejeita context<40, framework incompatível, upsell em ad_set)
+- [x] **T2.5** `CopyRouter` (output_type → use case correto) — 30min — dev — T2.4 — ✅ via `materializePayload()` no use case unificado
+- [x] **T2.6** `GenerateLandingUseCase` (orquestra Claude + voice validator + schema validator) — 2.5h — dev — Wave 1 — ✅ embarcado em `GenerateCopywriterOutputUseCase` (caminho `landing`); voice validator separado em T2.13
+- [ ] **T2.7** UseCase: re-roll por bloco (se schema valida falha em 1 bloco, refaz só esse bloco) — 1h — dev — T2.6 — ⏸️ DEFERIDO para Wave 4 (build refinement); requer schema versioning maduro + `VoiceValidator` plugado no orquestrador.
 
 ### Dia 2b — Email + Ads + Validators
 
-- [ ] **T2.8** Domain: `EmailSequence`, `Email`, `NarrativeThread` — 1h — dev — T2.1
-- [ ] **T2.9** Domain: `AdSet`, `Ad`, `Angle` (5 categorias canônicas: pain, aspiração, FOMO, autoridade, prova social) — 1h — dev — T2.1
-- [ ] **T2.10** `GenerateEmailSequenceUseCase` (3-5 emails, 3 frameworks suportados) — 2h — dev — T1.12
-- [ ] **T2.11** `GenerateAdSetUseCase` — Tree-of-Thought de 5 ângulos — 1.5h — dev — T1.12
-- [ ] **T2.12** `DiversityCheckUseCase` (cosine similarity entre primary_text de 5 ads, threshold ≤0,55) — 1h — dev — T1.8, T2.11
-- [ ] **T2.13** `VoiceValidator` (LLM-as-judge Claude Sonnet 4.6 por bloco/email/ad) — 1.5h — dev — T1.6
-- [ ] **T2.14** Retry + backoff exponencial para 429/529 Anthropic + circuit breaker para fallback Mistral — 1h — dev — T1.6, T1.7
-- [ ] **T2.15** Testes integration com fakes de adapters (cobertura dos 3 use cases) — 2h — dev — T2.6, T2.10, T2.11
+- [x] **T2.8** Domain: `EmailSequence`, `Email`, `NarrativeThread` — 1h — dev — T2.1 — ✅ 2026-05-14 (NarrativeThread implícito via flag `referencesPrevious`)
+- [x] **T2.9** Domain: `AdSet`, `Ad`, `Angle` (5 categorias canônicas: pain, aspiração, FOMO, autoridade, prova social) — 1h — dev — T2.1 — ✅ 2026-05-14
+- [x] **T2.10** `GenerateEmailSequenceUseCase` (3-5 emails, 3 frameworks suportados) — 2h — dev — T1.12 — ✅ embarcado em `GenerateCopywriterOutputUseCase` (caminho `email_sequence`)
+- [x] **T2.11** `GenerateAdSetUseCase` — Tree-of-Thought de 5 ângulos — 1.5h — dev — T1.12 — ✅ embarcado em `GenerateCopywriterOutputUseCase` (caminho `ad_set`); Tree-of-Thought será reforçado no system prompt em Wave 4
+- [x] **T2.12** `DiversityCheckUseCase` (cosine similarity entre primary_text de 5 ads, threshold ≤0,55) — 1h — dev — T1.8, T2.11 — ✅ 2026-05-14 (`src/application/copywriter-agent/DiversityCheckUseCase.ts` + `EmbeddingsProvider` port + `OpenAIEmbeddingsAdapter` skeleton + 9 testes)
+- [x] **T2.13** `VoiceValidator` (LLM-as-judge Claude Sonnet 4.6 por bloco/email/ad) — 1.5h — dev — T1.6 — ✅ 2026-05-14 (port `VoiceValidator` + `ClaudeVoiceValidator` adapter + 6 testes)
+- [x] **T2.14** Retry + backoff exponencial para 429/529 Anthropic + circuit breaker para fallback Mistral — 1h — dev — T1.6, T1.7 — ✅ 2026-05-14 (`ResilientLLMProvider` + 8 testes; breaker abre após 3× 529 consecutivos / ADR-002-CW)
+- [x] **T2.15** Testes integration com fakes de adapters (cobertura dos 3 use cases) — 2h — dev — T2.6, T2.10, T2.11 — ✅ 2026-05-14 (5 use-case + 9 diversity + 8 resilient + 6 voice = 28 integration tests; total Wave 2 copywriter = 60 testes verdes)
 
 **Total Wave 2:** ~18h (~2-2.5 dias)
 

@@ -12,13 +12,14 @@ last_transition: 2026-05-13
 
 ## Estado atual
 
-**`draft`** — spec criada, plan + tasks + eval-cases definidos, ainda não implementado.
+**`draft`** — Waves 1+2 entregues (foundation com reuso + domain + retry orchestrator + integration tests). Pré-SHADOW: precisa de Wave 3 (TDD RED) + Wave 4 (curadoria 50 imagens + eval-suite + calibration ≥90%).
 
 ## Histórico de transições
 
 | Stage | Data | Aprovador | Gates aprovados | Notas |
 |-------|------|-----------|-----------------|-------|
 | `(new)` → `draft` | 2026-05-13 | @po-guardian (pending review) | Diagnose + spec + unit-economics + plan + tasks + eval-cases criados | 2º SKU do Acme Social (após social-media-agent). Reaproveita Wave 2 do social-media (adapters image-gen + brand validator). |
+| `draft (W1)` → `draft (W2 complete)` | 2026-05-14 | dev | DES-T2.1–T2.8 ✅ | Wave 2 entregou: `DesignCarrosselUseCase` orquestrador, retry ladder (1 mesmo provider + 1 fallback cross), `BrandComplianceReport.todosPassaram` aplica gate individual ≥99, status `completed`/`degraded`. 5 integration tests + 15 domain unit = 20 testes verdes. NOTA: `Promise.all` (não `allSettled`) — falha catastrófica aborta carrossel; brand-fail vira `degraded`. |
 
 ## Próximas transições previstas
 
