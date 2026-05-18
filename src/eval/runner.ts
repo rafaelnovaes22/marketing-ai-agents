@@ -30,13 +30,14 @@ interface CliArgs {
   targetModel?: string;
   threshold?: number;
   maxConcurrency?: number;
+  timeoutMs?: number;
 }
 
 function parseArgs(argv: string[]): CliArgs {
   const [, , artifactId, ...rest] = argv;
   if (!artifactId) {
     throw new Error(
-      'Uso: npm run eval <artifact_id> [--subset=...] [--dry-run] [--prompt-version=0.1.0] [--judge-model=...] [--target-model=...] [--threshold=0.85]'
+      'Uso: npm run eval <artifact_id> [--subset=...] [--dry-run] [--prompt-version=0.1.0] [--judge-model=...] [--target-model=...] [--threshold=0.85] [--timeout=120]'
     );
   }
   const args: CliArgs = { artifactId, subset: 'all', dryRun: false };
@@ -49,6 +50,8 @@ function parseArgs(argv: string[]): CliArgs {
     else if (flag.startsWith('--threshold=')) args.threshold = Number(flag.slice(12));
     else if (flag.startsWith('--max-concurrency='))
       args.maxConcurrency = Number(flag.slice(18));
+    else if (flag.startsWith('--timeout='))
+      args.timeoutMs = Number(flag.slice(10)) * 1000;
   }
   return args;
 }
@@ -101,7 +104,8 @@ async function main(): Promise<number> {
   const runner = new EvalRunner({ targetLLM, judge });
   const { results, metrics } = await runner.run(prompt, cases, {
     dryRun: args.dryRun,
-    maxConcurrency: args.maxConcurrency
+    maxConcurrency: args.maxConcurrency,
+    timeoutMs: args.timeoutMs
   });
 
   const writer = new ReportWriter({ repoRoot });

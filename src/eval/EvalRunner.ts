@@ -24,7 +24,7 @@ export interface EvalRunnerOptions {
 }
 
 const DEFAULT_MAX_CONCURRENCY = 5;
-const DEFAULT_TIMEOUT_MS = 60_000;
+const DEFAULT_TIMEOUT_MS = 120_000;
 
 export class EvalRunner {
   constructor(private readonly deps: EvalRunnerDeps) {}
