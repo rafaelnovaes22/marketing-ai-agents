@@ -42,7 +42,10 @@
       "Bash(npm uninstall *)",
       "Bash(npm test *)",
       "Bash(git mv *)",
-      "Bash(gh run *)"
+      "Bash(gh run *)",
+      "Bash(awk '{print $NF, $5}')",
+      "Bash(find c:\\\\\\\\Users\\\\\\\\Rafael\\\\\\\\Projetos\\\\\\\\Acme_Social -type f -name \"*2026-05-16*eval*.md\")",
+      "Bash(find c:\\\\\\\\Users\\\\\\\\Rafael\\\\\\\\Projetos\\\\\\\\Acme_Social -type f -name \"*eval*.md\")"
     ],
     "deny": [
       "Bash(rm -rf*)",
@@ -56,6 +59,9 @@
       "Bash(git reset --hard*)",
       "Bash(docker system prune*)",
       "Bash(docker volume rm*)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Rafael\\Projetos\\Acme_Social\\references\\brand-voice-ceo-posts"
     ]
   },
   "hooks": {
