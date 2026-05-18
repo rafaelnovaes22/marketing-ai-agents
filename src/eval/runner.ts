@@ -13,6 +13,7 @@
 
 import { resolve } from 'node:path';
 import { ClaudeAdapter } from '../infrastructure/adapters/llm/ClaudeAdapter.js';
+import { OpenAIAdapter } from '../infrastructure/adapters/llm/OpenAIAdapter.js';
 import { CaseLoader } from './CaseLoader.js';
 import { PromptLoader } from './PromptLoader.js';
 import { JudgeRunner } from './JudgeRunner.js';
@@ -53,16 +54,26 @@ function parseArgs(argv: string[]): CliArgs {
 }
 
 function buildLLM(model: string | undefined, role: 'target' | 'judge'): LLMProvider {
+  const resolvedModel = model ?? (role === 'judge' ? 'claude-sonnet-4-6' : undefined);
+  const isOpenAI = resolvedModel ? /^(gpt-|o\d)/.test(resolvedModel) : false;
+
+  if (isOpenAI) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error(
+        `[eval/runner] OPENAI_API_KEY ausente para model=${resolvedModel} (role=${role}). Configure em .env.`
+      );
+    }
+    return new OpenAIAdapter({ apiKey, model: resolvedModel });
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error(
       `[eval/runner] ANTHROPIC_API_KEY ausente. Configure em .env ou exporte antes de rodar (role=${role}).`
     );
   }
-  return new ClaudeAdapter({
-    apiKey,
-    model: model ?? (role === 'judge' ? 'claude-sonnet-4-6' : undefined)
-  });
+  return new ClaudeAdapter({ apiKey, model: resolvedModel });
 }
 
 async function main(): Promise<number> {
