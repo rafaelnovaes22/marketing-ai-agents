@@ -7,6 +7,7 @@ criterio_pass: llm_as_judge
 critical_path: false
 input:
   tema: "Como uma squad de 3 founders escalou pipeline B2B com IA generativa"
+  publico: "founders B2B em fase de growth"
   rede_prioritaria: "twitter"
   tom: "brand_voice_ceo"
   slides: 5
