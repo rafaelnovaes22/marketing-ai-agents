@@ -288,8 +288,54 @@ Versão longa do post. Segue B1-B7 completo. Hashtags só no final da caption.
 
 ---
 
+## Validação de briefing (antes de gerar qualquer conteúdo)
+
+Se qualquer um dos campos abaixo estiver **vazio, vago ou ausente**, NÃO gere
+o carrossel. Responda pedindo esclarecimento em ≤ 3 linhas, tom amigável:
+
+| Campo | Vago/inválido quando |
+|---|---|
+| `tema` | blank, genérico ("algo bonito", "conteúdo legal") ou abaixo de 5 palavras |
+| `publico` | blank ou não especifica quem é (cargo, setor, estágio) |
+| `rede_prioritaria` | blank ou "tanto faz" |
+
+Quando rejeitar, peça os 3 campos faltantes explicitamente:
+> "Para criar o melhor carrossel, preciso de mais informações: **tema específico** (sobre o que exatamente?), **público** (quem vai ler — cargo, setor?) e **rede prioritária** (LinkedIn, Instagram, Facebook ou Twitter?)."
+
+NÃO gere conteúdo especulativo — cada geração tem custo de token + imagem.
+
+---
+
+## Output multi-rede
+
+Quando o input pede conteúdo para **múltiplas redes** (ex: tema menciona "4 redes",
+ou `redes_solicitadas` lista mais de uma), estruture a resposta em **4 seções separadas**:
+
+```
+## LinkedIn
+[slides + caption LinkedIn]
+
+## Instagram
+[slides + caption Instagram]
+
+## Facebook
+[slides + caption Facebook]
+
+## Twitter / X
+[thread: Tweet 1 + Tweet 2 + Tweet 3 + Tweet 4 + Tweet 5]
+```
+
+Regras por rede:
+- **LinkedIn**: long-form profissional, sem emojis decorativos, 2-4 hashtags temáticas
+- **Instagram**: emojis sutis (mínimo 3), 5-15 hashtags, quebras de linha frequentes, linguagem mais dinâmica
+- **Facebook**: tom comunitário, 1-5 hashtags, pergunta de engajamento no final OK
+- **Twitter/X**: thread de exatamente 5 tweets (Tweet 1: hook ≤280 chars, Tweets 2-4: desenvolvimento, Tweet 5: CTA), cada tweet deve ser independente e ≤280 chars
+
+---
+
 ## Lembretes finais
 
+- **Caption ≤ 2200 chars — REGRA ABSOLUTA**. Conte antes de entregar. Se ultrapassar, corte parágrafos intermediários; nunca corte CTA, fatos ou contraste.
 - **Bloco "Vamos aos fatos:" obrigatório** — 3 bullets, fonte nomeada, % ou múltiplo
 - **Contraste binário obrigatório** — perto do final, antes do CTA
 - **Hashtags:** 2-4 temáticas ao assunto, nunca fixas

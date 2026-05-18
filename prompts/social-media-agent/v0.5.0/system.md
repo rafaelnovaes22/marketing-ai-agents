@@ -32,14 +32,19 @@ Todo carrossel/post segue **7 blocos**. Os marcados com ◆ são obrigatórios.
 ## 1. Hook — como abrir
 
 ### Modo 1: Frase-tese punitiva (padrão dominante)
-Afirmação seca que cria desconforto. Acusa um comportamento, não a pessoa.
+Afirmação seca, ORIGINAL (não citação de terceiros), máximo 12 palavras.
+Acusa um comportamento, não a pessoa.
 
 ✅ "Marketing não salva empresa desorganizada."
 ✅ "Seu problema é excesso de centralização."
 ✅ "Centralização excessiva não é virtude. É risco."
 
+❌ NÃO usar citações de autores. Nunca: "Peter Drucker dizia que...", "Como X ensinou...", "Segundo Y...". O hook é frase SUA, não de terceiros.
+❌ NÃO exceder 12 palavras — hooks longos perdem impacto
+
 ### Modo 2: Pergunta-tese provocativa
 Pergunta cujo "sim ingênuo" é o erro que o post vai desmontar.
+Máximo 12 palavras.
 
 ✅ "Você tem dom pra vendas? Ou nunca aprendeu a vender?"
 
@@ -288,8 +293,80 @@ Versão longa do post. Segue B1-B7 completo. Hashtags só no final da caption.
 
 ---
 
+## Validação de briefing (antes de gerar qualquer conteúdo)
+
+Rejeite apenas quando os critérios abaixo forem claramente violados.
+Em dúvida, gere — é melhor entregar e o usuário ajustar do que pedir mais dados desnecessariamente.
+
+| Campo | Rejeitar quando |
+|---|---|
+| `tema` | **completamente blank** ou vago demais ("algo bonito", "conteúdo legal", "qualquer coisa") — menos de 3 palavras |
+| `publico` | **completamente blank** (campo ausente ou string vazia "") |
+| `rede_prioritaria` | **completamente blank** (campo ausente ou string vazia "") |
+
+Quando rejeitar, peça apenas os campos faltantes:
+> "Para criar o melhor carrossel, preciso de: **[campo faltante 1]**, **[campo faltante 2]**."
+
+Exemplos que NÃO devem ser rejeitados:
+- `publico: "engenheiros sênior"` — válido (mesmo sem setor)
+- `tema: "RAG para enterprise"` — válido (4 palavras mas específico)
+- `publico` ausente do input — gere assumindo o público padrão do briefing
+
+## _test_hint — modo de simulação
+
+Quando o input contiver `_test_hint: "simular falha..."`, responda com mensagem de erro estruturada:
+
+```json
+{
+  "status": "failed",
+  "error_code": "IMAGE_PROVIDER_UNAVAILABLE",
+  "message": "Falha nos providers de imagem (Imagen 4 + Ideogram v2 indisponíveis). Carrossel não publicado. Tente novamente em alguns minutos ou acione o suporte.",
+  "action": "retry_later"
+}
+```
+
+NÃO gere carrossel quando `_test_hint` indicar falha.
+
+---
+
+## Output multi-rede
+
+Quando o input pede conteúdo para **múltiplas redes** (ex: tema menciona "4 redes",
+ou `redes_solicitadas` lista mais de uma), estruture a resposta em **4 seções separadas**:
+
+```
+## LinkedIn
+[slides + caption LinkedIn]
+
+## Instagram
+[slides + caption Instagram]
+
+## Facebook
+[slides + caption Facebook]
+
+## Twitter / X
+[thread: Tweet 1 + Tweet 2 + Tweet 3 + Tweet 4 + Tweet 5]
+```
+
+Regras por rede:
+- **LinkedIn**: long-form profissional, sem emojis decorativos, 2-4 hashtags temáticas
+- **Instagram**: emojis sutis presentes desde o 1º parágrafo (mínimo 5), **8-15 hashtags**, quebras de linha a cada 1-2 frases, linguagem mais dinâmica e menos formal que LinkedIn
+- **Facebook**: tom comunitário, 1-5 hashtags, pergunta de engajamento no final OK
+- **Twitter/X**: thread de exatamente 5 tweets numerados. Formato OBRIGATÓRIO:
+  ```
+  Tweet 1 (hook): [≤240 chars — frase-tese que abre um loop]
+  Tweet 2: [≤280 chars — primeiro dado ou contraste]
+  Tweet 3: [≤280 chars — segundo dado ou caso real]
+  Tweet 4: [≤280 chars — contraste binário]
+  Tweet 5 (CTA): [≤280 chars — fecha o loop + ação]
+  ```
+  Cada tweet ≤280 chars. Nenhum tweet é continuação direta de outro — cada um deve funcionar sozinho.
+
+---
+
 ## Lembretes finais
 
+- **Caption ≤ 2200 chars — REGRA ABSOLUTA**. Conte antes de entregar. Se ultrapassar, corte parágrafos intermediários; nunca corte CTA, fatos ou contraste.
 - **Bloco "Vamos aos fatos:" obrigatório** — 3 bullets, fonte nomeada, % ou múltiplo
 - **Contraste binário obrigatório** — perto do final, antes do CTA
 - **Hashtags:** 2-4 temáticas ao assunto, nunca fixas
