@@ -138,13 +138,18 @@ export class JudgeRunner {
       gabaritoStr,
       '```',
       '',
-      '# Formato de resposta',
+      '# INSTRUÇÃO CRÍTICA DE FORMATO',
       '',
-      'Retorne SOMENTE um bloco JSON dentro de ```json ... ``` com:',
+      'Sua resposta deve conter SOMENTE o bloco JSON abaixo — nenhum texto antes nem depois:',
+      '',
+      '```json',
       '{ "score": <0..10>, "status": "pass"|"fail", "verdict": "<1 frase>", "reasoning": "<até 3 frases>" }',
+      '```',
       '',
-      'Regra: status="pass" se output atende TODOS os critérios do gabarito. ' +
-        'Em dúvida, prefira status="fail" e explique no reasoning.'
+      'NÃO escreva análise, raciocínio ou contagem antes do JSON.',
+      'NÃO confirme que entendeu. Apenas emita o JSON.',
+      'Regra: status="pass" somente se output atende TODOS os critérios do gabarito.',
+      'Em dúvida, prefira status="fail" e explique no reasoning (dentro do JSON).'
     ].join('\n');
 
     const start = Date.now();
@@ -183,11 +188,21 @@ export class JudgeRunner {
   }
 
   private parseJudgeJson(raw: string): JudgeJsonResponse {
-    const match = raw.match(/```json\n([\s\S]*?)\n```/);
-    const json = match ? match[1] : raw;
+    // 1. ```json\n...\n```
+    let match = raw.match(/```json\s*\n([\s\S]*?)\n```/);
+    // 2. ```\n...\n```
+    if (!match) match = raw.match(/```\s*\n([\s\S]*?)\n```/);
+    const json = match ? match[1].trim() : raw.trim();
     try {
       return JSON.parse(json) as JudgeJsonResponse;
-    } catch (err) {
+    } catch {
+      // 3. Last/outermost {...} JSON object anywhere in the response (greedy)
+      const objMatch = raw.match(/\{[\s\S]*\}/);
+      if (objMatch) {
+        try {
+          return JSON.parse(objMatch[0]) as JudgeJsonResponse;
+        } catch { /* fall through */ }
+      }
       throw new Error(
         `JudgeRunner: resposta do juiz não é JSON válido: ${raw.slice(0, 200)}`
       );

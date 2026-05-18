@@ -61,7 +61,7 @@ function buildLLM(model: string | undefined, role: 'target' | 'judge'): LLMProvi
   }
   return new ClaudeAdapter({
     apiKey,
-    model: model ?? (role === 'judge' ? 'claude-sonnet-4-6-20250220' : undefined)
+    model: model ?? (role === 'judge' ? 'claude-sonnet-4-6' : undefined)
   });
 }
 

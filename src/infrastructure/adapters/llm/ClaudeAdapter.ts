@@ -17,7 +17,7 @@ const USD_TO_BRL = 5.3;
 
 export interface ClaudeAdapterConfig {
   apiKey: string;
-  model?: string;                // default: 'claude-sonnet-4-6-20250220'
+  model?: string;                // default: 'claude-sonnet-4-6'
   defaultMaxTokens?: number;     // default: 4096
 }
 
@@ -56,7 +56,7 @@ export class ClaudeAdapter implements LLMProvider {
         role: m.role as 'user' | 'assistant',
         content: m.content
       })),
-      metadata: input.metadata as Anthropic.Metadata | undefined
+      metadata: input.metadata?.user_id ? { user_id: input.metadata.user_id } : undefined
     });
 
     const latencyMs = Date.now() - start;
