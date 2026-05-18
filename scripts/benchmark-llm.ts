@@ -152,7 +152,7 @@ async function runCopy(provider: LLMProvider): Promise<RunResult> {
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user',   content: USER_PROMPT_COPY }
       ],
-      maxTokens: 2000, temperature: 0.7, cacheControl: true
+      maxTokens: 4096, temperature: 0.7, cacheControl: true
     });
     return {
       model: out.modelUsed, latencyMs: out.latencyMs,
@@ -302,7 +302,13 @@ function validateCopyOutput(text: string): boolean {
   // Texto estruturado (Claude v0.5.0): **Slide 1:** + Caption LinkedIn / ## LinkedIn
   const hasSlides = /\*\*Slide\s+[1-9]/i.test(text) || /^Slide\s+[1-9]/im.test(text);
   const hasLinkedIn = /Caption LinkedIn|##\s*LinkedIn/i.test(text);
-  return hasSlides && hasLinkedIn;
+  const ok = hasSlides && hasLinkedIn;
+  if (!ok && process.env['BENCHMARK_DEBUG'] === '1') {
+    console.log('\n  [DEBUG] output inválido — primeiros 800 chars:');
+    console.log('  ' + text.slice(0, 800).replace(/\n/g, '\n  '));
+    console.log(`\n  [DEBUG] hasSlides=${hasSlides} hasLinkedIn=${hasLinkedIn}`);
+  }
+  return ok;
 }
 
 function validateVisionOutput(text: string): boolean {
