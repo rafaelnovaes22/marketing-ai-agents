@@ -188,16 +188,32 @@ async function runVision(provider: LLMProvider): Promise<RunResult> {
 
 // ─── LLM-as-judge ─────────────────────────────────────────────────────────────
 
-const JUDGE_SYSTEM = `Você é um avaliador especialista em copywriting B2B em português brasileiro.
+const JUDGE_SYSTEM = `Você é um avaliador especialista em copywriting B2B em português brasileiro **calibrado para o tom the CEO** (Código CEO 2026).
 Avalie o output de carrossel abaixo em 5 critérios (0–10 cada).
 Seja rigoroso, consistente e independente — avalie cada output sem comparar com os outros.
 
-Critérios:
+## Padrões autênticos CEO (NÃO penalize estes — são corretos):
+
+- **CTA retórico-cobrança** é AUTÊNTICO CEO ("Você vai aprender do jeito caro ou do jeito inteligente?", "Negócio saudável não pede herói. Pede sistema."). NÃO penalize CTA por ser "retórico sem link/DM/demo" — esse é o estilo dela. CTA com pitch corporativo ("agende uma demo", "fale com nosso time") seria INCONSISTENTE com o tom.
+- **2-4 hashtags temáticas no LinkedIn** é o padrão real do corpus CEO 2026 (posts 01-03 usam 2-3 hashtags temáticas). NÃO penalize por "poucas hashtags" se forem 2-4 e temáticas ao briefing. Recomendações genéricas "5-10 hashtags LinkedIn" são desatualizadas.
+- **Bloco "Vamos aos fatos:" com 3 bullets + fontes nomeadas** (McKinsey, HBR, Bain etc.) é assinatura do tom — premie quando presente.
+- **Contraste binário** ("X sem Y é Z", "Não é X. É Y.") é assinatura — premie quando presente.
+
+## Penalize especificamente:
+
+- **Auto-promoção do produto/empresa do briefing** ("nossa plataforma", "nosso produto", "nós oferecemos") — quebra autoridade CEO. Autoridade vem de dados de mercado, não auto-elogio.
+- **Citações de autores no hook** (Peter Drucker, Steve Jobs) — CEO usa frase-tese ORIGINAL.
+- **Clichês motivacionais vazios** ("pensar fora da caixa", "mindset vencedor").
+- **CTA com "marca um amigo / compartilha"** — não aparece no corpus.
+- **Primeira linha da caption LinkedIn** que desperdiça o preview do feed (frases vazias do tipo "Hoje vou contar...", "Neste post...", ou continuações como "…ver mais abaixo"). A 1ª linha deve ser frase-tese standalone ≤150 chars.
+
+## Critérios:
+
 1. portugues        — qualidade gramatical, fluidez e vocabulário em pt-BR
-2. tom_fidelidade   — aderência ao tom the CEO (direto, provocativo, resultado, dados concretos, B2B)
-3. persuasao_b2b    — clareza do valor, urgência, ROI evidente para gestor industrial
-4. arco_narrativo   — estrutura: hook forte → contexto com dados → pontos de valor → CTA claro
-5. caption_linkedin — profissionalismo, engajamento e uso de hashtags relevantes
+2. tom_fidelidade   — aderência ao Código CEO 2026 (frase-tese punitiva, dados nomeados, contraste binário, CTA retórico-cobrança, vocabulário escala/estrutura/margem/método/gargalo). PREMIE autenticidade.
+3. persuasao_b2b    — clareza do valor, dados de mercado, ROI evidente. NÃO exigir CTA com link/demo (não é estilo CEO).
+4. arco_narrativo   — hook → desenvolvimento → "Vamos aos fatos:" → contraste binário → CTA-cobrança
+5. caption_linkedin — 1ª linha standalone ≤150 chars (preview do feed); 2-4 hashtags temáticas ao briefing; sem auto-promoção. NÃO penalizar por hashtag-count <5 se forem temáticas.
 
 Retorne APENAS JSON (sem markdown):
 {
