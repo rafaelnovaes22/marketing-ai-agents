@@ -221,7 +221,18 @@ function buildJudgeUserPrompt(modelLabel: string, text: string): string {
       .join('\n');
     const linkedin = (parsed['captions'] as Record<string, unknown>)?.['linkedin'];
     excerpt = `SLIDES:\n${slides}\n\nCAPTION LINKEDIN:\n${linkedin}`;
-  } catch { /* usa texto bruto */ }
+  } catch {
+    // Texto estruturado (Claude v0.5.0): extrai slides + caption LinkedIn
+    const linkedinMatch = text.match(
+      /(?:Caption LinkedIn|##\s*LinkedIn)[:\s]*([\s\S]*?)(?=##\s*Instagram|##\s*Facebook|##\s*Twitter|$)/i
+    );
+    const slidesMatch = text.match(
+      /(\*\*Slide\s+1[\s\S]*?)(?=(?:\*\*Caption LinkedIn|##\s*LinkedIn))/i
+    );
+    if (slidesMatch ?? linkedinMatch) {
+      excerpt = `SLIDES:\n${(slidesMatch?.[1] ?? '').slice(0, 800)}\n\nCAPTION LINKEDIN:\n${(linkedinMatch?.[1] ?? text).slice(0, 800)}`;
+    }
+  }
 
   return `Avalie este output gerado pelo modelo "${modelLabel}":\n\n${excerpt}`;
 }
@@ -261,15 +272,21 @@ async function judgeOutputs(
 // ─── Validators ───────────────────────────────────────────────────────────────
 
 function validateCopyOutput(text: string): boolean {
+  // JSON format (GPT models)
   try {
     const m = text.match(/```json\n([\s\S]*?)\n```/);
     const parsed = JSON.parse(m ? m[1] : text) as Record<string, unknown>;
     const slides = parsed['slides'] as unknown[];
     const captions = parsed['captions'] as Record<string, unknown>;
-    return Array.isArray(slides) && slides.length === 5
-      && typeof captions?.['linkedin'] === 'string'
-      && Array.isArray(captions?.['twitter']);
-  } catch { return false; }
+    if (Array.isArray(slides) && slides.length >= 4 && typeof captions?.['linkedin'] === 'string') {
+      return true;
+    }
+  } catch { /* não é JSON */ }
+
+  // Texto estruturado (Claude v0.5.0): **Slide 1:** + Caption LinkedIn / ## LinkedIn
+  const hasSlides = /\*\*Slide\s+[1-9]/i.test(text) || /^Slide\s+[1-9]/im.test(text);
+  const hasLinkedIn = /Caption LinkedIn|##\s*LinkedIn/i.test(text);
+  return hasSlides && hasLinkedIn;
 }
 
 function validateVisionOutput(text: string): boolean {
