@@ -5,10 +5,10 @@ project_type: agentic_saas
 ai_enabled: true
 criticality: B
 current_stage: draft
-spec_status: po_guardian_pending
+spec_status: po_guardian_approved
 spec_template_used: platform-sku-spec.template.md
 created_at: 2026-05-13
-last_updated: 2026-05-13
+last_updated: 2026-05-18
 adrs_linked: [ADR-001-CW, ADR-002-CW, ADR-003-CW]
 priority: P0
 ---
@@ -17,13 +17,33 @@ priority: P0
 
 ## 1. Outcome contratual (C2)
 
-### 1.1 Promessa
+### 1.0 Cláusula de outcome (canônica para contrato)
+
+> **"Entregar, em ≤15 minutos após `briefing_submitted` válido, exatamente 1 entregável de copy do tipo declarado em `output_type` — landing page estruturada (hero + 4-6 seções + CTA), sequência de 3-5 e-mails (subject + preview + body + CTA por email) OU 5 variações de anúncio Meta (headline + primary_text + description) — no framework solicitado e tom requisitado, com schema JSON íntegro (zero campos obrigatórios faltantes) e tom score por entregável ≥ 7,0/10."**
+
+`outcome_clause_id: copywriter-agent.outcome.v1`
+`trigger_event: briefing_submitted`
+`sla_clock_start: briefing.accepted_at`
+`sla_clock_stop: delivery_emitted.timestamp`
+`billing_event: delivery_accepted` (em AUTONOMOUS)
+
+### 1.1 Trigger event
+
+- **Evento canônico:** `briefing_submitted`
+- **Definição:** payload JSON validado pelo Zod schema (`lib/briefing/parser.ts`) contendo no mínimo: `output_type` (landing|email_sequence|ads_meta), `product_or_offer`, `target_audience`, `framework` (ou "default"), `voice_id` (ou "brand-voice-ceo"), `tenant_id`.
+- **SLA clock start:** timestamp `briefing.accepted_at` (após parse bem-sucedido).
+- **SLA clock stop:** timestamp do primeiro evento `delivery_emitted` com `schema_validation=pass`.
+- **Evento de cobrança (AUTONOMOUS):** `delivery_accepted` (após gate de schema + tom + diversidade quando Tipo C).
+- **Evento de não-cobrança:** `briefing_rejected` (briefing inválido) ou `sla_violated=true`.
+
+### 1.2 Promessa
 
 Entregar, em ≤15 minutos, **1 dentre 3 tipos de output** (definido por `output_type` no briefing):
 
 #### Tipo A — Landing page
 - **Estrutura obrigatória (blocos JSON):** `hero { headline, subheadline, cta }`, `problem`, `agitation`, `solution`, `social_proof[3+]`, `objections[≥2]`, `final_cta`
-- **Volume:** 1.500-2.000 palavras default; upsell para 2.500-3.500 palavras (+R$ 30)
+- **Volume:** 1.500-2.000 palavras default; upsell `landing_extended` para 2.500-3.500 palavras (+R$ 30)
+  > **Upsell `landing_extended`:** preço R$ 110 (R$ 80 + R$ 30), SLA estendido para 20 min, custo cap proporcional R$ 27,50 (25% de R$ 110), tom score ≥ 7,0/10 mantido. Tratado como variante de `output_type=landing` — não é tipo novo (C8).
 - **Formato saída:** JSON estruturado + Markdown renderizado equivalente
 - **Framework declarado:** PAS (default) | AIDA | 4Ps | StoryBrand
 - **Tom:** the CEO (default) ou voice id alternativa
@@ -43,7 +63,8 @@ Entregar, em ≤15 minutos, **1 dentre 3 tipos de output** (definido por `output
 
 - [x] `output_type` declarado e schema JSON correspondente preenchido sem campos obrigatórios faltantes
 - [x] Framework declarado em metadata (`framework_used`) corresponde ao solicitado
-- [x] Tom score ≥ 7/10 (LLM-as-judge contra voice exemplars)
+- [x] Tom score por entregável ≥ 7,0/10 (gate de aceite individual; abaixo disso re-roll automático 1× antes de devolver)
+- [x] Tom score médio rolling 14 dias ≥ 7,8/10 (gate de manutenção em AUTONOMOUS; abaixo aciona revisão humana e pode degradar para ASSISTED)
 - [x] (Tipo A) Volume de palavras dentro do range default 1.500-2.000 (±10%)
 - [x] (Tipo B) Sequência tem N emails (N=4 default) com campos completos
 - [x] (Tipo C) Limites de caracteres Meta respeitados em 100% das variações + diversidade ≥0,45 (1 − similarity)
@@ -69,6 +90,7 @@ Entregar, em ≤15 minutos, **1 dentre 3 tipos de output** (definido por `output
 2. Landing entregue sem bloco `final_cta` → falha gate de schema; refaz bloco antes de devolver
 3. 5 ads com similarity média > 0,55 → falha diversidade; re-roll dos 2 mais similares
 4. SLA > 900s → trace marcado `sla_violated=true`; não cobra
+5. Sequência de 4 emails entregue, mas email 3 não referencia gancho do email 2 (`references_previous=false` quando deveria ser `true`) → falha gate de conectividade narrativa; refaz email 3 antes de devolver
 
 ## 2. Stack técnico (C7 — portability)
 
@@ -193,7 +215,7 @@ Margem média:                  R$ 76,45 (~96%)
 
 ## 10. Aprovações necessárias
 
-- [ ] `@po-guardian` valida outcome contratual + schema JSON de output (Seções 1 e 2)
+- [x] `@po-guardian` valida outcome contratual + schema JSON de output (Seções 1 e 2) — **APPROVED 2026-05-18** (`outcome_clause_id: copywriter-agent.outcome.v1`)
 - [ ] `@unit-economist` valida C3 nos 3 tipos (após `unit-economics.md`)
 - [ ] `@artifact-architect` valida abstrações + contratos entre agentes (após `plan.md`)
 - [ ] Founder aprova preço R$ 80 + upsell de landing extendida (+R$ 30)
