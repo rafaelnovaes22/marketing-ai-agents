@@ -37,6 +37,11 @@ export interface DesignCarrosselUseCaseInput {
   mode: 'shadow' | 'assisted' | 'autonomous';
   /** Quando fornecido (ex.: orchestrator), usa como trace pai e suprime startTrace/endTrace próprios (P3 full). */
   parentTrace?: TraceContext;
+  /**
+   * T5.5 — cap de custo em BRL. Se total > cap, status='cost_exceeded' e span
+   * 'cost_cap_exceeded' é emitido. Use case sinaliza, não aborta mid-flight.
+   */
+  costCapBrl?: number;
 }
 
 export interface DesignCarrosselUseCaseDeps {
@@ -116,13 +121,36 @@ export class DesignCarrosselUseCase {
       const totalLatencyMs = Date.now() - startedAt;
       const totalCostBrl = attempts.reduce((s, a) => s + a.costBrl, 0);
 
+      // T5.5 — Cost cap enforcement (post-flight signal, não aborta).
+      let costExceeded = false;
+      if (
+        input.costCapBrl !== undefined &&
+        totalCostBrl > input.costCapBrl
+      ) {
+        costExceeded = true;
+        await this.deps.observability.span(
+          trace,
+          {
+            name: 'cost_cap_exceeded',
+            input: {
+              cap_brl: input.costCapBrl,
+              actual_brl: totalCostBrl,
+              delta_brl: totalCostBrl - input.costCapBrl
+            },
+            startTime: new Date()
+          },
+          async () => undefined
+        );
+      }
+
       const carrossel = DesignCarrossel.assemble({
         id: this.generateId(),
         briefing: input.briefing,
         slides,
         report,
         totalLatencyMs,
-        totalCostBrl
+        totalCostBrl,
+        costExceeded
       });
 
       if (ownTrace) {
@@ -174,7 +202,10 @@ export class DesignCarrosselUseCase {
     specs: SlideDesignSpec[],
     trace: TraceContext
   ): Promise<SlideAttempt[]> {
-    // Paralelização simples com Promise.all (chunked se concurrencyLimit < N)
+    // Paralelização com Promise.allSettled (chunked se concurrencyLimit < N).
+    // Wave 4 — partial-recovery: 1 slide com falha catastrófica não derruba os demais.
+    // Cada rejection vira um SlideAttempt-stub (imageUrl=null, score=0, retryCount=2)
+    // para que o agregado vire 'degraded' sem perder o que conseguiu gerar.
     const chunks: SlideDesignSpec[][] = [];
     for (let i = 0; i < specs.length; i += this.concurrencyLimit) {
       chunks.push(specs.slice(i, i + this.concurrencyLimit));
@@ -182,10 +213,65 @@ export class DesignCarrosselUseCase {
 
     const results: SlideAttempt[] = [];
     for (const chunk of chunks) {
-      const chunkResults = await Promise.all(
+      const settled = await Promise.allSettled(
         chunk.map((spec) => this.generateOneSlideWithRetry(spec, trace))
       );
-      results.push(...chunkResults);
+      for (let i = 0; i < settled.length; i++) {
+        const outcome = settled[i];
+        const spec = chunk[i];
+        if (outcome.status === 'fulfilled') {
+          results.push(outcome.value);
+        } else {
+          const failureSpec = spec;
+          const errorMessage =
+            outcome.reason instanceof Error
+              ? outcome.reason.message
+              : String(outcome.reason);
+
+          // Emite span de falha do slide específico (observability).
+          await this.deps.observability.span(
+            trace,
+            {
+              name: `slide_generation_failed_${failureSpec.order}`,
+              input: {
+                slide_order: failureSpec.order,
+                role: failureSpec.role,
+                error: errorMessage
+              },
+              startTime: new Date()
+            },
+            async () => undefined
+          );
+
+          // Stub de slide failed: imageUrl=null, score=0, retryCount=2 para que
+          // BrandComplianceReport.isDegraded() retorne true (status='degraded').
+          const failedSlide = Slide.create({
+            order: failureSpec.order,
+            role: failureSpec.role,
+            textOverlay: failureSpec.textOverlay,
+            visualBrief: failureSpec.visualBrief
+          });
+          results.push({
+            slide: failedSlide,
+            validation: {
+              score: 0,
+              decision: 'retry',
+              issues: [
+                {
+                  category: 'other',
+                  severity: 'error',
+                  description: `Slide failed catastrophically: ${errorMessage}`
+                }
+              ],
+              costBrl: 0,
+              latencyMs: 0
+            },
+            costBrl: 0,
+            retryCount: 2,
+            fallbackTriggered: true
+          });
+        }
+      }
     }
     return results;
   }
