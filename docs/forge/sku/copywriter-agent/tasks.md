@@ -62,9 +62,9 @@ priority: P0
 > ⚠️ **Forge-10 obriga:** test_agent em mode=red gera testes ANTES de Wave 4 (build refinado).
 > Operador roda `npm test` e CONFIRMA QUE FALHA antes de prosseguir.
 
-- [ ] **T3.1** `/acme:aios-run copywriter-agent --step=test --mode=red` (gera tests/copywriter-agent/{unit,integration,e2e}/) — 30min — dev/agent — Wave 2 estruturas prontas
-- [ ] **T3.2** Operador valida que testes falham (RED phase confirmada) — 15min — dev — T3.1
-- [ ] **T3.3** Commit do plano de testes + RED evidence — 15min — dev — T3.2
+- [x] **T3.1** `/acme:aios-run copywriter-agent --step=test --mode=red` (gera tests/copywriter-agent/{unit,integration,e2e}/) — 30min — dev/agent — Wave 2 estruturas prontas — ✅ 2026-05-19 (3 arquivos RED: handoff-contract + re-roll-by-block + voice-drift-cancel)
+- [x] **T3.2** Operador valida que testes falham (RED phase confirmada) — 15min — dev — T3.1 — ✅ 2026-05-19 (14 FAIL / 61 PASS confirmado)
+- [x] **T3.3** Commit do plano de testes + RED evidence — 15min — dev — T3.2 — ✅ 2026-05-19
 
 **Total Wave 3:** ~1h
 
