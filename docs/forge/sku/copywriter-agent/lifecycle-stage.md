@@ -13,7 +13,7 @@ priority: P0
 
 ## Estado atual
 
-**`draft`** — Waves 1+2 entregues (foundation + domain + application + integration tests). Pré-SHADOW: precisa de Wave 3 (TDD RED) + Wave 4 (build refinement) + Wave 5 (eval-suite + coverage Tier B).
+**`draft` — pronto para SHADOW** (2026-05-19). Waves 1-4 entregues + 5 gates de SHADOW fechados + pre-merge G1/G2/G3/G5 ✅. Falta: `/acme:sla-threshold` declarativo + assinatura `@promotion-officer`.
 
 ## Histórico de transições
 
@@ -21,6 +21,8 @@ priority: P0
 |-------|------|-----------|-----------------|-------|
 | `(new)` → `draft` | 2026-05-13 | @po-guardian (pending review) | Diagnose preliminar + spec + unit-economics (APPROVED) + plan (APPROVED) | Segundo SKU do Acme Social. Reusa stack do social-media-agent (langfuse, claude-adapter base, voice loader). |
 | `draft (W1)` → `draft (W2 complete)` | 2026-05-14 | dev | T2.1–T2.6, T2.8–T2.15 ✅ (T2.7 deferido para Wave 4) | Wave 2 entregou: `GenerateCopywriterOutputUseCase` unificado (3 caminhos), `DiversityCheckUseCase` + `EmbeddingsProvider` port + OpenAI adapter (T2.12), `VoiceValidator` port + `ClaudeVoiceValidator` adapter (T2.13), `ResilientLLMProvider` wrapper com circuit breaker 3×529 (T2.14), 28 integration tests + 32 domain unit = 60 testes verdes. |
+| `draft (W2)` → `draft (W3 RED)` | 2026-05-19 | dev | T3.1–T3.3 ✅ | Wave 3 entregou: 14 testes RED documentando Wave 4 — `handoff-contract` (6), `re-roll-by-block` (4), `voice-drift-cancel` (4). Commit `be082d8`. |
+| `draft (W3)` → `draft (W4 GREEN)` | 2026-05-19 | dev | T4.1, T4.3, T4.4 ✅ (T4.2 deferido para W5) | Wave 4 entregou: `CopywriterOutput.toHandoffPayload()` (T4.4), re-roll por bloco com MAX_RE_ROLLS=2 (T2.7), `voiceValidator` em deps com MAX_VOICE_RE_ROLLS=1 (T4.3). 75/75 testes verdes. Commit `6ebe8b0`. |
 
 ## Próximas transições previstas
 
@@ -28,11 +30,11 @@ priority: P0
 
 **Gates necessários (5):**
 
-1. [ ] `@po-guardian` revisa e aprova `spec.md` outcome contratual + os 3 schemas JSON
+1. [x] `@po-guardian` revisou e aprovou `spec.md` outcome contratual + os 3 schemas JSON — APPROVED 2026-05-18 (commit `a2bde6f`); `spec_status: po_guardian_approved`
 2. [x] `@unit-economist` aprovou `unit-economics.md` (C3 ≤ 25% nos 3 tipos) — APPROVED com ADR-001-CW 2026-05-13
 3. [x] `@artifact-architect` aprovou `plan.md` (C5/C7 — adapter pattern + schema versionado) — APPROVED 2026-05-13
-4. [ ] Eval-suite com ≥ 85% pass rate (`/acme:eval copywriter-agent`) + critical_path 5/5
-5. [ ] Coverage Tier B atingido (≥ 85% line, ≥ 80% branch) + domain layer sem imports SDK (lint pass)
+4. [x] Eval-suite com ≥ 85% pass rate + critical_path 5/5 — APPROVED 2026-05-18 (24/24 PASS, hash `c10b6bee146e89b2`, prompt v0.2.0)
+5. [x] Coverage Tier B atingido (≥ 85% line, ≥ 80% branch) + domain layer sem imports SDK — APPROVED 2026-05-19 (`GenerateCopywriterOutputUseCase` 94.18% lines/80.35% branches; domain layer 87.96/84%; G1/G2/G3 pre-merge ✅)
 
 **Gates auxiliares (não bloqueantes mas recomendados):**
 
