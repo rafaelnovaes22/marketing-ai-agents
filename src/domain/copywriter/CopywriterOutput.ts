@@ -5,6 +5,7 @@ import { AdSet } from './AdSet.js';
 import { CopywriterBriefing } from './CopywriterBriefing.js';
 import { EmailSequence } from './EmailSequence.js';
 import { Framework } from './Framework.js';
+import type { HandoffPayload, HandoffPayloadBody } from './HandoffContract.js';
 import { Landing } from './Landing.js';
 import { OutputType } from './OutputType.js';
 
@@ -131,5 +132,55 @@ export class CopywriterOutput {
 
   framework(): Framework {
     return this.briefing.framework;
+  }
+
+  /**
+   * Serializa o output em formato consumível por Designer Agent / Webflow (T4.4).
+   * Exige status='completed' + payload presente — lança se o output ainda está
+   * em pending/generating/failed.
+   */
+  toHandoffPayload(): HandoffPayload {
+    if (this.status !== 'completed' || !this.payload) {
+      throw new Error(
+        `toHandoffPayload exige status=completed. Status atual: ${this.status} (output ${this.id})`
+      );
+    }
+
+    const ot = this.briefing.outputType.value;
+    let payload: HandoffPayloadBody;
+
+    if (this.payload instanceof Landing) {
+      payload = {
+        hero: this.payload.hero,
+        sections: this.payload.sections,
+        ctas: this.payload.ctas,
+        word_count: this.payload.wordCount,
+        is_upsell: this.payload.isUpsell
+      };
+    } else if (this.payload instanceof EmailSequence) {
+      payload = {
+        emails: this.payload.emails,
+        total_word_count: this.payload.totalWordCount
+      };
+    } else if (this.payload instanceof AdSet) {
+      payload = {
+        variations: this.payload.variations,
+        diversity_score: this.payload.diversityScore
+      };
+    } else {
+      throw new Error(`Payload de tipo desconhecido em ${this.id}`);
+    }
+
+    return {
+      output_id: this.id,
+      output_type: ot as HandoffPayload['output_type'],
+      schema_version: this.payload.schemaVersion,
+      tenant_id: this.briefing.tenantId,
+      briefing_hash: this.briefing.briefingHash(),
+      created_at_iso: this.createdAt.toISOString(),
+      price_brl: this.precoFinal(),
+      outcome_achieved: this.outcomeAlcancado(),
+      payload
+    };
   }
 }

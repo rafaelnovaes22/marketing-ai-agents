@@ -18,8 +18,12 @@ import {
 import { OutputType } from '../../domain/copywriter/OutputType.js';
 import type { LLMProvider } from '../../domain/ports/LLMProvider.js';
 import type { Observability } from '../../domain/ports/Observability.js';
+import type { VoiceValidator } from '../../domain/ports/VoiceValidator.js';
 
 const SCHEMA_VERSION = '1.0.0';
+
+const MAX_RE_ROLLS = 2; // T2.7 — máximo de re-rolls de bloco após attempt original
+const MAX_VOICE_RE_ROLLS = 1; // T4.3 — após 1 re-roll de voz, esgota (total 2 tentativas)
 
 export interface GenerateCopywriterInput {
   tenantId: string;
@@ -50,6 +54,12 @@ export interface GenerateCopywriterDeps {
    * Map (outputTypeSlug → markdown). prompts/copywriter-agent/system-prompts/output-{slug}.md
    */
   systemPromptByOutputType: Map<string, string>;
+  /**
+   * T4.3 — Voice validator opcional. Quando presente, é invocado APENAS para
+   * outputs do tipo `landing` (Tipo A). Se decisão = `reroll`, o use case
+   * tenta uma nova geração (max MAX_VOICE_RE_ROLLS).
+   */
+  voiceValidator?: VoiceValidator;
 }
 
 /**
@@ -118,20 +128,102 @@ export class GenerateCopywriterOutputUseCase {
     });
 
     try {
-      const llmResult = await this.deps.observability.span(
-        traceContext,
-        {
-          name: 'copy_generation',
-          input: {
-            output_type: briefing.outputType.value,
-            framework: briefing.framework.value
-          },
-          startTime: new Date()
-        },
-        async () => this.callLLM(briefing)
-      );
+      // T2.7 + T4.3 — Loop externo: voice re-roll (apenas para landing).
+      // Loop interno: block re-roll (schema/parse failures).
+      let payload: Landing | EmailSequence | AdSet | undefined;
+      let lastError: Error | undefined;
+      let voiceAccepted = false;
+      const needsVoiceCheck =
+        briefing.outputType.value === 'landing' &&
+        this.deps.voiceValidator !== undefined;
 
-      const payload = this.materializePayload(briefing.outputType, llmResult);
+      for (
+        let voiceAttempt = 0;
+        voiceAttempt <= MAX_VOICE_RE_ROLLS;
+        voiceAttempt++
+      ) {
+        // ─── Block re-roll loop (T2.7) ────────────────────────────────
+        let attemptPayload: Landing | EmailSequence | AdSet | undefined;
+        for (let attempt = 0; attempt <= MAX_RE_ROLLS; attempt++) {
+          const spanName =
+            attempt === 0 ? 'copy_generation' : 'copy_generation_re_roll_block';
+          try {
+            const llmResult = await this.deps.observability.span(
+              traceContext,
+              {
+                name: spanName,
+                input: {
+                  output_type: briefing.outputType.value,
+                  framework: briefing.framework.value,
+                  attempt,
+                  voice_attempt: voiceAttempt
+                },
+                startTime: new Date()
+              },
+              async () => this.callLLM(briefing)
+            );
+
+            attemptPayload = this.materializePayload(
+              briefing.outputType,
+              llmResult
+            );
+            break; // sucesso interno
+          } catch (err) {
+            lastError = err instanceof Error ? err : new Error(String(err));
+          }
+        }
+
+        if (!attemptPayload) {
+          // Block re-roll esgotado — propaga o último erro de schema/parse.
+          throw lastError ?? new Error('Falha em gerar copy após re-rolls');
+        }
+
+        payload = attemptPayload;
+
+        // ─── Voice check (T4.3) — apenas para landing ──────────────────
+        if (!needsVoiceCheck || !this.deps.voiceValidator) {
+          voiceAccepted = true;
+          break;
+        }
+
+        const voiceText = this.buildVoiceTextFromLanding(payload as Landing);
+        const voice = this.deps.voiceValidator;
+        const voiceResult = await this.deps.observability.span(
+          traceContext,
+          {
+            name: 'voice_validation',
+            input: {
+              unit_kind: 'full_landing',
+              tom: briefing.tomSlug,
+              voice_attempt: voiceAttempt
+            },
+            startTime: new Date()
+          },
+          async () =>
+            voice.validate({
+              tomSlug: briefing.tomSlug,
+              unitKind: 'full_landing',
+              text: voiceText
+            })
+        );
+
+        if (voiceResult.decision !== 'reroll') {
+          voiceAccepted = true;
+          break;
+        }
+
+        lastError = new Error(
+          `Voz fora do tom (score=${voiceResult.score.toFixed(
+            2
+          )}) após attempt ${voiceAttempt + 1}`
+        );
+        // Loop externo continua → nova geração com correção implícita.
+      }
+
+      if (!voiceAccepted || !payload) {
+        throw lastError ?? new Error('Voice validation falhou após re-rolls');
+      }
+
       const completed = output.comPayload(payload);
 
       await this.deps.observability.endTrace(traceContext, {
@@ -275,5 +367,20 @@ export class GenerateCopywriterOutputUseCase {
 
   private generateId(): string {
     return `cw_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+  }
+
+  /**
+   * Concatena conteúdo textual da landing para entrada do VoiceValidator (T4.3).
+   * Hero (3 campos) + cada section.body + ctas — texto plano único.
+   */
+  private buildVoiceTextFromLanding(landing: Landing): string {
+    const parts: string[] = [
+      landing.hero.headline,
+      landing.hero.subheadline,
+      landing.hero.cta,
+      ...landing.sections.map((s) => s.body),
+      ...landing.ctas
+    ];
+    return parts.filter((p) => p && p.length > 0).join('\n\n');
   }
 }

@@ -72,10 +72,10 @@ priority: P0
 
 (itens iniciados em Wave 2 mas formalizados/refinados aqui — passar tests de RED → GREEN)
 
-- [ ] **T4.1** Implementar/ajustar use cases para passar RED → GREEN — itens das W1/W2 — 3h — dev
-- [ ] **T4.2** Edge cases de briefing (output_type ausente, framework inválido, voice id inexistente) — 1.5h — dev — T2.4
-- [ ] **T4.3** Streaming + cancellation (se voice score drift detectado no 1º terço, cancela e re-roll com correção — Tipo A) — 1.5h — dev — T2.6, T2.13
-- [ ] **T4.4** Handoff contract (output JSON) para Designer Agent / Webflow publisher — 1h — dev/@artifact-architect — T1.9
+- [x] **T4.1** Implementar/ajustar use cases para passar RED → GREEN — itens das W1/W2 — 3h — dev — ✅ 2026-05-19 (14 RED → GREEN; 75/75 verde)
+- [ ] **T4.2** Edge cases de briefing (output_type ausente, framework inválido, voice id inexistente) — 1.5h — dev — T2.4 — ⏸️ coberto parcialmente em domain-smoke.test.ts + use-case.test.ts (T4.2 será reforçado em Wave 5 se eval-suite mostrar gaps)
+- [x] **T4.3** Streaming + cancellation (se voice score drift detectado no 1º terço, cancela e re-roll com correção — Tipo A) — 1.5h — dev — T2.6, T2.13 — ✅ 2026-05-19 (`voiceValidator` plugado em deps, voice re-roll com MAX_VOICE_RE_ROLLS=1 + span `voice_validation`; streaming chunked deferido — re-roll integral cobre o caso)
+- [x] **T4.4** Handoff contract (output JSON) para Designer Agent / Webflow publisher — 1h — dev/@artifact-architect — T1.9 — ✅ 2026-05-19 (`HandoffContract.ts` + `CopywriterOutput.toHandoffPayload()`; 6 testes verdes)
 
 **Total Wave 4:** ~7h
 
