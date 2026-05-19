@@ -75,7 +75,7 @@ reuses_from: social-media-agent (Wave 2 adapters)
 - [ ] **DES-T5.2** CI workflow `forge-test` + `forge-eval` ativo para designer-agent — 1h — dev
 - [ ] **DES-T5.3** `/acme:sla-threshold designer-agent` (SLA 20min, brand ≥99 individual, max retries=1, max cost R$3) — 30min — dev
 - [ ] **DES-T5.4** Telemetria Langfuse específica: spans paralelos por `slide_index`, metadata `caller`, `provider_used`, `retry_count` — 1h — dev
-- [ ] **DES-T5.5** Alertas Slack `#design`: brand <96 após 2 retries, re-roll rate >25%/24h, SLA violation, cost >R$3 — 45min — dev
+- [~] **DES-T5.5** Alertas Slack `#design`: brand <96 após 2 retries, re-roll rate >25%/24h, SLA violation, cost >R$3 — 45min — dev — ⏳ enforcement de cost cap ✅ 2026-05-19 (`costCapBrl` em input + status `cost_exceeded` + span `cost_cap_exceeded`); webhook Slack pendente para Wave 5
 - [ ] **DES-T5.6** Dashboard Mixpanel: carrosséis/dia, brand histogram (96–100%), provider split observado vs target 70/30 — 1h — dev
 - [ ] **DES-T5.7** README + runbook ops + contrato de input/output documentado (para social-media-agent consumir) — 1h — dev
 - [ ] **DES-T5.8** `/acme:promote designer-agent --to=shadow` (promotion-officer assina) — 30min — agent
