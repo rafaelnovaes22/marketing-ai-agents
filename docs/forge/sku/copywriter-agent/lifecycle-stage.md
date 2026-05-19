@@ -1,9 +1,9 @@
 ---
 sku_id: copywriter-agent
 lifecycle_type: agentic
-current_stage: draft
+current_stage: shadow
 created_at: 2026-05-13
-last_transition: 2026-05-13
+last_transition: 2026-05-19
 priority: P0
 ---
 
@@ -13,7 +13,7 @@ priority: P0
 
 ## Estado atual
 
-**`draft` — pronto para SHADOW** (2026-05-19). Waves 1-4 entregues + 5 gates de SHADOW fechados + pre-merge G1/G2/G3/G5 ✅. Falta: `/acme:sla-threshold` declarativo + assinatura `@promotion-officer`.
+**`shadow`** (desde 2026-05-19) — **primeiro SHADOW do projeto Acme Social.** Subscription `acme-internal-copywriter-001` em produção interna (Acme própria como cliente piloto). Billing desativado. Janela mínima: 14 dias hard floor C4 → SHADOW→ASSISTED elegível em 2026-06-02.
 
 ## Histórico de transições
 
@@ -23,6 +23,7 @@ priority: P0
 | `draft (W1)` → `draft (W2 complete)` | 2026-05-14 | dev | T2.1–T2.6, T2.8–T2.15 ✅ (T2.7 deferido para Wave 4) | Wave 2 entregou: `GenerateCopywriterOutputUseCase` unificado (3 caminhos), `DiversityCheckUseCase` + `EmbeddingsProvider` port + OpenAI adapter (T2.12), `VoiceValidator` port + `ClaudeVoiceValidator` adapter (T2.13), `ResilientLLMProvider` wrapper com circuit breaker 3×529 (T2.14), 28 integration tests + 32 domain unit = 60 testes verdes. |
 | `draft (W2)` → `draft (W3 RED)` | 2026-05-19 | dev | T3.1–T3.3 ✅ | Wave 3 entregou: 14 testes RED documentando Wave 4 — `handoff-contract` (6), `re-roll-by-block` (4), `voice-drift-cancel` (4). Commit `be082d8`. |
 | `draft (W3)` → `draft (W4 GREEN)` | 2026-05-19 | dev | T4.1, T4.3, T4.4 ✅ (T4.2 deferido para W5) | Wave 4 entregou: `CopywriterOutput.toHandoffPayload()` (T4.4), re-roll por bloco com MAX_RE_ROLLS=2 (T2.7), `voiceValidator` em deps com MAX_VOICE_RE_ROLLS=1 (T4.3). 75/75 testes verdes. Commit `6ebe8b0`. |
+| `draft` → **`shadow`** | **2026-05-19** | **@po-guardian + @promotion-officer (cross-approval) + Rafael de Novaes (Eng IA, supervisor humano)** | 6/6 gates do `/acme:promote`: C2 ✓, C3 ✓, C4 SLA ✓, Eval ✓, Cross-approval ✓, CI/CD (skipped) | Subscription `acme-internal-copywriter-001`. PO sig `0551b79a34119c1c`, PromoOfficer sig `d9b46cf453242e23`. Window mínima 14d → ASSISTED elegível 2026-06-02. **Primeiro SHADOW do projeto.** |
 
 ## Próximas transições previstas
 
