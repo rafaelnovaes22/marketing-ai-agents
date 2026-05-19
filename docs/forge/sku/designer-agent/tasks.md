@@ -48,9 +48,9 @@ reuses_from: social-media-agent (Wave 2 adapters)
 
 > ⚠️ **Forge-10 obriga:** test_agent em mode=red gera testes ANTES da Wave 4. Operador confirma falha.
 
-- [ ] **DES-T3.1** `/acme:aios-run --step=test --mode=red` (gera `tests/designer-agent/{unit,integration,e2e}/`) — 30min — dev/agent — Wave 2 stable
-- [ ] **DES-T3.2** Operador valida RED phase (testes falham localmente) — 15min — dev
-- [ ] **DES-T3.3** Commit do plano de testes + RED evidence — 15min — dev
+- [x] **DES-T3.1** `/acme:aios-run --step=test --mode=red` (gera `tests/designer-agent/{unit,integration,e2e}/`) — 30min — dev/agent — Wave 2 stable — ✅ 2026-05-19 (3 arquivos RED: cost-cap + partial-recovery + handoff-contract)
+- [x] **DES-T3.2** Operador valida RED phase (testes falham localmente) — 15min — dev — ✅ 2026-05-19 (12 FAIL / 22 PASS confirmado)
+- [x] **DES-T3.3** Commit do plano de testes + RED evidence — 15min — dev — ✅ 2026-05-19
 
 **Total Wave 3:** ~1h
 
