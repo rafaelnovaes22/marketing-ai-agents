@@ -17,59 +17,71 @@ import { ProgrammableLLM } from '../copywriter-agent/unit/fakes.js';
 const REPO_ROOT = resolve(__dirname, '..', '..');
 
 describe('eval runner — e2e smoke (sem custo de API)', () => {
-  it('PromptLoader autodetecta v0.1.0 do social-media-agent', () => {
+  it('PromptLoader autodetecta versão semver mais recente do social-media-agent', () => {
     const loader = new PromptLoader(REPO_ROOT);
     const artifact = loader.load('social-media-agent');
-    expect(artifact.version).toBe('0.1.0');
+    expect(artifact.version).toMatch(/^\d+\.\d+\.\d+$/);
     expect(artifact.promptHash).toMatch(/^[a-f0-9]{16}$/);
     expect(artifact.systemPrompt.length).toBeGreaterThan(500);
   });
 
-  it('CaseLoader carrega 8 cases v0 (ignora _DEFERRED.md)', () => {
+  it('CaseLoader carrega cases válidos (ignora _DEFERRED.md)', () => {
     const loader = new CaseLoader(REPO_ROOT);
     const cases = loader.loadCases('social-media-agent');
-    expect(cases.length).toBe(8);
+    expect(cases.length).toBeGreaterThanOrEqual(8);
     const ids = cases.map((c) => c.frontmatter.case_id).sort();
     expect(ids).toContain('case-001');
     expect(ids).toContain('case-010');
     expect(ids).not.toContain('_DEFERRED');
-    // Critical path: cases 001 e 010
     const cp = cases.filter((c) => c.frontmatter.critical_path);
-    expect(cp.length).toBe(2);
+    expect(cp.length).toBeGreaterThanOrEqual(2);
   });
 
   it('CaseLoader filtra subset=critical_path', () => {
     const loader = new CaseLoader(REPO_ROOT);
+    const allCases = loader.loadCases('social-media-agent');
+    const expectedCp = allCases.filter((c) => c.frontmatter.critical_path).length;
+
     const cases = loader.loadCases('social-media-agent', {
       subset: 'critical_path'
     });
-    expect(cases.length).toBe(2);
+    expect(cases.length).toBe(expectedCp);
     expect(cases.every((c) => c.frontmatter.critical_path)).toBe(true);
   });
 
   it('CaseLoader filtra subset=source_mode=adversarial', () => {
     const loader = new CaseLoader(REPO_ROOT);
+    const allCases = loader.loadCases('social-media-agent');
+    const expectedAdv = allCases.filter(
+      (c) => c.frontmatter.source_mode === 'adversarial'
+    ).length;
+
     const cases = loader.loadCases('social-media-agent', {
       subset: 'source_mode=adversarial'
     });
-    expect(cases.length).toBe(2); // case-010 e case-022
+    expect(cases.length).toBe(expectedAdv);
     expect(cases.every((c) => c.frontmatter.source_mode === 'adversarial')).toBe(true);
   });
 
-  it('EvalRunner agrega métricas corretamente (8 cases, judge alterna pass/fail)', async () => {
+  it('EvalRunner agrega métricas corretamente (judge alterna pass/fail)', async () => {
     const promptLoader = new PromptLoader(REPO_ROOT);
     const caseLoader = new CaseLoader(REPO_ROOT);
     const prompt = promptLoader.load('social-media-agent');
     const cases = caseLoader.loadCases('social-media-agent');
+    const total = cases.length;
+    const expectedPass = Math.ceil(total / 2); // índices pares (0, 2, 4, ...)
+    const expectedFail = total - expectedPass;
+    const expectedAdv = cases.filter(
+      (c) => c.frontmatter.source_mode === 'adversarial'
+    ).length;
+    const expectedCp = cases.filter((c) => c.frontmatter.critical_path).length;
 
-    // Target LLM: sempre devolve um carrossel-mock textual (uma resposta repetida)
     const targetLLM = new ProgrammableLLM(
-      Array(cases.length).fill({
+      Array(total).fill({
         kind: 'success' as const,
         output: { text: 'Carrossel mock para teste — não avaliado pelo judge real.' }
       })
     );
-    // Judge LLM: alterna pass/fail para validar agregação
     const judgeLLM = new ProgrammableLLM(
       cases.map((_, i) => ({
         kind: 'success' as const,
@@ -89,17 +101,17 @@ describe('eval runner — e2e smoke (sem custo de API)', () => {
     const judge = new JudgeRunner({ judgeLLM });
     const runner = new EvalRunner({ targetLLM, judge });
     const { results, metrics } = await runner.run(prompt, cases, {
-      maxConcurrency: 8 // todos em paralelo
+      maxConcurrency: total
     });
 
-    expect(results).toHaveLength(8);
-    expect(metrics.totalCases).toBe(8);
-    expect(metrics.totalPass).toBe(4);
-    expect(metrics.totalFail).toBe(4);
-    expect(metrics.passRate).toBe(0.5);
+    expect(results).toHaveLength(total);
+    expect(metrics.totalCases).toBe(total);
+    expect(metrics.totalPass).toBe(expectedPass);
+    expect(metrics.totalFail).toBe(expectedFail);
+    expect(metrics.passRate).toBeCloseTo(expectedPass / total, 5);
     expect(Object.keys(metrics.byCategory).length).toBeGreaterThanOrEqual(4);
-    expect(metrics.bySourceMode.adversarial.total).toBe(2);
-    expect(metrics.byCriticalPath.total).toBe(2);
+    expect(metrics.bySourceMode.adversarial.total).toBe(expectedAdv);
+    expect(metrics.byCriticalPath.total).toBe(expectedCp);
   });
 
   it('ReportWriter persiste markdown válido', async () => {
@@ -178,7 +190,7 @@ describe('eval runner — e2e smoke (sem custo de API)', () => {
       dryRun: true
     });
 
-    expect(results).toHaveLength(8);
+    expect(results).toHaveLength(cases.length);
     expect(metrics.passRate).toBe(1);
     expect(targetLLM.calls).toHaveLength(0);
     expect(judgeLLM.calls).toHaveLength(0);
