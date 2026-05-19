@@ -1,6 +1,6 @@
 ---
 sku_id: copywriter-agent
-sku_version: 0.1.0
+sku_version: 0.1.1
 project_type: agentic_saas
 ai_enabled: true
 criticality: B
@@ -8,9 +8,23 @@ current_stage: draft
 spec_status: po_guardian_approved
 spec_template_used: platform-sku-spec.template.md
 created_at: 2026-05-13
-last_updated: 2026-05-18
+last_updated: 2026-05-19
 adrs_linked: [ADR-001-CW, ADR-002-CW, ADR-003-CW]
 priority: P0
+c4_thresholds:
+  agreement_rate_min: 0.90
+  latency_p95_ms: 900000
+  cost_per_outcome_max: 5.50
+  min_run_count: 50
+  min_window_days: 14
+  escalation_categories:
+    - pii_detected
+    - competitor_ip_referenced
+    - illegal_claim
+  quality_breach_action: rollback
+  approved_by: "Rafael de Novaes (Engenheiro de IA — founder/CTO)"
+  approved_at: 2026-05-19
+  signature_hash: a8efb5c67b05ccc0
 ---
 
 # Spec: Copywriter Agent

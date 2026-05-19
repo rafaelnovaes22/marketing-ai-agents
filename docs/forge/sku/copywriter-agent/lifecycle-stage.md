@@ -46,7 +46,7 @@ priority: P0
 
 **Quem assina:** `@promotion-officer`
 
-### `SHADOW → ASSISTED` (alvo: 2026-05-28, após 8 dias em SHADOW)
+### `SHADOW → ASSISTED` (alvo: 2026-06-02, após 14 dias em SHADOW — hard floor C4)
 
 **Gates necessários:**
 
