@@ -25,7 +25,10 @@
     "forge:doctor": "bash scripts/forge doctor",
     "forge:version": "bash scripts/forge version",
     "benchmark:llm": "tsx --env-file=.env scripts/benchmark-llm.ts",
-    "benchmark:llm:quick": "tsx --env-file=.env scripts/benchmark-llm.ts --runs=1 --skip-vision"
+    "benchmark:llm:quick": "tsx --env-file=.env scripts/benchmark-llm.ts --runs=1 --skip-vision",
+    "brand:calibration:generate": "tsx --env-file=.env scripts/generate-calibration-set.ts",
+    "brand:calibration:seed": "tsx scripts/seed-calibration-ratings.ts",
+    "brand:calibration:run": "tsx --env-file=.env scripts/run-brand-calibration.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.30.0",

@@ -42,3 +42,11 @@ coverage/
 # Artefatos brutos da extração de brand (já processados em documentacao/BRAND_GUIDE)
 # Comentado por enquanto — mantemos visíveis para referência
 # brand_extraction/
+
+# Calibration set do designer-agent — imagens não versionadas (CSV + reports vão pro git)
+brand/calibration-set/on-brand/*
+!brand/calibration-set/on-brand/.gitkeep
+brand/calibration-set/borderline/*
+!brand/calibration-set/borderline/.gitkeep
+brand/calibration-set/off-brand/*
+!brand/calibration-set/off-brand/.gitkeep
