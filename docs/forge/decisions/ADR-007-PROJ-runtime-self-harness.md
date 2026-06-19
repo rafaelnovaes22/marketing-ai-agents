@@ -26,13 +26,25 @@ O pedido do founder — "nossos agentes precisam ser self-harness, para aprender
 
 ## Decisão
 
-Implementar um **loop runtime de memória por cliente**, reutilizável entre SKUs, **piloto no copywriter-agent**. `docs/clients/{tenantId}/` é Tier 1/2 de **dados** (C5) — `tenantId` é sempre parâmetro/path, nunca ramificação de código (C8).
+Implementar um **loop runtime de memória por cliente**, reutilizável entre SKUs. Iniciado como piloto no copywriter e **estendido aos 3 SKUs implementados** (copywriter, social-media, designer). `docs/clients/{tenantId}/` é Tier 1/2 de **dados** (C5) — `tenantId` é sempre parâmetro/path, nunca ramificação de código (C8).
+
+### Injeção por modalidade
+
+Cada SKU injeta a memória na forma adequada ao seu output:
+
+| SKU | Forma de injeção | Onde |
+|---|---|---|
+| copywriter | Bloco markdown (`promptFragment`) como último bloco do system prompt | `GenerateCopywriterOutputUseCase.callLLM` |
+| social-media | Idem — último bloco do system prompt de `gerarCopy` | `GenerateCarrosselUseCase.gerarCopy` |
+| designer | **Diretrizes visuais compactas** (`buildStyleDirectives`) anexadas ao prompt de imagem de cada slide — gera imagens, não texto | `DesignCarrosselUseCase.execute` (enriquece os `slideSpecs` uma vez) |
+
+A lógica pura de seleção de fatos (`selectInjectable` + `buildStyleDirectives`) vive no **domínio** ([`src/domain/clientmemory/factSelection.ts`](../../../src/domain/clientmemory/factSelection.ts)) — compartilhada pelo adapter (fragment markdown) e pelos use cases não-textuais (diretrizes compactas), sem import `application → infrastructure` (C7).
 
 ### Peças concretas
 
 1. **Porta + adapter (C5/C7/C8).** [`src/domain/ports/ClientMemory.ts`](../../../src/domain/ports/ClientMemory.ts) (`ClientMemory` + `ClientMemoryWriter`) e [`src/infrastructure/adapters/memory/FileClientMemory.ts`](../../../src/infrastructure/adapters/memory/FileClientMemory.ts) — lê/parseia `agent-soul.md` + `agent-memory.md` (formato `§`), monta `promptFragment` limitado. Degradação graciosa: cliente sem diretório → fragment vazio.
 
-2. **Injeção no runtime (C6).** `GenerateCopywriterOutputUseCase` carrega a memória uma vez por execução (span `client_memory_load` com metadata `client_facts_injected` / `client_soul_present`) e a injeta como **último bloco** do system prompt — prefixo estático (tom/framework/output) permanece cacheável, só o sufixo varia por cliente.
+2. **Injeção no runtime (C6).** Cada use case carrega a memória uma vez por execução (span `client_memory_load` com metadata `client_facts_injected`/`client_directives_injected` + `client_soul_present`). Nos SKUs de texto, injeta como **último bloco** do system prompt — prefixo estático permanece cacheável, só o sufixo varia por cliente. No designer, vira diretriz visual no prompt de cada slide.
 
 3. **Captura do feedback humano (C).** [`FeedbackEvent`](../../../src/domain/clientmemory/FeedbackEvent.ts) + [`RecordClientFeedbackUseCase`](../../../src/application/clientmemory/RecordClientFeedbackUseCase.ts) gravam um snapshot **no mesmo formato que o `learning-curator` já consome** (`docs/learnings/{YYYY-MM}/runtime-{tenantId}-*.md`, `is_internal: false`). CLI fina: `npm run feedback:record -- <payload.json>`.
 
@@ -54,18 +66,21 @@ O fragment injeta apenas fatos com `confidence ≥ shadow` (piso configurável).
 - Primeiro caminho de aprendizado **por cliente real** (primeiros snapshots `is_internal: false`).
 - Reutiliza formato `§`, critérios do curator, traces LangSmith e níveis de confidence — lacuna era só a fiação runtime.
 - Opcional por construção: SKU sem `clientMemory` nas deps tem comportamento idêntico ao anterior (zero impacto).
-- Reutilizável: designer/social-media herdam a mesma porta com baixo esforço.
+- Cobertura nos **3 SKUs implementados** (copywriter, social-media, designer) com a mesma porta; os 4 SKUs restantes (tráfego, vídeo, estrategista, atendimento-DM) herdam quando forem implementados.
 
 ### ⚠️ Negativas / limites
 - Copywriter está em **SHADOW**, não ASSISTED — a captura de feedback só terá dados reais após promoção (elegível desde 2026-06-02). Injeção + bootstrap entregam valor imediato; captura fica fiada e pronta.
 - Curadoria ainda é semi-manual (`/acme:learn`) até o Hermes Learning Loop ser ativado.
-- Wiring de produção do copywriter ainda não existe (use case só é exercido por testes/eval); exposta `createClientMemory()` na composição para quando existir.
+- Wiring de produção: `createClientMemory()` injetado nos use cases via `createSocialMediaDeps` (social-media + designer); copywriter ainda não tem composição de produção própria (só testes/eval), mas a dep já é aceita.
+- Apenas o copywriter foi bootstrapado (cliente piloto); designer/social-media injetam quando houver `docs/clients/{tenantId}/` correspondente.
 - Sinais automáticos de qualidade ficam de fora (decisão consciente) — reabrir se o sinal humano for insuficiente.
 
 ### 📋 Tarefas decorrentes
+- [x] Estender injeção a designer-agent e social-media-agent (mesma porta).
 - [ ] Após promover copywriter→ASSISTED, ligar a captura de feedback no fluxo de revisão humana.
 - [ ] Rodar `/acme:learn acme-internal-copywriter-001` quando houver snapshots de runtime.
-- [ ] Estender injeção a designer-agent e social-media-agent (mesma porta).
+- [ ] Bootstrapar clientes de designer/social-media quando houver subscriptions reais.
+- [ ] Estender aos 4 SKUs restantes quando forem implementados.
 - [ ] Avaliar ADR futuro para sinais automáticos (voice/brand score → fatos).
 
 ## Re-examinar

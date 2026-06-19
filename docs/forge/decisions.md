@@ -231,18 +231,19 @@ Substituir `LangfuseAdapter` por `LangSmithAdapter` como implementação do port
 
 ## ADR-007-PROJ — Runtime Self-Harness: agentes aprendem com cada cliente
 
-**Status:** ✅ Aceito 2026-06-19 — aprovado pelo founder (piloto copywriter)
+**Status:** ✅ Aceito 2026-06-19 — aprovado pelo founder (3 SKUs implementados)
 **Princípios relacionados:** C5, C6, C7, C8, C1, C4
 **Depende de:** ADR-006-PROJ (LangSmith traces)
 **Detalhe completo:** [decisions/ADR-007-PROJ-runtime-self-harness.md](./decisions/ADR-007-PROJ-runtime-self-harness.md)
 
 ### Resumo
 
-O loop self-harness existente (Forge-20) aprende com **sessões de dev do Claude Code**, não com clientes em runtime. Esta decisão cria um **loop runtime** em `src/`, reutilizável entre SKUs, piloto no copywriter.
+O loop self-harness existente (Forge-20) aprende com **sessões de dev do Claude Code**, não com clientes em runtime. Esta decisão cria um **loop runtime** em `src/`, reutilizável entre SKUs. Iniciado no copywriter e estendido aos **3 SKUs implementados** (copywriter, social-media, designer).
 
 **Peças:**
 - Porta `ClientMemory` + adapter `FileClientMemory` (lê `docs/clients/{tenantId}/`, formato `§`).
-- Injeção no system prompt do copywriter como último bloco (cache-friendly) + span `client_memory_load` (C6).
+- Injeção por modalidade: texto (copywriter, social-media) como último bloco do system prompt (cache-friendly); designer como diretrizes visuais compactas no prompt de cada slide. Span `client_memory_load` (C6) em todos.
+- Lógica pura de seleção de fatos no domínio (`factSelection.ts`), sem import `application → infrastructure` (C7).
 - Captura de feedback humano em ASSISTED (`FeedbackEvent` + `RecordClientFeedbackUseCase`) → snapshot consumível pelo `learning-curator`.
 - Bootstrap do `diagnostic.md` → soul + memory (`npm run clientmemory:bootstrap`).
 
