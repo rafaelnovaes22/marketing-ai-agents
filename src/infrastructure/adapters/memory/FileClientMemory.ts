@@ -14,6 +14,13 @@ import type {
   FactConfidence,
   MemorySection
 } from '../../../domain/ports/ClientMemory.js';
+import { selectInjectable } from '../../../domain/clientmemory/factSelection.js';
+
+// Re-export para consumidores que já importavam daqui (compat).
+export {
+  buildStyleDirectives,
+  type StyleDirectivesOptions
+} from '../../../domain/clientmemory/factSelection.js';
 
 const SECTIONS: readonly MemorySection[] = [
   'integration_quirks',
@@ -25,13 +32,6 @@ const SECTIONS: readonly MemorySection[] = [
   'telemetry_hints',
   'pii_categories'
 ];
-
-const CONFIDENCE_ORDER: Record<FactConfidence, number> = {
-  local: 0,
-  shadow: 1,
-  assisted: 2,
-  autonomous: 3
-};
 
 const CONFIDENCES = new Set<FactConfidence>(['local', 'shadow', 'assisted', 'autonomous']);
 
@@ -149,17 +149,7 @@ export class FileClientMemory implements ClientMemory, ClientMemoryWriter {
 
   /** Monta o bloco para o system prompt. SOUL sempre entra; fatos são gated. */
   private buildFragment(soul: string | null, facts: ClientFact[]): string {
-    const eligible = facts
-      .filter((f) => !f.obsolete)
-      .filter(
-        (f) => CONFIDENCE_ORDER[f.confidence] >= CONFIDENCE_ORDER[this.injectionFloor]
-      )
-      // mais forte e mais recente primeiro
-      .sort((a, b) => {
-        const byConf = CONFIDENCE_ORDER[b.confidence] - CONFIDENCE_ORDER[a.confidence];
-        return byConf !== 0 ? byConf : b.date.localeCompare(a.date);
-      })
-      .slice(0, this.maxFacts);
+    const eligible = selectInjectable(facts, this.injectionFloor, this.maxFacts);
 
     if (!soul && eligible.length === 0) return '';
 

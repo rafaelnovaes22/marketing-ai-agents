@@ -22,6 +22,8 @@ import type {
   Observability,
   TraceContext
 } from '../../domain/ports/Observability.js';
+import type { ClientMemory } from '../../domain/ports/ClientMemory.js';
+import { buildStyleDirectives } from '../../domain/clientmemory/factSelection.js';
 
 export interface SlideDesignSpec {
   order: number;
@@ -52,6 +54,12 @@ export interface DesignCarrosselUseCaseDeps {
   observability: Observability;
   /** Limite de paralelismo nas N requisições de imagem. Default 7 (todos em paralelo). */
   concurrencyLimit?: number;
+  /**
+   * ADR-007-PROJ — Self-harness runtime. Quando presente, carrega diretrizes
+   * visuais aprendidas do cliente e as anexa ao prompt de imagem de cada slide.
+   * Opcional: ausente ⇒ comportamento idêntico ao anterior (zero impacto).
+   */
+  clientMemory?: ClientMemory;
 }
 
 interface SlideAttempt {
@@ -91,6 +99,14 @@ export class DesignCarrosselUseCase {
     });
 
     try {
+      // ADR-007-PROJ — carrega diretrizes visuais do cliente e enriquece os
+      // briefs UMA vez (antes da geração paralela). tenantId é só param (C8).
+      const styleDirectives = await this.loadClientStyleDirectives(
+        input.briefing.tenantId,
+        trace
+      );
+      const slideSpecs = this.applyStyleDirectives(input.slideSpecs, styleDirectives);
+
       // 1. Paralelizar a geração+validação por slide (com retry + fallback)
       const attempts = await this.deps.observability.span(
         trace,
@@ -99,7 +115,7 @@ export class DesignCarrosselUseCase {
           input: { num_slides: input.briefing.numSlides },
           startTime: new Date()
         },
-        async () => this.generateAllSlides(input.slideSpecs, trace)
+        async () => this.generateAllSlides(slideSpecs, trace)
       );
 
       // 2. Montar slides + report
@@ -196,6 +212,49 @@ export class DesignCarrosselUseCase {
       if (wordCount >= 4) return this.deps.ideogramAdapter;
     }
     return this.deps.imagenAdapter;
+  }
+
+  /**
+   * ADR-007-PROJ — Carrega diretrizes visuais do cliente (forma compacta dos
+   * fatos confirmados). Instrumentado (C6): span client_memory_load. '' quando
+   * não há adapter ou diretório.
+   */
+  private async loadClientStyleDirectives(
+    tenantId: string,
+    trace: TraceContext
+  ): Promise<string> {
+    const clientMemory = this.deps.clientMemory;
+    if (!clientMemory) return '';
+
+    const metadata: Record<string, unknown> = {};
+    return this.deps.observability.span(
+      trace,
+      {
+        name: 'client_memory_load',
+        input: { tenant_id: tenantId },
+        metadata,
+        startTime: new Date()
+      },
+      async () => {
+        const snapshot = await clientMemory.load(tenantId);
+        const directives = buildStyleDirectives(snapshot.facts);
+        metadata.client_directives_injected = directives.length > 0;
+        metadata.client_soul_present = snapshot.soul !== null;
+        return directives;
+      }
+    );
+  }
+
+  /** Anexa as diretrizes do cliente ao visualBrief de cada slide (no-op se vazias). */
+  private applyStyleDirectives(
+    specs: SlideDesignSpec[],
+    directives: string
+  ): SlideDesignSpec[] {
+    if (!directives) return specs;
+    return specs.map((spec) => ({
+      ...spec,
+      visualBrief: `${spec.visualBrief}\n\nPreferências visuais do cliente: ${directives}`
+    }));
   }
 
   private async generateAllSlides(

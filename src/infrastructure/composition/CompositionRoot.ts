@@ -156,7 +156,8 @@ export function createSocialMediaDeps(config: CompositionConfig = {}): SocialMed
     brandValidator,
     brandGuide,
     observability,
-    systemPromptByTom
+    systemPromptByTom,
+    clientMemory: createClientMemory(config) // ADR-007-PROJ — self-harness runtime
   });
 
   const designCarrossel = new DesignCarrosselUseCase({
@@ -164,7 +165,8 @@ export function createSocialMediaDeps(config: CompositionConfig = {}): SocialMed
     ideogramAdapter: imageGenFallback,
     brandValidator,
     brandGuide,
-    observability
+    observability,
+    clientMemory: createClientMemory(config) // ADR-007-PROJ — self-harness runtime
   });
 
   const publishMultiNetwork = new PublishMultiNetworkUseCase({

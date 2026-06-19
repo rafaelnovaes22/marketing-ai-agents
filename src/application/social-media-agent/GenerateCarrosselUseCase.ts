@@ -14,6 +14,7 @@ import type {
   Observability,
   TraceContext
 } from '../../domain/ports/Observability.js';
+import type { ClientMemory } from '../../domain/ports/ClientMemory.js';
 import type { BrandGuide } from '../../domain/carrossel/BrandGuide.js';
 
 export interface GenerateCarrosselInput {
@@ -36,6 +37,11 @@ export interface GenerateCarrosselDeps {
   brandGuide: BrandGuide;
   observability: Observability;
   systemPromptByTom: Map<string, string>;
+  /**
+   * ADR-007-PROJ — Self-harness runtime. Opcional: quando presente, injeta a
+   * memória aprendida do cliente no system prompt. Ausente ⇒ zero impacto.
+   */
+  clientMemory?: ClientMemory;
 }
 
 interface CopyOutput {
@@ -82,6 +88,12 @@ export class GenerateCarrosselUseCase {
         isUpsell: input.isUpsell
       });
 
+      // ADR-007-PROJ — carrega memória do cliente uma vez e injeta na geração.
+      const clientMemoryFragment = await this.loadClientMemoryFragment(
+        input.tenantId,
+        traceContext
+      );
+
       // 2. Gera copy via LLM (1 chamada com system prompt do tom)
       const copyOutput = await this.deps.observability.span(
         traceContext,
@@ -90,7 +102,7 @@ export class GenerateCarrosselUseCase {
           input: { briefing: input.briefingText, tom: input.tom },
           startTime: new Date()
         },
-        async () => this.gerarCopy(input)
+        async () => this.gerarCopy(input, clientMemoryFragment)
       );
 
       // 3. Gera imagens em paralelo (decideImageProvider por slide)
@@ -136,13 +148,49 @@ export class GenerateCarrosselUseCase {
     }
   }
 
+  /**
+   * ADR-007-PROJ — Carrega memória do cliente e devolve o fragment a injetar.
+   * Span `client_memory_load` (C6) registra fatos injetados + presença de soul.
+   * Degrada para '' quando não há adapter ou diretório do cliente.
+   */
+  private async loadClientMemoryFragment(
+    tenantId: string,
+    traceContext: TraceContext
+  ): Promise<string> {
+    const clientMemory = this.deps.clientMemory;
+    if (!clientMemory) return '';
+
+    const metadata: Record<string, unknown> = {};
+    return this.deps.observability.span(
+      traceContext,
+      {
+        name: 'client_memory_load',
+        input: { tenant_id: tenantId },
+        metadata,
+        startTime: new Date()
+      },
+      async () => {
+        const snapshot = await clientMemory.load(tenantId);
+        const fragment = snapshot.promptFragment;
+        metadata.client_facts_injected = (fragment.match(/^- \[/gm) ?? []).length;
+        metadata.client_soul_present = snapshot.soul !== null;
+        return fragment;
+      }
+    );
+  }
+
   private async gerarCopy(
-    input: GenerateCarrosselInput
+    input: GenerateCarrosselInput,
+    clientMemoryFragment = ''
   ): Promise<CopyOutput> {
-    const systemPrompt = this.deps.systemPromptByTom.get(input.tom);
-    if (!systemPrompt) {
+    const tomPrompt = this.deps.systemPromptByTom.get(input.tom);
+    if (!tomPrompt) {
       throw new Error(`System prompt não encontrado para tom: ${input.tom}`);
     }
+    // Memória do cliente entra por último (prefixo do tom permanece cacheável).
+    const systemPrompt = [tomPrompt, clientMemoryFragment]
+      .filter((block) => block && block.trim().length > 0)
+      .join('\n\n---\n\n');
 
     const userPrompt = `# Briefing
 
