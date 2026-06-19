@@ -25,6 +25,8 @@ import { IdeogramAdapter } from '../adapters/image-gen/IdeogramAdapter.js';
 import { BrandValidatorAdapter } from '../adapters/brand/BrandValidatorAdapter.js';
 import { ZernioAdapter } from '../adapters/social-publishers/ZernioAdapter.js';
 import { TwitterAdapter } from '../adapters/social-publishers/TwitterAdapter.js';
+import { FileClientMemory } from '../adapters/memory/FileClientMemory.js';
+import type { ClientMemory } from '../../domain/ports/ClientMemory.js';
 import { BrandGuide } from '../../domain/carrossel/BrandGuide.js';
 import { GenerateCarrosselUseCase } from '../../application/social-media-agent/GenerateCarrosselUseCase.js';
 import { DesignCarrosselUseCase } from '../../application/designer-agent/DesignCarrosselUseCase.js';
@@ -102,6 +104,19 @@ function loadSystemPrompts(promptsRoot: string): Map<string, string> {
 export interface CompositionConfig {
   /** Raiz dos arquivos de prompts. Default: process.cwd()/prompts */
   promptsRoot?: string;
+  /** Raiz dos dados por cliente (self-harness). Default: process.cwd()/docs/clients */
+  clientsRoot?: string;
+}
+
+/**
+ * ADR-007-PROJ — Self-harness runtime. Instancia o adapter de memória por cliente.
+ * Deve ser passado como `clientMemory` nas deps do copywriter (e demais SKUs)
+ * quando ganharem composição de produção. tenantId é resolvido em runtime por
+ * `load(tenantId)` — nenhuma lógica por tenant aqui (C8).
+ */
+export function createClientMemory(config: CompositionConfig = {}): ClientMemory {
+  const clientsRoot = config.clientsRoot ?? join(process.cwd(), 'docs', 'clients');
+  return new FileClientMemory({ root: clientsRoot });
 }
 
 /** Instancia todas as deps reais do SocialMediaOrchestrator a partir do .env. */

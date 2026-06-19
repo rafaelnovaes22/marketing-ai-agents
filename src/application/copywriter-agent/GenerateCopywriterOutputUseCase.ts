@@ -16,8 +16,10 @@ import {
   type LandingSection
 } from '../../domain/copywriter/Landing.js';
 import { OutputType } from '../../domain/copywriter/OutputType.js';
+import type { ClientMemory } from '../../domain/ports/ClientMemory.js';
 import type { LLMProvider } from '../../domain/ports/LLMProvider.js';
 import type { Observability } from '../../domain/ports/Observability.js';
+import type { TraceContext } from '../../domain/ports/Observability.js';
 import type { VoiceValidator } from '../../domain/ports/VoiceValidator.js';
 
 const SCHEMA_VERSION = '1.0.0';
@@ -60,6 +62,12 @@ export interface GenerateCopywriterDeps {
    * tenta uma nova geração (max MAX_VOICE_RE_ROLLS).
    */
   voiceValidator?: VoiceValidator;
+  /**
+   * ADR-007-PROJ — Self-harness runtime. Quando presente, carrega a memória
+   * aprendida do cliente (`docs/clients/{tenantId}/`) e injeta no system prompt.
+   * Opcional: ausente ⇒ comportamento idêntico ao anterior (zero impacto).
+   */
+  clientMemory?: ClientMemory;
 }
 
 /**
@@ -128,6 +136,13 @@ export class GenerateCopywriterOutputUseCase {
     });
 
     try {
+      // ADR-007-PROJ — carrega memória do cliente UMA vez (antes dos re-rolls)
+      // e injeta no system prompt de todas as gerações desta execução.
+      const clientMemoryFragment = await this.loadClientMemoryFragment(
+        input.tenantId,
+        traceContext
+      );
+
       // T2.7 + T4.3 — Loop externo: voice re-roll (apenas para landing).
       // Loop interno: block re-roll (schema/parse failures).
       let payload: Landing | EmailSequence | AdSet | undefined;
@@ -160,7 +175,7 @@ export class GenerateCopywriterOutputUseCase {
                 },
                 startTime: new Date()
               },
-              async () => this.callLLM(briefing)
+              async () => this.callLLM(briefing, clientMemoryFragment)
             );
 
             attemptPayload = this.materializePayload(
@@ -243,8 +258,40 @@ export class GenerateCopywriterOutputUseCase {
     }
   }
 
+  /**
+   * ADR-007-PROJ — Carrega memória do cliente e devolve o fragment a injetar.
+   * Instrumentado (C6): span `client_memory_load` registra quantos fatos foram
+   * injetados e se há soul. Degrada para '' quando não há adapter ou diretório.
+   */
+  private async loadClientMemoryFragment(
+    tenantId: string,
+    traceContext: TraceContext
+  ): Promise<string> {
+    const clientMemory = this.deps.clientMemory;
+    if (!clientMemory) return '';
+
+    const metadata: Record<string, unknown> = {};
+    return this.deps.observability.span(
+      traceContext,
+      {
+        name: 'client_memory_load',
+        input: { tenant_id: tenantId },
+        metadata,
+        startTime: new Date()
+      },
+      async () => {
+        const snapshot = await clientMemory.load(tenantId);
+        const fragment = snapshot.promptFragment;
+        metadata.client_facts_injected = (fragment.match(/^- \[/gm) ?? []).length;
+        metadata.client_soul_present = snapshot.soul !== null;
+        return fragment;
+      }
+    );
+  }
+
   private async callLLM(
-    briefing: CopywriterBriefing
+    briefing: CopywriterBriefing,
+    clientMemoryFragment = ''
   ): Promise<LLMCopyResult> {
     const tomPrompt = this.deps.systemPromptByTom.get(briefing.tomSlug);
     if (!tomPrompt) {
@@ -267,7 +314,11 @@ export class GenerateCopywriterOutputUseCase {
       );
     }
 
-    const systemPrompt = [tomPrompt, frameworkPrompt, outputPrompt].join('\n\n---\n\n');
+    // Memória do cliente entra por ÚLTIMO: mantém tom/framework/output (estáticos)
+    // como prefixo estável e cacheável; só o sufixo varia por cliente (ADR-007-PROJ).
+    const systemPrompt = [tomPrompt, frameworkPrompt, outputPrompt, clientMemoryFragment]
+      .filter((block) => block && block.trim().length > 0)
+      .join('\n\n---\n\n');
     const userPrompt = this.buildUserPrompt(briefing);
 
     const response = await this.deps.llm.generate({

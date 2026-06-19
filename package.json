@@ -17,6 +17,8 @@
     "test:coverage": "vitest run --coverage",
     "eval": "tsx src/eval/runner.ts",
     "eval:social-media": "tsx src/eval/runner.ts social-media-agent",
+    "clientmemory:bootstrap": "tsx scripts/bootstrap-client-memory.ts",
+    "feedback:record": "tsx src/clientmemory/feedback.ts",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "db:generate": "prisma generate",

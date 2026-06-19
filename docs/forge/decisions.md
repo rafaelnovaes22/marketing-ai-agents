@@ -229,6 +229,29 @@ Substituir `LangfuseAdapter` por `LangSmithAdapter` como implementação do port
 
 ---
 
+## ADR-007-PROJ — Runtime Self-Harness: agentes aprendem com cada cliente
+
+**Status:** ✅ Aceito 2026-06-19 — aprovado pelo founder (piloto copywriter)
+**Princípios relacionados:** C5, C6, C7, C8, C1, C4
+**Depende de:** ADR-006-PROJ (LangSmith traces)
+**Detalhe completo:** [decisions/ADR-007-PROJ-runtime-self-harness.md](./decisions/ADR-007-PROJ-runtime-self-harness.md)
+
+### Resumo
+
+O loop self-harness existente (Forge-20) aprende com **sessões de dev do Claude Code**, não com clientes em runtime. Esta decisão cria um **loop runtime** em `src/`, reutilizável entre SKUs, piloto no copywriter.
+
+**Peças:**
+- Porta `ClientMemory` + adapter `FileClientMemory` (lê `docs/clients/{tenantId}/`, formato `§`).
+- Injeção no system prompt do copywriter como último bloco (cache-friendly) + span `client_memory_load` (C6).
+- Captura de feedback humano em ASSISTED (`FeedbackEvent` + `RecordClientFeedbackUseCase`) → snapshot consumível pelo `learning-curator`.
+- Bootstrap do `diagnostic.md` → soul + memory (`npm run clientmemory:bootstrap`).
+
+**Sinais escolhidos:** bootstrap do diagnóstico (C1) + edições/aprovações humanas em ASSISTED. Sinais automáticos de qualidade **deferidos**.
+
+**Gating (C4):** injeta só fatos `confidence ≥ shadow`; soul sempre injetado; fatos `local` são audit trail. **C8:** `tenantId` é dado/path, nunca ramificação.
+
+---
+
 ## ADR-004-PROJ — Pendências críticas (não-decisões, mas registro)
 
 **Status:** 📋 Registro 2026-05-13
