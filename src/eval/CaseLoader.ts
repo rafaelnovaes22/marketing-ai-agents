@@ -10,7 +10,8 @@ import {
   type CaseFrontmatter
 } from './types.js';
 
-const FRONTMATTER_RE = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/;
+// Tolerante a CRLF (\r?\n): eval-cases salvos no Windows usam terminadores \r\n.
+const FRONTMATTER_RE = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
 
 export interface CaseLoaderOptions {
   /** Filtro: subset=all | category=<x> | source_mode=<x> | critical_path */

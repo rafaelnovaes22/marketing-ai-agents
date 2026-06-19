@@ -85,9 +85,9 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
       llm,
       observability: obs,
       // RED: voiceValidator não está em GenerateCopywriterDeps ainda
-      ...(promptMaps() as object),
+      ...promptMaps(),
       voiceValidator: voice
-    } as Parameters<typeof GenerateCopywriterOutputUseCase>[0]);
+    } as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
     const out = await useCase.execute(BASE_LANDING_INPUT);
 
@@ -111,9 +111,9 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
     const useCase = new GenerateCopywriterOutputUseCase({
       llm,
       observability: obs,
-      ...(promptMaps() as object),
+      ...promptMaps(),
       voiceValidator: voice
-    } as Parameters<typeof GenerateCopywriterOutputUseCase>[0]);
+    } as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
     const out = await useCase.execute(BASE_LANDING_INPUT);
 
@@ -134,9 +134,9 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
     const useCase = new GenerateCopywriterOutputUseCase({
       llm,
       observability: obs,
-      ...(promptMaps() as object),
+      ...promptMaps(),
       voiceValidator: voice
-    } as Parameters<typeof GenerateCopywriterOutputUseCase>[0]);
+    } as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
     await expect(useCase.execute(BASE_LANDING_INPUT)).rejects.toThrow(/voz|voice|tom|score/i);
 
@@ -153,9 +153,9 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
     const useCase = new GenerateCopywriterOutputUseCase({
       llm,
       observability: obs,
-      ...(promptMaps() as object),
+      ...promptMaps(),
       voiceValidator: voice
-    } as Parameters<typeof GenerateCopywriterOutputUseCase>[0]);
+    } as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
     try {
       await useCase.execute(BASE_LANDING_INPUT);
@@ -195,7 +195,7 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
       systemPromptByOutputType: new Map([['email-sequence', 'PROMPT_EMAIL']]),
       ...(({} as object)),
       voiceValidator: voice
-    } as Parameters<typeof GenerateCopywriterOutputUseCase>[0]);
+    } as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
     await useCase.execute({
       ...BASE_LANDING_INPUT,

@@ -20,7 +20,7 @@ import type {
   ImageGenInput,
   ImageGenOutput
 } from '../../../src/domain/ports/ImageGenProvider.js';
-import { FakeImageGen, FakeBrandValidator, FakeObservability } from '../../social-media-agent/unit/fakes.js';
+import { FakeBrandValidator, FakeObservability } from '../../social-media-agent/unit/fakes.js';
 
 const brandGuide = new BrandGuide(
   '1.0.0',

@@ -28,7 +28,8 @@ const makeBriefing = (outputType = 'landing', framework = 'pas') =>
     product: 'Acme Forge',
     audience: 'Founders B2B SaaS',
     goal: 'Inscrição na waitlist',
-    context: 'Lançamento de curso intensivo de 14 dias com 7 agentes IA para marketing.'
+    context: 'Lançamento de curso intensivo de 14 dias com 7 agentes IA para marketing.',
+    isUpsell: false
   });
 
 const makeSections = (): LandingSection[] => [
