@@ -90,11 +90,11 @@ export class BrandValidatorAdapter implements BrandValidator {
     const headingsFont = this.brandGuide.typography.headings.family;
     const bodyFont = this.brandGuide.typography.body.family;
 
-    return `# Brand Validator — Acme
+    return `# Brand Validator — Novais Digital
 
 Você é um auditor de brand consistency. Avalia se imagens geradas por IA seguem o brand guide oficial.
 
-## Brand Acme (canônico)
+## Brand Novais Digital (canônico)
 
 **Cores permitidas (EXCLUSIVAS):**
 ${colors}
@@ -140,6 +140,6 @@ Avalie a imagem fornecida em 4 dimensões:
   }
 
   private buildUserPrompt(): string {
-    return 'Avalie esta imagem contra o brand guide Acme. Retorne APENAS JSON válido conforme o formato.';
+    return 'Avalie esta imagem contra o brand guide Novais Digital. Retorne APENAS JSON válido conforme o formato.';
   }
 }

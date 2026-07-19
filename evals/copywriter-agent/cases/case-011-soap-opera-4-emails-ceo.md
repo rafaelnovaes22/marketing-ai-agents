@@ -7,7 +7,7 @@ criterio_pass: llm_as_judge
 critical_path: true
 input:
   output_type: email_sequence
-  product: "Lançamento Acme Forge — plataforma para construir agentes IA"
+  product: "Lançamento Novais Digital Foundry — plataforma para construir agentes IA"
   audience: "founders SaaS B2B com 5-50 funcionários"
   framework: soap_opera
   tone: brand_voice_ceo

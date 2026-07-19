@@ -1,4 +1,4 @@
-// Formata RunReport em markdown alinhado ao schema de .claude/commands/acme/eval.md
+// Formata RunReport em markdown alinhado ao schema de .claude/commands/novais-digital/eval.md
 // Persiste em evals/{artifact_id}/runs/{YYYY-MM-DD-HHmm}-eval-{prompt_hash}.md
 
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -10,7 +10,7 @@ import type {
   RunReport
 } from './types.js';
 
-const FORGE_COMMAND_VERSION = 'eval@0.1.0';
+const FOUNDRY_COMMAND_VERSION = 'eval@0.1.0';
 
 export interface ReportWriterDeps {
   repoRoot: string;
@@ -20,13 +20,13 @@ export class ReportWriter {
   constructor(private readonly deps: ReportWriterDeps) {}
 
   build(
-    metadata: Omit<RunMetadata, 'forgeCommandVersion'>,
+    metadata: Omit<RunMetadata, 'foundryCommandVersion'>,
     metrics: AggregateMetrics,
     results: CaseResult[]
   ): RunReport {
     const full: RunMetadata = {
       ...metadata,
-      forgeCommandVersion: FORGE_COMMAND_VERSION
+      foundryCommandVersion: FOUNDRY_COMMAND_VERSION
     };
 
     const failsCount = metrics.totalFail + metrics.totalError;
@@ -84,7 +84,7 @@ export class ReportWriter {
       `dry_run: ${m.dryRun}`,
       `threshold: ${m.threshold}`,
       `status: ${report.status}`,
-      `forge_command_version: ${m.forgeCommandVersion}`,
+      `foundry_command_version: ${m.foundryCommandVersion}`,
       'linked_principles: [C2, C4, C6]',
       '---',
       ''

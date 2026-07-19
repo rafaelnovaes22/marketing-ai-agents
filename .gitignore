@@ -1,4 +1,4 @@
-# Acme Social — gitignore
+# Novais Digital Social — gitignore
 
 # Editor / OS
 .DS_Store
@@ -11,14 +11,14 @@ Thumbs.db
 # Claude Code per-developer overrides (NUNCA commitar)
 .claude/settings.local.json
 
-# Forge-12 — preferência de modo por usuário (vibe/dev/agent)
-.forge-mode
+# Foundry-12 — preferência de modo por usuário (vibe/dev/agent)
+.foundry-mode
 
 # Audit outputs (geram localmente; contêm dados de produção)
-docs/forge/audits/
-docs/forge/session-gate-reports/
-docs/forge/bypass-log/
-!docs/forge/bypass-log/.gitkeep
+docs/foundry/audits/
+docs/foundry/session-gate-reports/
+docs/foundry/bypass-log/
+!docs/foundry/bypass-log/.gitkeep
 
 # Node
 node_modules/

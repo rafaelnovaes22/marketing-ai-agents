@@ -15,7 +15,7 @@ describe('Wave 1 — Designer Agent domain smoke', () => {
         numSlides: 7,
         dominantMode: 'dark',
         caller: 'social-media-agent',
-        tenantId: 'acme-internal'
+        tenantId: 'novais-digital-internal'
       });
       expect(b.variant).toBe('standard');
       expect(b.precoFinal()).toBe(20.0);
@@ -160,7 +160,7 @@ describe('Wave 1 — Designer Agent domain smoke', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     it('outcomeAlcancado=true quando todos slides passam e SLA ok', () => {

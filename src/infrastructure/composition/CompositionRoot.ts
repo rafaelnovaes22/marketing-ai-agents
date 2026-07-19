@@ -45,12 +45,12 @@ function requireEnv(name: string): string {
   return val;
 }
 
-// ─── BrandGuide (Phase 1 — single-tenant Acme) ─────────────────────────────
+// ─── BrandGuide (Phase 1 — single-tenant Novais Digital) ─────────────────────────────
 
-function buildAcmeBrandGuide(): BrandGuide {
+function buildNovaisBrandGuide(): BrandGuide {
   return new BrandGuide(
     '1.0.0',
-    'Acme',
+    'Novais Digital',
     'Inteligência que acelera resultados.',
     {
       primary: {
@@ -117,7 +117,7 @@ export function createSocialMediaDeps(config: CompositionConfig = {}): SocialMed
 
   const claudeBase     = new ClaudeAdapter({ apiKey: requireEnv('ANTHROPIC_API_KEY') });
   const llmCopywriter  = new ResilientLLMProvider({ primary: claudeBase });
-  const brandGuide     = buildAcmeBrandGuide();
+  const brandGuide     = buildNovaisBrandGuide();
 
   const brandValidator = new BrandValidatorAdapter({ llmProvider: claudeBase, brandGuide });
 
@@ -167,7 +167,7 @@ export function createSocialMediaDeps(config: CompositionConfig = {}): SocialMed
  *
  * Exemplo:
  *   const { run } = createProductionSocialMediaPipeline();
- *   const out = await run({ tenantId: 'acme-internal', mode: 'shadow', briefing: {...} });
+ *   const out = await run({ tenantId: 'novais-digital-internal', mode: 'shadow', briefing: {...} });
  */
 export function createProductionSocialMediaPipeline(config?: CompositionConfig): {
   run: (input: RunSocialMediaInput) => Promise<RunSocialMediaOutput>;

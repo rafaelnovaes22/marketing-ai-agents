@@ -1,4 +1,4 @@
-# 📚 Documentação — Acme Social
+# 📚 Documentação — Novais Digital Social
 **Projeto: Agentes de IA para Marketing Digital**
 **Versão: 3.0 | Stack: Claude + Google + Meta | Operação 100% Autônoma**
 
@@ -10,8 +10,8 @@
 
 | Documento | Público | Tempo de Leitura |
 |-----------|---------|:----------------:|
-| [EXECUTIVE_SUMMARY_ACME.md](EXECUTIVE_SUMMARY_ACME.md) | Board, CEO, investidores | 3 min |
-| [AS_IS_TO_BE_ACME.md](AS_IS_TO_BE_ACME.md) | Stakeholders + decisores | 15 min |
+| [EXECUTIVE_SUMMARY_NOVAIS.md](EXECUTIVE_SUMMARY_NOVAIS.md) | Board, CEO, investidores | 3 min |
+| [AS_IS_TO_BE_NOVAIS.md](AS_IS_TO_BE_NOVAIS.md) | Stakeholders + decisores | 15 min |
 
 ### 2. Para Implementação Técnica
 
@@ -88,17 +88,17 @@ Volume:                52 posts/mês em 4 redes (capacidade 200+)
 ## 📁 Estrutura de Pastas do Projeto
 
 ```
-Acme_Social/
+Novais_Social/
 ├── documentacao/                         ← Você está aqui
 │   ├── README.md                          (este arquivo)
-│   ├── EXECUTIVE_SUMMARY_ACME.md        (síntese 1 página)
-│   ├── AS_IS_TO_BE_ACME.md              (17 slides estruturados)
+│   ├── EXECUTIVE_SUMMARY_NOVAIS.md        (síntese 1 página)
+│   ├── AS_IS_TO_BE_NOVAIS.md              (17 slides estruturados)
 │   ├── PLANO_AGENTES_DANTUIA_SOCIAL.md    (plano técnico completo)
 │   ├── BRAND_GUIDE_DANTUIA.md             (identidade visual extraída)
 │   └── STITCH_PROMPTS_EXECUTIVE_SUMMARY.md (prompts para Claude Design)
 │
 ├── AS_IS_TO_BE/                          ← Apresentação exportada
-│   └── Acme — Visão Executiva.pdf
+│   └── Novais Digital — Visão Executiva.pdf
 │
 └── brand_extraction/                     ← Artefatos brutos do vídeo
     ├── audio.mp3
@@ -113,8 +113,8 @@ Acme_Social/
 ## 🚀 Como Usar Esta Documentação
 
 ### Para apresentar ao board (decisão de aprovação):
-1. Abra [`EXECUTIVE_SUMMARY_ACME.md`](EXECUTIVE_SUMMARY_ACME.md)
-2. Em seguida [`AS_IS_TO_BE_ACME.md`](AS_IS_TO_BE_ACME.md) para o detalhamento visual
+1. Abra [`EXECUTIVE_SUMMARY_NOVAIS.md`](EXECUTIVE_SUMMARY_NOVAIS.md)
+2. Em seguida [`AS_IS_TO_BE_NOVAIS.md`](AS_IS_TO_BE_NOVAIS.md) para o detalhamento visual
 
 ### Para iniciar a implementação:
 1. Leia [`PLANO_AGENTES_DANTUIA_SOCIAL.md`](PLANO_AGENTES_DANTUIA_SOCIAL.md)

@@ -46,7 +46,7 @@ interface Spec {
 // ─── Bloco brand (reutilizado em on-brand prompts) ───────────────────────────
 
 const BRAND_BLOCK = `
-Brand: Acme (B2B SaaS). Strict design system:
+Brand: Novais Digital (B2B SaaS). Strict design system:
 - Background: navy deep #0A1628 or off-white #F5F7FA.
 - Accents: royal blue #2563EB, cyan #5EEAD4.
 - Text: white #FFFFFF on dark, navy on light.
@@ -65,7 +65,7 @@ Aspect: social carousel slide. Render exactly the described scene, no extra elem
 `.trim();
 
 // ─── 7 ON-BRAND ──────────────────────────────────────────────────────────────
-// 13 imagens on-brand restantes vêm de brand_extraction/frames/ (Acme real).
+// 13 imagens on-brand restantes vêm de brand_extraction/frames/ (Novais Digital real).
 // Estas 7 são geradas ancoradas em refs de design B2B SaaS de alta qualidade.
 
 const ON_BRAND: Omit<Spec, 'bucket'>[] = [

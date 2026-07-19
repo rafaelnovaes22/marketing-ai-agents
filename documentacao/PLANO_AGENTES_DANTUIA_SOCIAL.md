@@ -338,7 +338,7 @@ Analytics + Reporting:
 # 1. Criar campanha
 POST /adaccount/campaigns
 {
-  "name": "Campanha Acme Q2",
+  "name": "Campanha Novais Digital Q2",
   "objective": "CONVERSIONS",
   "status": "ACTIVE",
   "special_ad_categories": []
@@ -669,7 +669,7 @@ Rápidas perguntas:
 ```javascript
 // Sistema prompt
 const systemPrompt = `
-Você é um assistente de atendimento DM para Acme Social.
+Você é um assistente de atendimento DM para Novais Digital Social.
 Responsabilidades:
 1. Identificar intent: [pergunta_produto | feedback | lead | spam]
 2. Responder com tom amigável mas profissional

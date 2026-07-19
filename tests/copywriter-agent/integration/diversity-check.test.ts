@@ -73,7 +73,7 @@ describe('DiversityCheckUseCase', () => {
 
     const result = await useCase.execute({
       adSet: seedAdSet(),
-      tenantId: 'acme'
+      tenantId: 'novais-digital'
     });
 
     expect(result.diversityScore).toBeGreaterThan(0.7);
@@ -101,7 +101,7 @@ describe('DiversityCheckUseCase', () => {
 
     const result = await useCase.execute({
       adSet: seedAdSet(),
-      tenantId: 'acme'
+      tenantId: 'novais-digital'
     });
 
     expect(result.diversityScore).toBeCloseTo(0, 5);
@@ -120,7 +120,7 @@ describe('DiversityCheckUseCase', () => {
     );
     const obs = new FakeObservability();
     const parent = obs.startTrace({
-      tenantId: 'acme',
+      tenantId: 'novais-digital',
       sku: 'copywriter-agent',
       mode: 'shadow'
     });
@@ -128,7 +128,7 @@ describe('DiversityCheckUseCase', () => {
     const useCase = new DiversityCheckUseCase({ embeddings, observability: obs });
     await useCase.execute({
       adSet: seedAdSet(),
-      tenantId: 'acme',
+      tenantId: 'novais-digital',
       parentTrace: parent
     });
 

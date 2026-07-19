@@ -1,4 +1,4 @@
-// TDD RED phase (Forge-10 Gate G6) — testes que FALHAM hoje deliberadamente
+// TDD RED phase (Foundry-10 Gate G6) — testes que FALHAM hoje deliberadamente
 // porque ImagenAdapter, IdeogramAdapter e TwitterAdapter estão skeleton.
 //
 // Quando Wave 4 implementar de verdade, estes testes invertem polaridade:
@@ -166,7 +166,7 @@ describe('TDD RED — TwitterAdapter (Wave 3 pending)', () => {
 });
 
 describe('TDD RED — Gate G6 evidence', () => {
-  it('este arquivo existe e prova RED phase (Forge-10 G6)', () => {
+  it('este arquivo existe e prova RED phase (Foundry-10 G6)', () => {
     // Sinaliza explicitamente que testes foram escritos ANTES da implementação real.
     // Hook tdd-red-phase-check no CI lê tests/social-media-agent/{unit,integration,e2e}/
     // e exige ≥ 1 arquivo. Este passa o gate.

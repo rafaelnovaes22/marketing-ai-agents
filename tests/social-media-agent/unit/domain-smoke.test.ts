@@ -100,7 +100,7 @@ describe('Wave 1 — Domain smoke tests', () => {
     it('decisão baseada em score (ADR-004-DS)', () => {
       const brand = new BrandGuide(
         '1.0.0',
-        'Acme',
+        'Novais Digital',
         'tagline',
         {
           primary: {
@@ -140,7 +140,7 @@ describe('Wave 1 — Domain smoke tests', () => {
       expect(() =>
         Carrossel.novo({
           id: 'c1',
-          tenantId: 'acme',
+          tenantId: 'novais-digital',
           briefingText: 'curto',
           tom: Tom.founderVoice(),
           redePrincipal: RedeSocial.create('linkedin'),
@@ -154,7 +154,7 @@ describe('Wave 1 — Domain smoke tests', () => {
       expect(() =>
         Carrossel.novo({
           id: 'c1',
-          tenantId: 'acme',
+          tenantId: 'novais-digital',
           briefingText:
             'Carrossel sobre IA generativa para indústria B2B com tom the CEO',
           tom: Tom.founderVoice(),
@@ -168,7 +168,7 @@ describe('Wave 1 — Domain smoke tests', () => {
     it('aceita 6 slides com upsell', () => {
       const c = Carrossel.novo({
         id: 'c1',
-        tenantId: 'acme',
+        tenantId: 'novais-digital',
         briefingText:
           'Carrossel sobre IA generativa para indústria B2B com tom the CEO',
         tom: Tom.founderVoice(),
@@ -183,7 +183,7 @@ describe('Wave 1 — Domain smoke tests', () => {
     it('preço padrão R$ 12 (4-5 slides)', () => {
       const c = Carrossel.novo({
         id: 'c1',
-        tenantId: 'acme',
+        tenantId: 'novais-digital',
         briefingText:
           'Carrossel sobre IA generativa para indústria B2B com tom the CEO',
         tom: Tom.founderVoice(),

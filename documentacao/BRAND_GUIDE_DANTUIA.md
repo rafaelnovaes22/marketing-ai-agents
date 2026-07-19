@@ -1,4 +1,4 @@
-# BRAND GUIDE — Acme
+# BRAND GUIDE — Novais Digital
 **Versão 1.0 | Extraído de vídeo institucional | Data: 2026-05-13**
 
 > Este documento foi extraído automaticamente a partir do screencast do website oficial (`WhatsApp Video 2026-05-13 at 11.20.21.mp4`). Use como **input para os agentes de IA** (Social Media, Designer, Copywriter) para garantir consistência de marca.
@@ -8,11 +8,11 @@
 ## 1. IDENTIDADE DA MARCA
 
 ### 1.1 Nome
-- **Nome oficial:** Acme
-- **Grafia correta:** `Acme` (com "IA" maiúsculo, destacando Inteligência Artificial)
+- **Nome oficial:** Novais Digital
+- **Grafia correta:** `Novais Digital` (com "IA" maiúsculo, destacando Inteligência Artificial)
 - **Logotipo wordmark:** `D.ANTIA` (com ponto após o D, em caixa alta estilizada)
-- **Variações aceitas:** "Acme", "D.ANTIA" (logo)
-- **❌ Evitar:** "Acme", "ACME", "Dant IA"
+- **Variações aceitas:** "Novais Digital", "D.ANTIA" (logo)
+- **❌ Evitar:** "Novais Digital", "NOVAIS DIGITAL", "Dant IA"
 
 ### 1.2 Posicionamento
 > *"A plataforma que lidera a nova era das Empresas Inteligentes."*
@@ -92,10 +92,10 @@
 | Nível | Peso | Aplicação |
 |-------|------|-----------|
 | **H1 — Hero** | Extra Bold | "Você foca na empresa. A gente cuida em te dar resultado." |
-| **H2 — Seção** | Bold | "A Acme é a plataforma que lidera..." |
+| **H2 — Seção** | Bold | "A Novais Digital é a plataforma que lidera..." |
 | **H3 — Subtítulo** | SemiBold | "Decisões Baseadas em Dados" |
 | **Body** | Regular | Descrições de parágrafo |
-| **Micro** | Regular (uppercase) | Tags ("SOBRE A ACME", "100% CONFORMIDADE") |
+| **Micro** | Regular (uppercase) | Tags ("SOBRE A NOVAIS DIGITAL", "100% CONFORMIDADE") |
 
 #### Logo
 - **Wordmark:** `D.ANTIA` em caixa alta, letterspacing levemente expandido
@@ -221,7 +221,7 @@ Exemplo: "47 empresas solicitaram diagnóstico esta semana"
 "Pronto para [transformação desejada]?"
 + descrição curta + CTA
 
-Exemplo: "Pronto para transformar sua empresa? Faça um diagnóstico gratuito e descubra como a Acme pode acelerar seus resultados."
+Exemplo: "Pronto para transformar sua empresa? Faça um diagnóstico gratuito e descubra como a Novais Digital pode acelerar seus resultados."
 ```
 
 ---
@@ -230,8 +230,8 @@ Exemplo: "Pronto para transformar sua empresa? Faça um diagnóstico gratuito e 
 
 Identificados no menu Serviços:
 
-1. **Acme Decision Engine™** — Motor de decisão inteligente
-2. **Acme Intelligence™** — Plataforma de inteligência corporativa
+1. **Novais Digital Decision Engine™** — Motor de decisão inteligente
+2. **Novais Digital Intelligence™** — Plataforma de inteligência corporativa
 
 > Observação: Ambos usam símbolo **™** (trademark). Manter sempre que mencionados.
 
@@ -252,7 +252,7 @@ Identificados no menu Serviços:
 
 ### Rodapé
 - **Logo + endereço:** Alameda Grajaú · Alphaville · Barueri/SP
-- **Copyright:** © 2026 Acme — Todos os direitos reservados
+- **Copyright:** © 2026 Novais Digital — Todos os direitos reservados
 - **Links legais:** Privacidade · Termos
 
 ---
@@ -263,7 +263,7 @@ Identificados no menu Serviços:
 
 **Prompt System Recomendado:**
 ```
-Você é o copywriter oficial da Acme, uma plataforma B2B de IA + dados 
+Você é o copywriter oficial da Novais Digital, uma plataforma B2B de IA + dados 
 para empresas. Características:
 
 VOZ:
@@ -275,7 +275,7 @@ VOZ:
 ESTRUTURA DE POST:
 1. Hook: Frase impactante de 1-2 linhas
 2. Insight: Dado ou contexto
-3. Solução Acme: Como resolvemos
+3. Solução Novais Digital: Como resolvemos
 4. CTA: "Diagnóstico gratuito" ou "Fale com especialistas"
 
 PALAVRAS-CHAVE:
@@ -290,7 +290,7 @@ PALAVRAS-CHAVE:
 **Brand Tokens (JSON):**
 ```json
 {
-  "brand": "Acme",
+  "brand": "Novais Digital",
   "colors": {
     "primary_dark": "#0A1628",
     "primary_blue": "#2563EB",
@@ -319,7 +319,7 @@ PALAVRAS-CHAVE:
 
 ### 6.3 Para o **Copywriter Agent**
 
-**Landing Page Template (Estrutura Acme):**
+**Landing Page Template (Estrutura Novais Digital):**
 ```
 [BADGE: BETA / Acesso antecipado disponível]
 
@@ -337,7 +337,7 @@ PALAVRAS-CHAVE:
 ---
 
 ## [Sobre a Marca]
-"A Acme é a plataforma que lidera [diferencial]."
+"A Novais Digital é a plataforma que lidera [diferencial]."
 
 [3 pilares em cards]
 
@@ -376,7 +376,7 @@ PALAVRAS-CHAVE:
 Os seguintes arquivos foram criados durante a extração:
 
 ```
-C:\Users\Rafael\Projetos\Acme_Social\
+C:\Users\Rafael\Projetos\Novais_Social\
 ├── BRAND_GUIDE_DANTUIA.md (este documento)
 └── brand_extraction/
     ├── audio.mp3 (áudio extraído — 27s)

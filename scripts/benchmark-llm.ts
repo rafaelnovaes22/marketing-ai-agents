@@ -63,11 +63,11 @@ Retorne JSON com a estrutura:
 
 Número de slides: 5. Tom: the CEO (direto, provocativo, B2B).`;
 
-const SYSTEM_PROMPT_BRAND = `# Brand Validator — Acme
+const SYSTEM_PROMPT_BRAND = `# Brand Validator — Novais Digital
 
 Você é um auditor de brand consistency. Avalie se a imagem segue o brand guide.
 
-## Brand Acme
+## Brand Novais Digital
 Cores permitidas: #0A1628, #2563EB, #5EEAD4, #FFFFFF, #F5F7FA, #6B7280, #0F1B2D, #DC2626, #10B981
 Tipografia: Inter (headlines bold, body regular)
 Layout: center-aligned, cantos arredondados, whitespace generoso
@@ -77,7 +77,7 @@ Layout: center-aligned, cantos arredondados, whitespace generoso
 - score: 0.0–1.0
 - decision: "accept" (≥0.99) | "accept_with_warning" (0.96–0.98) | "retry" (<0.96)`;
 
-// ─── PNG builder (32×32 sólido Acme royal-blue) ────────────────────────────
+// ─── PNG builder (32×32 sólido Novais Digital royal-blue) ────────────────────────────
 
 function makeSolidPNG(w: number, h: number, r: number, g: number, b: number): string {
   const u32 = (n: number) => { const buf = Buffer.alloc(4); buf.writeUInt32BE(n, 0); return buf; };
@@ -418,7 +418,7 @@ async function main() {
 
   const judge = new ClaudeAdapter({ apiKey: anthropicKey });
 
-  console.log(`\n🔬  Acme LLM Benchmark — ${new Date().toISOString()}`);
+  console.log(`\n🔬  Novais Digital LLM Benchmark — ${new Date().toISOString()}`);
   console.log(`    Rodadas: ${RUNS} | Vision: ${SKIP_VISION ? 'skip' : 'sim'} | Judge: ${SKIP_JUDGE ? 'skip' : 'sim'}`);
   console.log(`    Modelos: ${Object.keys(providers).join(', ')}`);
 

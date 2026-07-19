@@ -25,7 +25,7 @@ import {
 
 const brandGuide = new BrandGuide(
   '1.0.0',
-  'Acme',
+  'Novais Digital',
   'tagline',
   {
     primary: {
@@ -101,7 +101,7 @@ describe('Wave 3 RED — DES-T5.5 Cost cap enforcement', () => {
       numSlides: 7,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     const carrossel = await useCase.execute({
@@ -132,7 +132,7 @@ describe('Wave 3 RED — DES-T5.5 Cost cap enforcement', () => {
       numSlides: 7,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     await useCase.execute({
@@ -175,7 +175,7 @@ describe('Wave 3 RED — DES-T5.5 Cost cap enforcement', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     const carrossel = await useCase.execute({
@@ -206,7 +206,7 @@ describe('Wave 3 RED — DES-T5.5 Cost cap enforcement', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     const carrossel = await useCase.execute({

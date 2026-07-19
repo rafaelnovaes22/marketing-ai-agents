@@ -30,7 +30,7 @@ export class CaseLoader {
     } catch (err) {
       throw new Error(
         `CaseLoader: diretório não encontrado: ${casesDir}. ` +
-          `Crie a estrutura com /acme:eval ou migre manualmente do docs/forge/sku/${artifactId}/eval-cases.md`
+          `Crie a estrutura com /novais-digital:eval ou migre manualmente do docs/foundry/sku/${artifactId}/eval-cases.md`
       );
     }
     if (files.length === 0) {

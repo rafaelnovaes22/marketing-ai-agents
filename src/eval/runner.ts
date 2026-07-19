@@ -4,7 +4,7 @@
 //   prompts/{sku}/v{version}/system.md (autodetect última versão)
 //   evals/{sku}/cases/*.md
 // Invoca:
-//   ClaudeAdapter (ou ProgrammableLLM se ACME_EVAL_FAKE=1)
+//   ClaudeAdapter (ou ProgrammableLLM se NOVAIS_EVAL_FAKE=1)
 //   Judge LLM (defaults para o mesmo provider, modelo Sonnet — pode trocar via --judge-model)
 // Persiste:
 //   evals/{sku}/runs/{YYYY-MM-DD-HHmm}-eval-{prompt_hash}.md

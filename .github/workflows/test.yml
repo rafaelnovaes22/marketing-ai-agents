@@ -1,4 +1,4 @@
-# Acme Social — Test (vitest)
+# Novais Digital Social — Test (vitest)
 #
 # Roda toda a suíte (unit + integration). Sem secrets reais — fakes cobrem
 # tudo. Eval suite e adapters reais com APIs externas ficam em workflow

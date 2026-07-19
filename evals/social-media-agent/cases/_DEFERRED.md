@@ -1,6 +1,6 @@
 # Eval cases adiados — full-pipeline runner necessário
 
-> Estes 14 cases do `docs/forge/sku/social-media-agent/eval-cases.md` **não** são
+> Estes 14 cases do `docs/foundry/sku/social-media-agent/eval-cases.md` **não** são
 > avaliáveis pelo runner v0 (text-only: prompt → output → judge textual).
 >
 > Eles dependem de inspeção de pipeline (custo medido, retry_count, brand
@@ -24,7 +24,7 @@
 | case-015 | brand_retry | depende de `retry_count` no trace | ⭐ |
 | case-016 | brand_acceptance | depende de `retry_count == 0` + warning logged | — |
 | case-017 | tom_drift | depende de `flagged_for_human_review` em metadata | — |
-| case-018 | multi_tenant | skip_in_phase_1 (single-tenant Acme própria) | — |
+| case-018 | multi_tenant | skip_in_phase_1 (single-tenant Novais Digital própria) | — |
 | case-019 | cache_performance | depende de `cache_creation_input_tokens` ratio | — |
 | case-020 | publisher_retry | depende de mock externo Zernio + trace `pending_manual` | ⭐ |
 | case-021 | batch_economy | depende de inspeção de custo por imagem | — |

@@ -9,9 +9,9 @@
 
 | Arquivo | Conteúdo |
 |---------|----------|
-| [docs/forge/decisions/ADR-005-PROJ-orchestration-runtime.md](../../docs/forge/decisions/ADR-005-PROJ-orchestration-runtime.md) | Adoção de `@langchain/langgraph` como orchestration runtime canônico. 4 padrões obrigatórios (P1-P4). C7 violado conscientemente. |
-| [docs/forge/decisions/ADR-006-PROJ-tracing-substitution.md](../../docs/forge/decisions/ADR-006-PROJ-tracing-substitution.md) | Substituir Langfuse por LangSmith (caminho A). Divergência consciente do schema canônico do Forge. PR upstream pendente. |
-| [docs/forge/decisions.md](../../docs/forge/decisions.md) | Atualizado com entries resumidas ADR-005-PROJ e ADR-006-PROJ |
+| [docs/foundry/decisions/ADR-005-PROJ-orchestration-runtime.md](../../docs/foundry/decisions/ADR-005-PROJ-orchestration-runtime.md) | Adoção de `@langchain/langgraph` como orchestration runtime canônico. 4 padrões obrigatórios (P1-P4). C7 violado conscientemente. |
+| [docs/foundry/decisions/ADR-006-PROJ-tracing-substitution.md](../../docs/foundry/decisions/ADR-006-PROJ-tracing-substitution.md) | Substituir Langfuse por LangSmith (caminho A). Divergência consciente do schema canônico do Foundry. PR upstream pendente. |
+| [docs/foundry/decisions.md](../../docs/foundry/decisions.md) | Atualizado com entries resumidas ADR-005-PROJ e ADR-006-PROJ |
 | [CLAUDE.md](../../CLAUDE.md) | Stack consolidado atualizado; tabela C5-C8 reflete LangSmith e exceção C7 |
 
 ## ✅ C2 — Instalação + fundação (entregues)
@@ -29,10 +29,10 @@
 |---|---|
 | **Dep instalada** | `langsmith@0.7.0` (já vinha como sub-dep de `@langchain/core`; agora declarada raiz) |
 | **Dep removida** | `langfuse@3.x` deletada do `package.json` |
-| **Adapter novo** | [src/infrastructure/adapters/observability/LangSmithAdapter.ts](../infrastructure/adapters/observability/LangSmithAdapter.ts) — usa `RunTree` da API LangSmith. Mantém `Map<traceId, RunTree>` interno para permitir spans aninhados e endTrace stateless. Falha de telemetria é fire-and-forget — nunca derruba produção. |
+| **Adapter novo** | [src/infrastructure/adapters/observability/LangSmithAdapter.ts](../infrastructure/adapters/observability/LangSmithAdapter.ts) — usa `RunTree` da API LangSmith. Mantém `Map<traceId, RunTree>` interno para permitir spans aninhados e endTrace stateless. Falha de telemetria é fire-and-foundryt — nunca derruba produção. |
 | **Adapter deletado** | `LangfuseAdapter.ts` removido |
 | **`.env.example`** | Bloco `LANGFUSE_*` substituído por `LANGSMITH_API_KEY/PROJECT/API_URL/TRACING` |
-| **`docs/forge/project.json`** | `telemetry.llm_trace_provider: "langfuse"` → `"langsmith"` + `_llm_trace_provider_doc` referenciando ADR-006-PROJ |
+| **`docs/foundry/project.json`** | `telemetry.llm_trace_provider: "langfuse"` → `"langsmith"` + `_llm_trace_provider_doc` referenciando ADR-006-PROJ |
 | **`pre-merge-check.md` G1** | Atualizado: permite `@langchain/langgraph` em `src/orchestration/` e `tests/orchestration/`; bloqueia em `src/application/` e `src/domain/` |
 | **Comentários** | 4 referências stale a "Langfuse" em comentários atualizadas para "LangSmith" |
 | **Typecheck** | 0 erros |
@@ -41,7 +41,7 @@
 ### Padrões fixados em C3
 
 - **Porta `Observability` inalterada** — adapter pluggable mantém contratos `startTrace/span/endTrace`.
-- **Telemetria assíncrona não-bloqueante** — `RunTree.postRun()` e `.end()` são fire-and-forget com `.catch()` swallow.
+- **Telemetria assíncrona não-bloqueante** — `RunTree.postRun()` e `.end()` são fire-and-foundryt com `.catch()` swallow.
 - **Span sem trace pai conhecido** — quando `activeRuns.get(traceId)` retorna `undefined`, `span()` apenas executa `fn()` sem instrumentar (graceful degradation).
 
 ## ✅ C4 — SocialMediaOrchestrator 1º grafo (entregues)
@@ -99,7 +99,7 @@
 
 ## Pré-requisitos para o 1º run E2E em SHADOW
 
-- [ ] Criar conta LangSmith (https://smith.langchain.com) — org sugerida: `acme`
+- [ ] Criar conta LangSmith (https://smith.langchain.com) — org sugerida: `novais-digital`
 - [ ] Criar 2 projetos: `marketing-ai-agents-dev` e `marketing-ai-agents-prod`
 - [ ] Gerar `LANGSMITH_API_KEY` (formato `lsv2_pt_...`) e popular `.env` (não `.env.example`)
 - [ ] **Rotacionar** qualquer chave que tenha vazado em `.env.example` (placeholder agora limpo)

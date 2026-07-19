@@ -1,5 +1,5 @@
-// Types canônicos do eval runner (Forge command /acme:eval).
-// Schemas alinhados ao output_artifact descrito em .claude/commands/acme/eval.md.
+// Types canônicos do eval runner (Foundry command /novais-digital:eval).
+// Schemas alinhados ao output_artifact descrito em .claude/commands/novais-digital/eval.md.
 
 import { z } from 'zod';
 
@@ -96,7 +96,7 @@ export interface RunMetadata {
   subsetFilter: string;      // 'all' | 'category=x' | ...
   dryRun: boolean;
   threshold: number;
-  forgeCommandVersion: string;
+  foundryCommandVersion: string;
 }
 
 export interface RunReport {

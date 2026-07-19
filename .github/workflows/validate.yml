@@ -1,7 +1,7 @@
-# Acme Social — Validate (typecheck + portability lint)
+# Novais Digital Social — Validate (typecheck + portability lint)
 #
 # Gates leves antes do merge. Custo ~1min, sem dependência externa.
-# Não roda forge-doctor (consumer repo → warnings esperados, ver CLAUDE.md).
+# Não roda foundry-doctor (consumer repo → warnings esperados, ver CLAUDE.md).
 
 name: validate
 

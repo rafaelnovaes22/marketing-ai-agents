@@ -1,16 +1,16 @@
 # Prompts Visuais para Claude Design (Stitch)
-## Executive Summary Acme — Apresentação Board
+## Executive Summary Novais Digital — Apresentação Board
 **Versão:** 3.0 | **Stack:** Claude + Google + Meta | **Operação 100% Autônoma** | **Data:** 2026-05-13
 
 ---
 
-## 🎨 DESIGN SYSTEM — Acme
+## 🎨 DESIGN SYSTEM — Novais Digital
 
 > **Use este bloco como base para `create_design_system_from_design_md` ou aplique em todos os slides.**
 
 ### Brand Identity
 ```yaml
-brand: Acme
+brand: Novais Digital
 tagline: "Você foca na empresa. A gente cuida em te dar resultado."
 logo_wordmark: "D.ANTIA"
 
@@ -84,7 +84,7 @@ CENTRO (hero principal):
   - Texto: #DC2626
 
 - Título principal (Inter ExtraBold, 72px):
-  "Acme Social"
+  "Novais Digital Social"
   - Cor: #FFFFFF
 
 - Subtítulo gigante (Inter Bold, 56px, line-height 1.1):
@@ -522,17 +522,17 @@ Use a ferramenta `create_design_system_from_design_md` apontando para este arqui
 
 ```
 Input:
-  - Nome do design system: "Acme Brand 2026"
-  - Markdown: cole o bloco "DESIGN SYSTEM — Acme" acima
+  - Nome do design system: "Novais Digital Brand 2026"
+  - Markdown: cole o bloco "DESIGN SYSTEM — Novais Digital" acima
 ```
 
 ### Passo 2 — Criar Projeto
 
 ```
 mcp__stitch__create_project
-  Nome: "Acme Executive Summary - Board 2026-05"
+  Nome: "Novais Digital Executive Summary - Board 2026-05"
   Tipo: Presentation deck
-  Design system: "Acme Brand 2026"
+  Design system: "Novais Digital Brand 2026"
 ```
 
 ### Passo 3 — Gerar Cada Slide
@@ -540,10 +540,10 @@ mcp__stitch__create_project
 Para cada um dos 8 slides:
 ```
 mcp__stitch__generate_screen_from_text
-  Project: "Acme Executive Summary - Board 2026-05"
+  Project: "Novais Digital Executive Summary - Board 2026-05"
   Screen name: "Slide X — [Nome]"
   Prompt: [colar o prompt completo de cada slide acima]
-  Design system: "Acme Brand 2026"
+  Design system: "Novais Digital Brand 2026"
 ```
 
 ### Passo 4 — Refinamento
@@ -566,7 +566,7 @@ mcp__stitch__generate_variants
 Antes de aprovar cada slide, validar:
 
 - [ ] Cores exatas do brand guide aplicadas
-- [ ] Logo "D.ANTIA" presente (não "Acme" ou "ACME")
+- [ ] Logo "D.ANTIA" presente (não "Novais Digital" ou "NOVAIS DIGITAL")
 - [ ] Tipografia geometric sans-serif (Inter/Manrope)
 - [ ] Cantos arredondados em todos os elementos
 - [ ] Alternância dark/light respeitada

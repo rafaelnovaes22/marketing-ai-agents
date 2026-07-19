@@ -1,4 +1,4 @@
-// Loader: lê brand/acme-brand-guide.yaml e constrói BrandGuide entity.
+// Loader: lê brand/novais-digital-brand-guide.yaml e constrói BrandGuide entity.
 // Fica em infrastructure porque depende de FS + parser YAML.
 
 import { readFileSync } from 'node:fs';
@@ -43,7 +43,7 @@ const brandSchema = z.object({
 
 export class BrandGuideLoader {
   static fromYamlFile(path?: string): BrandGuide {
-    const resolvedPath = resolve(path ?? 'brand/acme-brand-guide.yaml');
+    const resolvedPath = resolve(path ?? 'brand/novais-digital-brand-guide.yaml');
     const yamlText = readFileSync(resolvedPath, 'utf-8');
     return BrandGuideLoader.fromYamlString(yamlText);
   }

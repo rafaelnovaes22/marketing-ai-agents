@@ -53,7 +53,7 @@ const llmMockOutput = JSON.stringify({
     {
       role: 'cta',
       textOverlay: '#DesistirNãoÉOpção',
-      visualBrief: 'Logo Acme centralizado'
+      visualBrief: 'Logo Novais Digital centralizado'
     }
   ],
   captions: {
@@ -72,7 +72,7 @@ const llmMockOutput = JSON.stringify({
 
 const brandGuideFake = new BrandGuide(
   '1.0.0',
-  'Acme',
+  'Novais Digital',
   'tagline',
   {
     primary: {
@@ -166,7 +166,7 @@ describe('SocialMediaOrchestrator (integration com fakes)', () => {
     const graph = createSocialMediaOrchestrator(bundle.deps);
 
     const result = await runSocialMediaOrchestrator(graph, bundle.deps, {
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow',
       briefing: {
         briefingText:
@@ -194,7 +194,7 @@ describe('SocialMediaOrchestrator (integration com fakes)', () => {
     const graph = createSocialMediaOrchestrator(bundle.deps);
 
     const result = await runSocialMediaOrchestrator(graph, bundle.deps, {
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow',
       briefing: {
         briefingText: 'Carrossel sobre IA com design validation ativado',
@@ -228,7 +228,7 @@ describe('SocialMediaOrchestrator (integration com fakes)', () => {
     const graph = createSocialMediaOrchestrator(bundle.deps);
 
     await runSocialMediaOrchestrator(graph, bundle.deps, {
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow',
       briefing: {
         briefingText: 'Briefing válido para teste de trace',
@@ -243,7 +243,7 @@ describe('SocialMediaOrchestrator (integration com fakes)', () => {
       (t) => t.context.sku === 'social-media-orchestrator'
     );
     expect(orchestratorTrace).toBeDefined();
-    expect(orchestratorTrace?.context.tenantId).toBe('acme-internal');
+    expect(orchestratorTrace?.context.tenantId).toBe('novais-digital-internal');
     expect(orchestratorTrace?.context.mode).toBe('shadow');
     // endTrace foi chamado → output presente
     expect(orchestratorTrace?.output).toBeDefined();
@@ -253,7 +253,7 @@ describe('SocialMediaOrchestrator (integration com fakes)', () => {
     const graph = createSocialMediaOrchestrator(bundle.deps);
 
     const result = await runSocialMediaOrchestrator(graph, bundle.deps, {
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow',
       briefing: {
         briefingText: 'Briefing com design_validation ativo',
@@ -310,7 +310,7 @@ describe('SocialMediaOrchestrator (integration com fakes)', () => {
 
     await expect(
       runSocialMediaOrchestrator(graph, bundle.deps, {
-        tenantId: 'acme-internal',
+        tenantId: 'novais-digital-internal',
         mode: 'shadow',
         briefing: {
           briefingText:

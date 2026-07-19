@@ -53,11 +53,11 @@ const FULL_LANDING_JSON = `\`\`\`json
 \`\`\``;
 
 const BASE_LANDING_INPUT = {
-  tenantId: 'acme',
+  tenantId: 'novais-digital',
   outputType: 'landing',
   framework: 'pas',
   tomSlug: TOM,
-  product: 'Acme Forge',
+  product: 'Novais Digital Foundry',
   audience: 'Founders B2B',
   goal: 'Inscrição',
   context: 'Lançamento de curso intensivo de 14 dias com 7 agentes IA para marketing.',

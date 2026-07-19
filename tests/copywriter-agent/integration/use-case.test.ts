@@ -82,11 +82,11 @@ describe('GenerateCopywriterOutputUseCase (integration)', () => {
     });
 
     const out = await useCase.execute({
-      tenantId: 'acme',
+      tenantId: 'novais-digital',
       outputType: 'landing',
       framework: 'pas',
       tomSlug: TOM,
-      product: 'Acme Forge',
+      product: 'Novais Digital Foundry',
       audience: 'Founders B2B',
       goal: 'Inscrição',
       context: 'Lançamento de curso intensivo de 14 dias com 7 agentes.',
@@ -111,14 +111,14 @@ describe('GenerateCopywriterOutputUseCase (integration)', () => {
     });
 
     const out = await useCase.execute({
-      tenantId: 'acme',
+      tenantId: 'novais-digital',
       outputType: 'email_sequence',
       framework: 'soap_opera',
       tomSlug: TOM,
-      product: 'Acme Forge',
+      product: 'Novais Digital Foundry',
       audience: 'Founders B2B',
       goal: 'Engajar leads',
-      context: 'Sequência de 3 emails de aquecimento para waitlist Acme Forge.',
+      context: 'Sequência de 3 emails de aquecimento para waitlist Novais Digital Foundry.',
       isUpsell: false,
       mode: 'shadow'
     });
@@ -136,14 +136,14 @@ describe('GenerateCopywriterOutputUseCase (integration)', () => {
     });
 
     const out = await useCase.execute({
-      tenantId: 'acme',
+      tenantId: 'novais-digital',
       outputType: 'ad_set',
       framework: 'pas',
       tomSlug: TOM,
-      product: 'Acme Forge',
+      product: 'Novais Digital Foundry',
       audience: 'Founders B2B',
       goal: 'Cliques em Meta',
-      context: 'Set de 5 anúncios Meta para campanha de waitlist Acme Forge.',
+      context: 'Set de 5 anúncios Meta para campanha de waitlist Novais Digital Foundry.',
       isUpsell: false,
       mode: 'shadow'
     });
@@ -164,11 +164,11 @@ describe('GenerateCopywriterOutputUseCase (integration)', () => {
 
     await expect(
       useCase.execute({
-        tenantId: 'acme',
+        tenantId: 'novais-digital',
         outputType: 'landing',
         framework: 'pas',
         tomSlug: TOM,
-        product: 'Acme Forge',
+        product: 'Novais Digital Foundry',
         audience: 'Founders B2B',
         goal: 'Inscrição',
         context: 'Lançamento de curso intensivo de 14 dias com 7 agentes.',
@@ -193,11 +193,11 @@ describe('GenerateCopywriterOutputUseCase (integration)', () => {
 
     await expect(
       useCase.execute({
-        tenantId: 'acme',
+        tenantId: 'novais-digital',
         outputType: 'landing',
         framework: 'pas',
         tomSlug: TOM,
-        product: 'Acme Forge',
+        product: 'Novais Digital Foundry',
         audience: 'Founders B2B',
         goal: 'Inscrição',
         context: 'Lançamento de curso intensivo de 14 dias com 7 agentes.',

@@ -7,7 +7,7 @@ criterio_pass: llm_as_judge
 critical_path: false
 input:
   output_type: landing
-  product: "Curso Acme Forge para founders B2B"
+  product: "Curso Novais Digital Foundry para founders B2B"
   audience: "founders early-stage SaaS B2B"
   framework: 4Ps
   tone: brand_voice_ceo

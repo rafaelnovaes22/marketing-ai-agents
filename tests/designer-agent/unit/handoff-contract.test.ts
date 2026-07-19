@@ -6,7 +6,7 @@
 // billing por caller (composability ADR-004-DES + lifecycle composability section):
 //   - caller='social-media-agent': billable_to='composer', amount embedded em carrossel completo
 //   - caller='client_direct': billable_to='client_direct', amount=precoFinal() (R$ 15 ou R$ 20)
-//   - caller='founder_direct': billable_to='internal', amount=0 (uso interno Acme)
+//   - caller='founder_direct': billable_to='internal', amount=0 (uso interno Novais Digital)
 
 import { describe, expect, it } from 'vitest';
 import { Slide } from '../../../src/domain/carrossel/Slide.js';
@@ -23,7 +23,7 @@ const makeBriefing = (caller: Caller, numSlides = 5) =>
     numSlides,
     dominantMode: 'dark',
     caller,
-    tenantId: 'acme-internal'
+    tenantId: 'novais-digital-internal'
   });
 
 const makeSlide = (order: number, brandScore = 0.995) =>

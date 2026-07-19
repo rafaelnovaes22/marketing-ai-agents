@@ -3,7 +3,7 @@
 > Calibrado com corpus real de 10 posts LinkedIn (2021–2026).
 > Fonte canônica de padrões: [`references/brand-voice-ceo-posts/PATTERNS.md`](../../../references/brand-voice-ceo-posts/PATTERNS.md)
 > Era de calibração dominante: **2026_codigo_ceo** (posts 01-03).
-> Insumo técnico: [`docs/forge/sku/social-media-agent/tom-brand-voice-ceo.md`](../../../docs/forge/sku/social-media-agent/tom-brand-voice-ceo.md)
+> Insumo técnico: [`docs/foundry/sku/social-media-agent/tom-brand-voice-ceo.md`](../../../docs/foundry/sku/social-media-agent/tom-brand-voice-ceo.md)
 
 ---
 

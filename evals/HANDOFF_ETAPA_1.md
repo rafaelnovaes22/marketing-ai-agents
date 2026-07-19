@@ -2,7 +2,7 @@
 
 > **Status:** ✅ Etapa 1 entregue | ⏳ Aguardando autorização Etapa 2 (chamadas reais à API)
 > **Data:** 2026-05-14 (D3 do roadmap)
-> **Forge command:** `/acme:eval` (.claude/commands/acme/eval.md)
+> **Foundry command:** `/novais-digital:eval` (.claude/commands/novais-digital/eval.md)
 
 ---
 
@@ -17,12 +17,12 @@
 | [PromptLoader.ts](../src/eval/PromptLoader.ts) | Autodetecta maior versão semver em `prompts/{sku}/v*.*.*/system.md`, calcula `prompt_hash` (SHA-256 truncado a 16 hex) |
 | [JudgeRunner.ts](../src/eval/JudgeRunner.ts) | 3 critérios: `exact_match` (literal), `semantic_match` (cosine via EmbeddingsProvider), `llm_as_judge` (Sonnet com JSON estruturado) |
 | [EvalRunner.ts](../src/eval/EvalRunner.ts) | Orquestra cases × prompt × LLM × judge com `max_concurrency` chunked; agrega `byCategory`, `bySourceMode`, `byCriticalPath`, percentis de latência |
-| [ReportWriter.ts](../src/eval/ReportWriter.ts) | Persiste `evals/{sku}/runs/{YYYY-MM-DD-HH-mm}-eval-{hash}.md` no formato canônico Forge |
+| [ReportWriter.ts](../src/eval/ReportWriter.ts) | Persiste `evals/{sku}/runs/{YYYY-MM-DD-HH-mm}-eval-{hash}.md` no formato canônico Foundry |
 | [runner.ts](../src/eval/runner.ts) | CLI: `npm run eval <sku> [--subset=... --dry-run --judge-model=... --threshold=...]` |
 
 ### 2. Migração inicial — `social-media-agent`
 
-- **8 cases** migrados de [docs/forge/sku/social-media-agent/eval-cases.md](../docs/forge/sku/social-media-agent/eval-cases.md) para [evals/social-media-agent/cases/](social-media-agent/cases/)
+- **8 cases** migrados de [docs/foundry/sku/social-media-agent/eval-cases.md](../docs/foundry/sku/social-media-agent/eval-cases.md) para [evals/social-media-agent/cases/](social-media-agent/cases/)
 - **14 cases adiados** documentados em [_DEFERRED.md](social-media-agent/cases/_DEFERRED.md) — exigem `EvalRunnerPipeline` (Wave 5) porque dependem de inspeção de metadados de pipeline (custo medido, retry_count, brand validator em imagem, cache hit ratio, mock externo)
 - **Prompt versionado** em [prompts/social-media-agent/v0.1.0/system.md](../prompts/social-media-agent/v0.1.0/system.md) (cópia de `system-prompts/brand_voice_ceo.md`)
 - **Hash inicial:** `b7051d342aceeb5c` (calculado a partir do prompt v0.1.0)
@@ -135,7 +135,7 @@ npm run eval:social-media -- --judge-model=claude-haiku-4-5-20251001
 
 ## 📋 Checklist Etapa 2 (você executa)
 
-- [ ] Configurar `ANTHROPIC_API_KEY` em `.env` (Acme Anthropic console)
+- [ ] Configurar `ANTHROPIC_API_KEY` em `.env` (Novais Digital Anthropic console)
 - [ ] Decidir threshold (recomendação: 0.7 para v0 — só 8 cases, sinal frágil)
 - [ ] Rodar `npm run eval:social-media -- --subset=critical_path` (cheap smoke, ~$0.05)
 - [ ] Inspecionar report gerado em `evals/social-media-agent/runs/`
@@ -148,7 +148,7 @@ npm run eval:social-media -- --judge-model=claude-haiku-4-5-20251001
 
 ## 🔄 Próximo passo após Etapa 2 (D4-D5)
 
-1. **Replicar para copywriter-agent**: migrar 22 cases de [docs/forge/sku/copywriter-agent/eval-cases.md](../docs/forge/sku/copywriter-agent/eval-cases.md), versionar prompts em `prompts/copywriter-agent/v0.1.0/`, rodar eval real (~$0.40 estimado).
-2. **Replicar para designer-agent**: migrar 26 cases de [docs/forge/sku/designer-agent/eval-cases.md](../docs/forge/sku/designer-agent/eval-cases.md) — atenção: maioria dos cases do designer depende de inspeção de imagem, vai produzir muitos cases adiados.
+1. **Replicar para copywriter-agent**: migrar 22 cases de [docs/foundry/sku/copywriter-agent/eval-cases.md](../docs/foundry/sku/copywriter-agent/eval-cases.md), versionar prompts em `prompts/copywriter-agent/v0.1.0/`, rodar eval real (~$0.40 estimado).
+2. **Replicar para designer-agent**: migrar 26 cases de [docs/foundry/sku/designer-agent/eval-cases.md](../docs/foundry/sku/designer-agent/eval-cases.md) — atenção: maioria dos cases do designer depende de inspeção de imagem, vai produzir muitos cases adiados.
 3. **Wave 5 do social-media**: implementar `EvalRunnerPipeline` para cobrir os 14 cases adiados (Zernio mock, retry inspection, brand validator em fixture de imagem). Aí sim, gate canônico de SHADOW.
-4. **Promotion SHADOW** dos 3 SKUs P0 — quando eval runner + pipeline cobrir ≥85% dos cases canônicos, dispara `/acme:promote --to=shadow`.
+4. **Promotion SHADOW** dos 3 SKUs P0 — quando eval runner + pipeline cobrir ≥85% dos cases canônicos, dispara `/novais-digital:promote --to=shadow`.

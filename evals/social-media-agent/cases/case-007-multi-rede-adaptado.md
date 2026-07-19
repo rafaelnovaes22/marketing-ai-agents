@@ -6,7 +6,7 @@ source_mode: real
 criterio_pass: llm_as_judge
 critical_path: false
 input:
-  tema: "Acme Social em 4 redes"
+  tema: "Novais Digital Social em 4 redes"
   rede_prioritaria: "instagram"
   tom: "brand_voice_ceo"
   slides: 5

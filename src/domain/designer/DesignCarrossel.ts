@@ -145,7 +145,7 @@ export class DesignCarrossel {
    * Mapeamento de billing:
    *   - caller='client_direct': billable_to='client_direct', amount=precoFinal() (R$ 15 ou R$ 20)
    *   - caller='social-media-agent': billable_to='composer', amount=0 (cobrança no composer)
-   *   - caller='founder_direct': billable_to='internal', amount=0 (uso interno Acme)
+   *   - caller='founder_direct': billable_to='internal', amount=0 (uso interno Novais Digital)
    */
   toHandoffPayload(): {
     carrossel_id: string;

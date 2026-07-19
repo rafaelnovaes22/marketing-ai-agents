@@ -41,7 +41,7 @@ const llmMockOutput = JSON.stringify({
     {
       role: 'cta',
       textOverlay: '#DesistirNãoÉOpção',
-      visualBrief: 'Logo Acme centralizado em background cyan gradient'
+      visualBrief: 'Logo Novais Digital centralizado em background cyan gradient'
     }
   ],
   captions: {
@@ -63,7 +63,7 @@ const llmMockOutput = JSON.stringify({
 
 const brandGuideFake = new BrandGuide(
   '1.0.0',
-  'Acme',
+  'Novais Digital',
   'tagline',
   {
     primary: {
@@ -127,7 +127,7 @@ describe('GenerateCarrosselUseCase (integration com fakes)', () => {
       redePrincipal: 'linkedin',
       slidesDesejados: 5,
       isUpsell: false,
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow'
     });
 
@@ -144,7 +144,7 @@ describe('GenerateCarrosselUseCase (integration com fakes)', () => {
       redePrincipal: 'linkedin',
       slidesDesejados: 5,
       isUpsell: false,
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow'
     });
 
@@ -159,7 +159,7 @@ describe('GenerateCarrosselUseCase (integration com fakes)', () => {
       redePrincipal: 'linkedin',
       slidesDesejados: 5,
       isUpsell: false,
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow'
     });
 
@@ -180,7 +180,7 @@ describe('GenerateCarrosselUseCase (integration com fakes)', () => {
       redePrincipal: 'linkedin',
       slidesDesejados: 5,
       isUpsell: false,
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow'
     });
 
@@ -198,7 +198,7 @@ describe('GenerateCarrosselUseCase (integration com fakes)', () => {
         redePrincipal: 'linkedin',
         slidesDesejados: 5,
         isUpsell: false,
-        tenantId: 'acme-internal',
+        tenantId: 'novais-digital-internal',
         mode: 'shadow'
       })
     ).rejects.toThrow();
@@ -232,7 +232,7 @@ describe('PublishMultiNetworkUseCase (integration com fakes)', () => {
       redePrincipal: 'linkedin',
       slidesDesejados: 5,
       isUpsell: false,
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow'
     });
 
@@ -315,7 +315,7 @@ describe('PublishMultiNetworkUseCase (integration com fakes)', () => {
       redePrincipal: 'twitter',
       slidesDesejados: 5,
       isUpsell: false,
-      tenantId: 'acme-internal',
+      tenantId: 'novais-digital-internal',
       mode: 'shadow'
     });
 

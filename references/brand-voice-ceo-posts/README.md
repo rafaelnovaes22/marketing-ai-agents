@@ -3,7 +3,7 @@
 ## Propósito
 
 Este corpus é a **fonte única e auditável** dos padrões reais de escrita da
-the CEO usados para calibrar o `social-media-agent` do Acme Social
+the CEO usados para calibrar o `social-media-agent` do Novais Digital Social
 (prompt em [prompts/social-media-agent/system-prompts/brand_voice_ceo.md](../../prompts/social-media-agent/system-prompts/brand_voice_ceo.md)).
 
 Foi criado em D4 do roadmap 14-dias, depois que a inspeção do prompt
@@ -24,8 +24,7 @@ sintéticos + princípios descritos de cabeça, sem corpus real de referência.
 - **Método:** coleta **manual** pelo founder (Rafael de Novaes) em
   2026-05-18, copiando-colando o texto integral de cada post.
 - **Motivo de ser manual:** scraping automatizado do LinkedIn viola o ToS
-  da plataforma e expõe a conta a banimento — política do projeto registrada
-  em [feedback de workflow](../../../C%3A%5CUsers%5CRafael%5C.claude%5Cprojects%5Cc--Users-Rafael-Projetos-Acme-Social%5Cmemory%5Cfeedback_workflow.md).
+  da plataforma e expõe a conta a banimento — política do projeto.
 
 ## Distribuição temporal (importante para calibração)
 

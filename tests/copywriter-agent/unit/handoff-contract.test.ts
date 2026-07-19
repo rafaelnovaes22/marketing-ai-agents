@@ -21,11 +21,11 @@ import { OutputType } from '../../../src/domain/copywriter/OutputType.js';
 
 const makeBriefing = (outputType = 'landing', framework = 'pas') =>
   CopywriterBriefing.create({
-    tenantId: 'acme',
+    tenantId: 'novais-digital',
     outputType: OutputType.create(outputType),
     framework: Framework.create(framework),
     tomSlug: 'brand_voice_ceo',
-    product: 'Acme Forge',
+    product: 'Novais Digital Foundry',
     audience: 'Founders B2B SaaS',
     goal: 'Inscrição na waitlist',
     context: 'Lançamento de curso intensivo de 14 dias com 7 agentes IA para marketing.'
@@ -99,7 +99,7 @@ describe('Wave 3 RED — T4.4 CopywriterOutput.toHandoffPayload()', () => {
     expect((handoff as Record<string, unknown>).output_id).toBe(output.id);
     expect((handoff as Record<string, unknown>).output_type).toBe('landing');
     expect((handoff as Record<string, unknown>).schema_version).toBe('1.0.0');
-    expect((handoff as Record<string, unknown>).tenant_id).toBe('acme');
+    expect((handoff as Record<string, unknown>).tenant_id).toBe('novais-digital');
     expect((handoff as Record<string, unknown>).briefing_hash).toMatch(/^brf_[0-9a-f]+$/);
     expect((handoff as Record<string, unknown>).created_at_iso).toBeDefined();
     expect((handoff as Record<string, unknown>).price_brl).toBe(80.0);

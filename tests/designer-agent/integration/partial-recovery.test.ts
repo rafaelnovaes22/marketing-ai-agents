@@ -24,7 +24,7 @@ import { FakeImageGen, FakeBrandValidator, FakeObservability } from '../../socia
 
 const brandGuide = new BrandGuide(
   '1.0.0',
-  'Acme',
+  'Novais Digital',
   'tagline',
   {
     primary: { navy_deep: '#0A1628', royal_blue: '#2563EB', cyan_accent: '#5EEAD4', white: '#FFFFFF' },
@@ -111,7 +111,7 @@ describe('Wave 3 RED — Partial-recovery via Promise.allSettled', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     // RED: atualmente Promise.all aborta o carrossel inteiro
@@ -148,7 +148,7 @@ describe('Wave 3 RED — Partial-recovery via Promise.allSettled', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     try {
@@ -225,7 +225,7 @@ describe('Wave 3 RED — Partial-recovery via Promise.allSettled', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     // RED: hoje aborta. Wave 4: deve retornar carrossel com slide 1 failed, 2-5 OK

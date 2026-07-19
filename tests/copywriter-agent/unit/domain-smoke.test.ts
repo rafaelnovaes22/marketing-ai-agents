@@ -44,11 +44,11 @@ const seedBriefing = (overrides: Partial<{
   context: string;
 }> = {}): CopywriterBriefing =>
   CopywriterBriefing.create({
-    tenantId: 'acme',
+    tenantId: 'novais-digital',
     outputType: OutputType.create(overrides.outputType ?? 'landing'),
     framework: Framework.create(overrides.framework ?? 'pas'),
     tomSlug: 'brand_voice_ceo',
-    product: 'Acme Forge',
+    product: 'Novais Digital Foundry',
     audience: 'Founders B2B',
     goal: 'Inscrição na waitlist',
     context:

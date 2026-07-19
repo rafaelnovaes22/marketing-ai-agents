@@ -21,7 +21,7 @@ import {
 
 const brandGuide = new BrandGuide(
   '1.0.0',
-  'Acme',
+  'Novais Digital',
   'tagline',
   {
     primary: {
@@ -120,7 +120,7 @@ describe('DesignCarrosselUseCase (integration com fakes)', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     const carrossel = await useCase.execute({
@@ -160,7 +160,7 @@ describe('DesignCarrosselUseCase (integration com fakes)', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'social-media-agent',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     const carrossel = await useCase.execute({
@@ -196,7 +196,7 @@ describe('DesignCarrosselUseCase (integration com fakes)', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     // Slide 1 sem textOverlay → vai pro Imagen como primary
@@ -243,7 +243,7 @@ describe('DesignCarrosselUseCase (integration com fakes)', () => {
       numSlides: 5,
       dominantMode: 'dark',
       caller: 'client_direct',
-      tenantId: 'acme-internal'
+      tenantId: 'novais-digital-internal'
     });
 
     const specs = slideSpecsBase(5).map((s, i) =>

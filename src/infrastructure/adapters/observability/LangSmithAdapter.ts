@@ -7,7 +7,7 @@
 //
 // API LangSmith: `RunTree` representa o nó (root ou span). `createChild()`
 // cria spans aninhados. `.postRun()` envia a criação ao backend; `.end()`
-// fecha com outputs. O envio é fire-and-forget (background batcher).
+// fecha com outputs. O envio é fire-and-foundryt (background batcher).
 
 import { Client } from 'langsmith';
 import { RunTree } from 'langsmith/run_trees';
@@ -89,7 +89,7 @@ export class LangSmithAdapter implements Observability {
       tags: [context.sku, context.mode]
     });
 
-    // Fire-and-forget — postRun envia ao batcher; falha não pode quebrar use case.
+    // Fire-and-foundryt — postRun envia ao batcher; falha não pode quebrar use case.
     void root.postRun().catch(() => {
       /* swallow — telemetria não pode derrubar produção */
     });

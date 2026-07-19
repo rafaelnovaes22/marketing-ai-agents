@@ -1,4 +1,4 @@
-// Acme Social — schema Prisma 6
+// Novais Digital Social — schema Prisma 6
 // Multi-tenant ready (C8) — single-tenant fase 1, mas tenant_id está em todas as tabelas
 // Audit trail obrigatório para SKUs com criticality ≥ B
 
@@ -54,7 +54,7 @@ model Execution {
   tenantId      String   @map("tenant_id")
   carrosselId   String   @map("carrossel_id")
 
-  // Modo de operação (lifecycle Forge)
+  // Modo de operação (lifecycle Foundry)
   mode          String   // 'shadow' | 'assisted' | 'autonomous'
 
   // Outcome
@@ -120,7 +120,7 @@ model CopywriterExecution {
   isUpsell      Boolean  @default(false) @map("is_upsell")
   briefingHash  String   @map("briefing_hash")
 
-  // Lifecycle Forge
+  // Lifecycle Foundry
   mode          String   // 'shadow' | 'assisted' | 'autonomous'
   status        String   // 'pending' | 'generating' | 'completed' | 'failed' | 'cancelled'
 
@@ -170,7 +170,7 @@ model DesignerExecution {
   variant       String   // 'standard' | 'economic'
   brandStrictness Float  @map("brand_strictness") @default(0.99)
 
-  // Modo Forge lifecycle
+  // Modo Foundry lifecycle
   mode          String   // 'shadow' | 'assisted' | 'autonomous'
 
   // Outputs

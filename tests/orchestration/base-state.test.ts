@@ -20,13 +20,13 @@ import type { TraceContext } from '../../src/domain/ports/Observability.js';
 
 const validTraceContext: TraceContext = {
   traceId: 'trace_test_1',
-  tenantId: 'acme-internal',
+  tenantId: 'novais-digital-internal',
   sku: 'social-media-agent',
   mode: 'shadow'
 };
 
 const validBaseInput = {
-  tenantId: 'acme-internal',
+  tenantId: 'novais-digital-internal',
   traceContext: validTraceContext,
   mode: 'shadow' as const
 };
@@ -56,7 +56,7 @@ describe('BaseGraphState — smoke ESM + C8 enforcement', () => {
   it('validateBaseInput aceita input válido', () => {
     expect(() => validateBaseInput(validBaseInput)).not.toThrow();
     const out = validateBaseInput(validBaseInput);
-    expect(out.tenantId).toBe('acme-internal');
+    expect(out.tenantId).toBe('novais-digital-internal');
     expect(out.mode).toBe('shadow');
   });
 
@@ -110,7 +110,7 @@ describe('BaseGraphState — smoke ESM + C8 enforcement', () => {
 
     expect(result.counter).toBe(42);
     // Estado base propagado automaticamente pelo reducer default do Annotation
-    expect(result.tenantId).toBe('acme-internal');
+    expect(result.tenantId).toBe('novais-digital-internal');
     expect(result.mode).toBe('shadow');
     expect(result.traceContext.traceId).toBe('trace_test_1');
   });

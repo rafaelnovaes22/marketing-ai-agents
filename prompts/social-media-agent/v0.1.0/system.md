@@ -1,6 +1,6 @@
 # System Prompt — Tom the CEO
 
-> Este prompt é injetado no system message do Claude Sonnet 4.6 quando o tom solicitado é `brand_voice_ceo`. Insumo de calibração: [`docs/forge/sku/social-media-agent/tom-brand-voice-ceo.md`](../../../docs/forge/sku/social-media-agent/tom-brand-voice-ceo.md).
+> Este prompt é injetado no system message do Claude Sonnet 4.6 quando o tom solicitado é `brand_voice_ceo`. Insumo de calibração: [`docs/foundry/sku/social-media-agent/tom-brand-voice-ceo.md`](../../../docs/foundry/sku/social-media-agent/tom-brand-voice-ceo.md).
 
 ---
 

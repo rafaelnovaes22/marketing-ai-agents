@@ -1,4 +1,4 @@
-# Acme Social
+# Novais Digital Social
 
 > SaaS² (SaaS de agentes) de marketing digital autônomo — 7 agentes IA especializados operando 4 redes sociais. Consumidor do **agent-governance-framework** (Constitution C1-C8).
 
@@ -14,20 +14,20 @@ Plataforma que entrega marketing digital 100% autônomo:
 
 ## Stack
 
-Anthropic Claude + Google Vertex AI (Imagen 4 + Veo 3) + Meta APIs + **LangGraph** (orchestration runtime) + **LangSmith** (tracing). Ver [ADR-005-PROJ](docs/forge/decisions/ADR-005-PROJ-orchestration-runtime.md) e [ADR-006-PROJ](docs/forge/decisions/ADR-006-PROJ-tracing-substitution.md).
+Anthropic Claude + Google Vertex AI (Imagen 4 + Veo 3) + Meta APIs + **LangGraph** (orchestration runtime) + **LangSmith** (tracing). Ver [ADR-005-PROJ](docs/foundry/decisions/ADR-005-PROJ-orchestration-runtime.md) e [ADR-006-PROJ](docs/foundry/decisions/ADR-006-PROJ-tracing-substitution.md).
 
 ## Status
 
-Em desenvolvimento sob pipeline Forge. Trabalho recente: brand-voice `brand-voice-ceo` ([brand/](brand/)) extraído por análise dos top 50 posts + eval cases de Instagram para o copywriter-agent ([evals/](evals/)).
+Em desenvolvimento sob pipeline Foundry. Trabalho recente: brand-voice `brand-voice-ceo` ([brand/](brand/)) extraído por análise dos top 50 posts + eval cases de Instagram para o copywriter-agent ([evals/](evals/)).
 
 ## Pontos de entrada
 
 | Documento | Para quê |
 |---|---|
 | [CLAUDE.md](CLAUDE.md) | Guia operacional para Claude Code |
-| [templates/master-prompt.md](templates/master-prompt.md) | Referência canônica de operação do pipeline Forge |
-| [documentacao/EXECUTIVE_SUMMARY_ACME.md](documentacao/EXECUTIVE_SUMMARY_ACME.md) | Síntese executiva de 1 página |
-| [.claude/CONSTITUTION.md](.claude/CONSTITUTION.md) | Constitution C1-C8 (cópia canônica do forge — não editar localmente) |
+| [templates/master-prompt.md](templates/master-prompt.md) | Referência canônica de operação do pipeline Foundry |
+| [documentacao/EXECUTIVE_SUMMARY_NOVAIS.md](documentacao/EXECUTIVE_SUMMARY_NOVAIS.md) | Síntese executiva de 1 página |
+| [.claude/CONSTITUTION.md](.claude/CONSTITUTION.md) | Constitution C1-C8 (cópia canônica do foundry — não editar localmente) |
 
 ## Desenvolvimento
 
@@ -36,3 +36,9 @@ cp .env.example .env   # preencher credenciais
 npm install
 npm test               # vitest
 ```
+
+## Licença
+
+Copyright (c) 2026 Rafael Novaes.
+
+Licenciado sob [PolyForm Noncommercial License 1.0.0](./LICENSE.md) — leitura, estudo e uso não comercial permitidos; uso comercial requer autorização expressa do autor.

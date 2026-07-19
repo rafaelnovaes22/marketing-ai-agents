@@ -7,7 +7,7 @@ criterio_pass: llm_as_judge
 critical_path: false
 input:
   output_type: ad_set
-  product: "Evento online B2B — Acme Day — 1 dia de imersão em IA para founders"
+  product: "Evento online B2B — Novais Digital Day — 1 dia de imersão em IA para founders"
   audience: "founders B2B Brasil com 5-100 funcionários"
   framework: tree_of_thought
   tone: brand_voice_ceo

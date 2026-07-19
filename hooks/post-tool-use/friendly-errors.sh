@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Hook: friendly-errors (Forge-12 Fase 2)
+# Hook: friendly-errors (Foundry-12 Fase 2)
 # Intercepta mensagens de erro relacionadas a violações de Constitution C1-C8 e
-# traduz para linguagem amigável conforme modo de operação (.forge-mode).
+# traduz para linguagem amigável conforme modo de operação (.foundry-mode).
 #
 # Modos suportados:
 #   vibe  → tradução leiga (ex: "C3 violation" → "Esse SKU está caro demais")
@@ -17,17 +17,17 @@ INPUT=$(cat)
 
 # Diretório raiz do repo (pasta acima do hooks/)
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-MODE_FILE="${REPO_ROOT}/.forge-mode"
+MODE_FILE="${REPO_ROOT}/.foundry-mode"
 
 # Determina modo
 if [[ -f "${MODE_FILE}" ]]; then
-  FORGE_MODE=$(cat "${MODE_FILE}" | tr -d '[:space:]')
+  FOUNDRY_MODE=$(cat "${MODE_FILE}" | tr -d '[:space:]')
 else
-  FORGE_MODE="dev"
+  FOUNDRY_MODE="dev"
 fi
 
 # Em modo agent → não traduz
-if [[ "${FORGE_MODE}" == "agent" ]]; then
+if [[ "${FOUNDRY_MODE}" == "agent" ]]; then
   exit 0
 fi
 
@@ -56,19 +56,19 @@ FRIENDLY_MSG=""
 
 # C1 — Diagnose-first
 if echo "${TOOL_OUTPUT}" | grep -qiE "(C1|diagnose-?(before|first))"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="🤔 Antes de criar isso, preciso entender melhor o problema. Você pode me contar o que o cliente vai pagar por aqui?"
       ;;
     dev)
-      FRIENDLY_MSG="C1 violation — diagnose-first principle: capability nova exige /acme:diagnose antes de spec/plan/code. Veja COMMON_ERRORS.md #1."
+      FRIENDLY_MSG="C1 violation — diagnose-first principle: capability nova exige /novais-digital:diagnose antes de spec/plan/code. Veja COMMON_ERRORS.md #1."
       ;;
   esac
 fi
 
 # C2 — Outcome contratual
 if echo "${TOOL_OUTPUT}" | grep -qiE "(C2|outcome.?clause|po.guardian.*reject)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="📝 O pedido tá muito vago — me ajuda a deixar mais claro? Tenta responder: 'O cliente vai poder MEDIR se eu cumpri assim: ___'"
       ;;
@@ -80,7 +80,7 @@ fi
 
 # C3 — Unit economics
 if echo "${TOOL_OUTPUT}" | grep -qiE "(C3|cost.?per.?outcome|unit.?economics|margin)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="💸 Esse projeto tá caro demais pra você cobrar o preço atual — você precisa: (a) cobrar mais, (b) cortar custos, ou (c) entregar menos. Posso te ajudar a decidir."
       ;;
@@ -92,7 +92,7 @@ fi
 
 # C4 — Verifiable evaluation
 if echo "${TOOL_OUTPUT}" | grep -qiE "(C4|eval.?suite|shadow|acceptance.?gate|tdd.?red)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="✅ Antes de cobrar do cliente, eu preciso ter certeza que funciona — isso significa rodar uns testes/exemplos primeiro. Quer que eu prepare?"
       ;;
@@ -104,19 +104,19 @@ fi
 
 # C5 — ADR
 if echo "${TOOL_OUTPUT}" | grep -qiE "(C5|ADR|adr-approval-gate|architectural.?decision)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="📋 Essa é uma mudança importante na estrutura — eu preciso documentar PORQUÊ estamos fazendo. Me explica em 1 frase: por que essa mudança agora?"
       ;;
     dev)
-      FRIENDLY_MSG="C5 violation — mudança arquitetural sem ADR. Crie em docs/forge/decisions.md com template (Contexto/Decisão/Consequências). Veja COMMON_ERRORS.md #5."
+      FRIENDLY_MSG="C5 violation — mudança arquitetural sem ADR. Crie em docs/foundry/decisions.md com template (Contexto/Decisão/Consequências). Veja COMMON_ERRORS.md #5."
       ;;
   esac
 fi
 
 # C6 — Observability
 if echo "${TOOL_OUTPUT}" | grep -qiE "(C6|langfuse|telemetry|trace)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="📊 Eu preciso registrar tudo que acontece (pra você saber depois) — vou configurar isso automaticamente, ok?"
       ;;
@@ -128,7 +128,7 @@ fi
 
 # C7 — Portability
 if echo "${TOOL_OUTPUT}" | grep -qiE "(C7|portability|coupling|domain.?layer)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="🔌 Você tá amarrando muito o código a uma ferramenta específica — se um dia quisermos trocar, vai dar trabalho. Vou abstrair isso."
       ;;
@@ -140,7 +140,7 @@ fi
 
 # C8 — Tenant context
 if echo "${TOOL_OUTPUT}" | grep -qiE "(C8|tenant|multi.?tenant|RLS)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="🏢 Lembra que diferentes clientes não podem ver dados uns dos outros — vou garantir que isso esteja respeitado."
       ;;
@@ -152,7 +152,7 @@ fi
 
 # Hash mismatch (C2 path-related)
 if echo "${TOOL_OUTPUT}" | grep -qiE "(hash mismatch|sha256.*divergent)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="🔐 Um arquivo foi editado mas a 'impressão digital' dele no controle de versão não foi atualizada — eu corrijo agora."
       ;;
@@ -164,7 +164,7 @@ fi
 
 # Secret detected
 if echo "${TOOL_OUTPUT}" | grep -qiE "(secret.?scan|api.?key|password|token).*(detected|found|block)"; then
-  case "${FORGE_MODE}" in
+  case "${FOUNDRY_MODE}" in
     vibe)
       FRIENDLY_MSG="🚨 Você tem uma senha ou chave secreta no código — isso é perigoso! Vou mover pra um lugar seguro automaticamente."
       ;;
@@ -180,9 +180,9 @@ fi
 
 if [[ -n "${FRIENDLY_MSG}" ]]; then
   echo ""
-  echo "─── 🤖 Forge Friendly Errors ───────────────"
+  echo "─── 🤖 Foundry Friendly Errors ───────────────"
   echo "${FRIENDLY_MSG}"
-  if [[ "${FORGE_MODE}" == "vibe" ]]; then
+  if [[ "${FOUNDRY_MODE}" == "vibe" ]]; then
     echo ""
     echo "💡 Quer que eu te mostre o erro técnico original também? Diga: 'modo dev'"
   fi
