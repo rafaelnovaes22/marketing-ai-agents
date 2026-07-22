@@ -1,7 +1,7 @@
 # BRAND GUIDE — Novais Digital
 **Versão 1.0 | Extraído de vídeo institucional | Data: 2026-05-13**
 
-> Este documento foi extraído automaticamente a partir do screencast do website oficial (`WhatsApp Video 2026-05-13 at 11.20.21.mp4`). Use como **input para os agentes de IA** (Social Media, Designer, Copywriter) para garantir consistência de marca.
+> Este documento foi extraído automaticamente a partir de um screencast de referência do website da marca demo (asset não incluído no repositório público). A marca descrita aqui é **fictícia** — use como **input para os agentes de IA** (Social Media, Designer, Copywriter) e como demonstração do pipeline de extração de brand guide.
 
 ---
 
@@ -9,23 +9,23 @@
 
 ### 1.1 Nome
 - **Nome oficial:** Novais Digital
-- **Grafia correta:** `Novais Digital` (com "IA" maiúsculo, destacando Inteligência Artificial)
-- **Logotipo wordmark:** `D.ANTIA` (com ponto após o D, em caixa alta estilizada)
-- **Variações aceitas:** "Novais Digital", "D.ANTIA" (logo)
-- **❌ Evitar:** "Novais Digital", "NOVAIS DIGITAL", "Dant IA"
+- **Grafia correta:** `Novais Digital`
+- **Logotipo wordmark:** `NOVAIS` (com ponto após o D, em caixa alta estilizada)
+- **Variações aceitas:** "Novais Digital", "NOVAIS" (logo)
+- **❌ Evitar:** grafias fora do padrão ("novais digital", "NovaisDigital")
 
 ### 1.2 Posicionamento
-> *"A plataforma que lidera a nova era das Empresas Inteligentes."*
+> *"A plataforma que opera marketing digital autônomo para marcas em crescimento."*
 
 **Categoria:** B2B Enterprise SaaS — Dados + Inteligência Artificial corporativa
-**Localização:** Alameda Grajaú · Alphaville · Barueri/SP
+**Localização:** Av. Exemplo, 1000 · São Paulo/SP (endereço fictício)
 **Status:** Beta · Acesso antecipado disponível
 
 ### 1.3 Tagline Principal
-> **"Você foca na empresa. A gente cuida em te dar resultado."**
+> **"Você foca no produto. A gente cuida da sua presença digital."**
 
 ### 1.4 Descrição Curta (Boilerplate)
-> "Operamos dados e inteligência artificial em empresas que precisam de inteligência competitiva."
+> "Operamos conteúdo e inteligência artificial para marcas que precisam de presença consistente."
 
 ### 1.5 Pilares da Marca
 1. **Decisões Baseadas em Dados** — Transformamos dados brutos em insights acionáveis que impulsionam resultados reais e mensuráveis.
@@ -54,7 +54,7 @@
 | Nome | HEX (estimado) | Uso |
 |------|---------------|-----|
 | **Navy Profundo** | `#0A1628` | Background principal (hero, footer) |
-| **Azul Royal** | `#2563EB` / `#1E40FF` | Destaques de texto, links, ênfase ("nova era das Empresas Inteligentes") |
+| **Azul Royal** | `#2563EB` / `#1E40FF` | Destaques de texto, links, ênfase (palavras-chave do hero) |
 | **Ciano/Turquesa Claro** | `#5EEAD4` / `#7DD3D8` | Subtítulos em destaque ("A gente cuida em te dar resultado") |
 | **Branco** | `#FFFFFF` | Texto principal sobre fundo escuro |
 
@@ -91,14 +91,14 @@
 
 | Nível | Peso | Aplicação |
 |-------|------|-----------|
-| **H1 — Hero** | Extra Bold | "Você foca na empresa. A gente cuida em te dar resultado." |
+| **H1 — Hero** | Extra Bold | "Você foca no produto. A gente cuida da sua presença digital." |
 | **H2 — Seção** | Bold | "A Novais Digital é a plataforma que lidera..." |
 | **H3 — Subtítulo** | SemiBold | "Decisões Baseadas em Dados" |
 | **Body** | Regular | Descrições de parágrafo |
 | **Micro** | Regular (uppercase) | Tags ("SOBRE A NOVAIS DIGITAL", "100% CONFORMIDADE") |
 
 #### Logo
-- **Wordmark:** `D.ANTIA` em caixa alta, letterspacing levemente expandido
+- **Wordmark:** `NOVAIS` em caixa alta, letterspacing levemente expandido
 - **Estilo:** Geométrico, tech, modernista (similar a marcas SaaS premium)
 - **Detalhe:** O "D" tem um ponto/marca distintiva após (`D.`)
 
@@ -175,7 +175,7 @@ Isso cria **ritmo visual** e destaca os momentos de conversão.
 
 #### Palavras-chave da marca:
 - **Inteligência competitiva**
-- **Empresas Inteligentes** (sempre capitalizado quando referência à categoria)
+- **Marketing autônomo** (categoria da marca fictícia)
 - **Diagnóstico** (em vez de "consultoria" ou "análise")
 - **Plataforma** (não "ferramenta" ou "software")
 - **Resultado**
@@ -196,7 +196,7 @@ Isso cria **ritmo visual** e destaca os momentos de conversão.
 ```
 "[Você + ação simples]. [A gente + entrega complexa]."
 
-Exemplo: "Você foca na empresa. A gente cuida em te dar resultado."
+Exemplo: "Você foca no produto. A gente cuida da sua presença digital."
 ```
 
 #### CTA Pattern:
@@ -230,14 +230,14 @@ Exemplo: "Pronto para transformar sua empresa? Faça um diagnóstico gratuito e 
 
 Identificados no menu Serviços:
 
-1. **Novais Digital Decision Engine™** — Motor de decisão inteligente
-2. **Novais Digital Intelligence™** — Plataforma de inteligência corporativa
+1. **Novais Content Engine** — motor de geração de conteúdo multi-rede (fictício)
+2. **Novais Campaign Intelligence** — módulo de otimização de campanhas (fictício)
 
-> Observação: Ambos usam símbolo **™** (trademark). Manter sempre que mencionados.
+> Observação: nomes de módulos fictícios, usados apenas para demonstrar a estrutura de submarcas.
 
 ### Estrutura do Site
 - **Produtos** (dropdown)
-- **Serviços** (dropdown — Decision Engine, Intelligence)
+- **Serviços** (dropdown — Content Engine, Campaign Intelligence)
 - **Cases** (dropdown)
 - **Fale conosco** (CTA pill no canto direito)
 
@@ -251,7 +251,7 @@ Identificados no menu Serviços:
 - 📖 (Terceiro ícone — possível Medium/Blog ou X/Twitter)
 
 ### Rodapé
-- **Logo + endereço:** Alameda Grajaú · Alphaville · Barueri/SP
+- **Logo + endereço:** Av. Exemplo, 1000 · São Paulo/SP (endereço fictício)
 - **Copyright:** © 2026 Novais Digital — Todos os direitos reservados
 - **Links legais:** Privacidade · Termos
 
@@ -279,7 +279,7 @@ ESTRUTURA DE POST:
 4. CTA: "Diagnóstico gratuito" ou "Fale com especialistas"
 
 PALAVRAS-CHAVE:
-✅ inteligência competitiva, empresas inteligentes, diagnóstico, plataforma, 
+✅ inteligência competitiva, marketing autônomo, diagnóstico, plataforma, 
    resultado, escalabilidade, governança
 
 ❌ EVITAR: jargão técnico, gírias, promessas vagas
@@ -313,7 +313,7 @@ PALAVRAS-CHAVE:
     "icons": "outline, monochromatic blue",
     "composition": "center-aligned, generous whitespace"
   },
-  "logo": "D.ANTIA wordmark, uppercase, geometric sans-serif"
+  "logo": "NOVAIS wordmark, uppercase, geometric sans-serif"
 }
 ```
 
@@ -373,29 +373,14 @@ PALAVRAS-CHAVE:
 
 ## 8. ARTEFATOS GERADOS
 
-Os seguintes arquivos foram criados durante a extração:
+O pipeline de extração gera os seguintes artefatos (removidos do repositório
+público por conterem o screencast de referência):
 
 ```
-C:\Users\Rafael\Projetos\Novais_Social\
-├── BRAND_GUIDE_DANTUIA.md (este documento)
-└── brand_extraction/
-    ├── audio.mp3 (áudio extraído — 27s)
-    ├── transcricao.txt ("Ficou fraco?" — pouco conteúdo verbal)
-    ├── transcricao_segmentos.json
-    └── frames/
-        ├── frame_001.jpg (Hero principal)
-        ├── frame_002.jpg (Hero scroll)
-        ├── frame_003.jpg (Transição → Sobre)
-        ├── frame_004.jpg (Pilares + Governança)
-        ├── frame_005.jpg (Governança + CTA final + Footer)
-        ├── frame_006.jpg (Sobre + Pilares)
-        ├── frame_007.jpg (Hero)
-        ├── frame_008.jpg (Hero variação)
-        ├── frame_009.jpg (Hero com menu hover)
-        ├── frame_010.jpg (Menu Serviços aberto)
-        ├── frame_011.jpg (Menu Serviços)
-        ├── frame_012.jpg (Hero)
-        └── frame_013.jpg (Hero)
+brand_extraction/
+├── audio.mp3 (áudio extraído do screencast)
+├── transcricao.txt + transcricao_segmentos.json (Whisper)
+└── frames/frame_NNN.jpg (frames-chave extraídos via FFmpeg)
 ```
 
 ---

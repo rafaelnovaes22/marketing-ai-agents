@@ -1,4 +1,6 @@
-# PLANO ESTRATÉGICO: AGENTES DE IA PARA DANTUIA SOCIAL
+# PLANO ESTRATÉGICO: AGENTES DE IA PARA NOVAIS SOCIAL
+
+> ⚠️ **Case projetado com dados sintéticos.** Números de custo/retorno/ROI neste documento são exercício de planejamento do framework, sem cliente real.
 **Documento de Proposta | Versão 3.0 | Stack Claude + Google | Operação 100% Autônoma | Data: 2026-05-13 | Status: Para Avaliação**
 
 > 🎯 **Esta versão final consolida 3 decisões estratégicas:**

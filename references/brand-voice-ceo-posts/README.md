@@ -1,58 +1,55 @@
-# Corpus the CEO — calibração de tom de voz
+# Corpus "The CEO" — calibração de tom de voz (persona sintética)
+
+> **Disclaimer:** "The CEO" é uma **persona fictícia** (fundadora/investidora
+> brasileira) criada para demonstrar o pipeline de calibração de brand voice
+> deste framework. Nenhum conteúdo neste diretório pertence a uma pessoa real.
+> Na versão privada original, este diretório continha um corpus de posts
+> públicos coletados manualmente; esse material foi **removido da versão
+> pública** e substituído por esta descrição do método.
 
 ## Propósito
 
-Este corpus é a **fonte única e auditável** dos padrões reais de escrita da
-the CEO usados para calibrar o `social-media-agent` do Novais Digital Social
-(prompt em [prompts/social-media-agent/system-prompts/brand_voice_ceo.md](../../prompts/social-media-agent/system-prompts/brand_voice_ceo.md)).
-
-Foi criado em D4 do roadmap 14-dias, depois que a inspeção do prompt
-existente revelou que ele havia sido escrito apenas com 2 few-shot
-sintéticos + princípios descritos de cabeça, sem corpus real de referência.
+Documentar o método de calibração de tom de voz usado pelo
+`social-media-agent`: coletar um corpus pequeno e auditável de posts de
+referência, destilar padrões estruturais e usar essa destilação como fonte
+única para o system prompt e para os eval-cases.
 
 ## Conteúdo
 
-- [`PATTERNS.md`](./PATTERNS.md) — destilação estruturada dos padrões
-  observados nos 10 posts (output principal — input para refator do prompt
-  e expansão de eval-cases).
-- [`posts/`](./posts/) — 10 posts brutos com frontmatter (title, date,
-  hashtags, era, fontes citadas, recurso dominante).
+- [`PATTERNS.md`](./PATTERNS.md) — destilação estruturada dos padrões da
+  persona (macro-estrutura de post, modos de hook, fórmulas de contraste
+  binário, vocabulário-assinatura, CTA, anti-padrões). É o input canônico
+  para [prompts/social-media-agent/system-prompts/brand_voice_ceo.md](../../prompts/social-media-agent/system-prompts/brand_voice_ceo.md)
+  e para os eval-cases em [evals/social-media-agent/cases/](../../evals/social-media-agent/cases/).
 
-## Fonte e método de coleta
+## Método (replicável com o seu próprio corpus)
 
-- **Origem:** LinkedIn público da the CEO (https://www.linkedin.com/in/brandprofile)
-- **Método:** coleta **manual** pelo founder (Rafael de Novaes) em
-  2026-05-18, copiando-colando o texto integral de cada post.
-- **Motivo de ser manual:** scraping automatizado do LinkedIn viola o ToS
-  da plataforma e expõe a conta a banimento — política do projeto.
+1. **Coleta manual** de 10-15 posts representativos da voz a replicar
+   (copiar/colar com frontmatter: título, data, hashtags, "era", fontes
+   citadas, recurso retórico dominante). Scraping automatizado de redes
+   sociais viola ToS — a política do projeto é coleta manual.
+2. **Estratificação temporal** ("eras"): peso dominante para os posts mais
+   recentes; posts antigos mostram o que a voz **deixou de fazer**.
+3. **Destilação** em um `PATTERNS.md`: estrutura em blocos, modos de hook,
+   fórmulas de contraste, vocabulário-assinatura, anti-padrões.
+4. **Propagação**: PATTERNS.md → system prompt versionado
+   (`prompts/social-media-agent/v0.x.0/`) → eval-cases com LLM-as-judge →
+   loop de refinamento.
 
-## Distribuição temporal (importante para calibração)
+## Distribuição temporal usada na demo
 
 | Período | Posts | "Era" |
 |---|---|---|
-| 2026 (fev) | 1, 2, 3 | `2026_codigo_ceo` — atual, provocador, dados+contraste |
-| 2024–2025 | 4, 5, 6 | `2024_2025_transicao` — caso de estudo, didático |
-| 2021 | 7, 8, 9, 10 | `2021_educativo` — expositivo, listas de conceitos |
+| Era atual | 3 | `era_atual` — provocador, dados + contraste binário |
+| Transição | 3 | `transicao` — caso de estudo, didático |
+| Antiga | 4 | `educativa` — expositivo, listas de conceitos |
 
-O `PATTERNS.md` dá **peso dominante aos posts 1-3** (era atual). Posts
-antigos servem como contexto histórico e mostram o que ela **deixou de
-fazer** (didatismo expositivo, "a gente/nós").
+## Regras de uso
 
-## Uso autorizado
-
-- ✅ **Calibração interna** do prompt `brand_voice_ceo.md` e dos
-  eval-cases do `social-media-agent`.
-- ✅ **Análise contrastiva** entre output do agente e padrões reais
+- ✅ Calibração interna do prompt `brand_voice_ceo.md` e dos eval-cases.
+- ✅ Análise contrastiva entre output do agente e padrões destilados
   (LLM-as-judge).
-- ✅ **Few-shot examples** com trechos curtos citando a fonte.
-- ❌ **Não redistribuir** o corpus fora deste repositório.
-- ❌ **Não publicar** posts gerados pelo agente atribuindo autoria à
-  the CEO. O agente produz no **estilo dela**, não como ela.
-- ❌ **Não usar** para fine-tuning de modelo sem autorização explícita.
-
-## Status
-
-- Coleta: ✅ 2026-05-18 (10 posts)
-- PATTERNS.md: ✅ 2026-05-18
-- Próxima coleta planejada: quando refator do prompt revelar lacunas
-  (ex: posts sobre captação de funding, sobre vendas B2B enterprise).
+- ❌ Não usar o pipeline para publicar conteúdo atribuindo autoria a uma
+  pessoa real. O agente produz **em um estilo**, nunca **como alguém**.
+- ❌ Não usar corpora coletados para fine-tuning sem autorização explícita
+  do titular do conteúdo.

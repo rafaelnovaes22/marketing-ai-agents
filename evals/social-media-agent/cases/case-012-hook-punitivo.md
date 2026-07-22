@@ -22,12 +22,12 @@ judge_prompt: |
 
   Avalie o output em escala 0–10 com foco no hook (primeira linha / slide 1).
 
-  Padrões válidos de hook no corpus real:
+  Padrões válidos de hook no corpus de referência (sintético):
     Modo 1 — Frase-tese punitiva: afirmação seca que acusa um comportamento
-      Ex: "Marketing não salva empresa desorganizada."
-      Ex: "Seu problema é excesso de centralização."
+      Ex: "Faturamento alto não é sinal de negócio saudável."
+      Ex: "Sua empresa não tem problema de vendas. Tem problema de processo."
     Modo 2 — Pergunta-tese provocativa: pergunta que antecipa a tese
-      Ex: "Você tem dom pra vendas? Ou nunca aprendeu a vender?"
+      Ex: "Seu time executa sozinho? Ou espera você decidir?"
 
   Padrões PROIBIDOS de hook:
     ❌ Pergunta vaga de auto-ajuda: "Você já se perguntou qual é o seu propósito?"

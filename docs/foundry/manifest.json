@@ -48,7 +48,7 @@
         {"path": "docs/foundry/sku/social-media-agent/eval-cases.md", "type": "eval-cases", "linked_principle": "C4", "status": "draft", "total_cases": 22, "critical_path_count": 5},
         {"path": "docs/foundry/sku/social-media-agent/decisions.md", "type": "adr-local", "linked_principle": "C5", "adrs": ["ADR-001-DS", "ADR-002-DS", "ADR-003-DS", "ADR-004-DS"]},
         {"path": "docs/foundry/sku/social-media-agent/lifecycle-stage.md", "type": "lifecycle-stage", "linked_principle": "C4", "current_stage": "draft", "target_next": "shadow"},
-        {"path": "docs/foundry/sku/social-media-agent/tom-brand-voice-ceo.md", "type": "voice-calibration", "linked_principle": "C2", "status": "captured_2026-05-13", "quotes_count": 22, "fontes_consultadas": 8, "few_shots_count": 5, "_doc": "Calibração de tom de voz the CEO extraída de fontes públicas (livro Desistir Não É Opção, Exame, Pensador, Conta Azul, Infomoney, Forbes BR, site oficial). 8 dimensões de tom analisadas. Insumo crítico para prompt engineering do social-media-agent."}
+        {"path": "docs/foundry/sku/social-media-agent/tom-brand-voice-ceo.md", "type": "voice-calibration", "linked_principle": "C2", "status": "captured_2026-05-13", "few_shots_count": 3, "_doc": "Calibração de tom de voz da persona sintética 'The CEO'. 8 dimensões de tom analisadas. Na versão pública, a pesquisa de fontes reais foi substituída por definição sintética. Insumo crítico para prompt engineering do social-media-agent."}
       ],
       "copywriter-agent": [
         {"path": "docs/foundry/sku/copywriter-agent/diagnostic.md", "type": "diagnostic", "linked_principle": "C1", "status": "po_guardian_pending", "_diagnose_by": "subagent_parallel"},
@@ -97,9 +97,9 @@
     "brand_assets": [
       {
         "id": "novais-digital-brand-guide-extracted",
-        "path": "documentacao/BRAND_GUIDE_DANTUIA.md",
+        "path": "documentacao/BRAND_GUIDE.md",
         "type": "brand_reference",
-        "extracted_from": "WhatsApp Video 2026-05-13 at 11.20.21.mp4",
+        "extracted_from": "reference-screencast (asset não incluído no repo público)",
         "description": "Brand guide Novais Digital extraído automaticamente via FFmpeg + Whisper + Vision multimodal"
       }
     ],
@@ -119,7 +119,7 @@
       },
       {
         "id": "plano-tecnico",
-        "path": "documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md",
+        "path": "documentacao/PLANO_AGENTES_SOCIAL.md",
         "type": "business_documentation",
         "description": "Plano técnico completo dos 7 agentes (versão 3.0)"
       }
@@ -139,7 +139,7 @@
   },
 
   "implementation_roadmap": {
-    "_doc": "Roadmap dos 7 agentes em 14 dias. Detalhes em documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md.",
+    "_doc": "Roadmap dos 7 agentes em 14 dias. Detalhes em documentacao/PLANO_AGENTES_SOCIAL.md.",
     "week_1": {
       "days_1_2": "Setup + diagnose dos 7 agentes em paralelo (subagents Claude)",
       "days_3_5": "Specs P0 (social, copywriter, designer) + eval-cases",

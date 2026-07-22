@@ -2,12 +2,12 @@
 case_id: case-026
 sku_id: copywriter-agent
 outcome_category: instagram_caption
-source_mode: real
+source_mode: synthetic
 criterio_pass: llm_as_judge
 critical_path: false
-ground_truth_post_id: "18460825879111826"
-ground_truth_likes: 27959
-ground_truth_hook: "Você não precisa ser o herói com o extintor sempre na mão."
+ground_truth_post_id: "synthetic"
+ground_truth_likes: 0  # ilustrativo — corpus sintético
+ground_truth_hook: "Você não precisa apagar todos os incêndios da sua empresa."
 nota: "output_type instagram_caption é extensão planejada para integração com social-media-agent"
 input:
   output_type: instagram_caption
@@ -30,7 +30,7 @@ gabarito:
   tone_score_min: 7
 judge_prompt: |
   Você é avaliador de copy para Instagram no tom the CEO.
-  O post de referência real (28k likes) usa o hook: "Você não precisa ser o herói com o extintor sempre na mão."
+  O post âncora sintético (ver brand-voice.md) (~28k likes, valor ilustrativo) usa o hook: "Você não precisa apagar todos os incêndios da sua empresa."
 
   Avalie a caption gerada em 4 dimensões:
 
@@ -76,5 +76,5 @@ judge_prompt: |
 # Case 026 — Negação + Lista Estruturada Instagram
 
 Valida hook estrutura negação/virada com corpo em lista numerada — segundo formato de maior
-performance (28k likes). Foco em conteúdo educativo acionável sem dados, estruturado em
+performance (~28k likes, valor ilustrativo). Foco em conteúdo educativo acionável sem dados, estruturado em
 itens enumerados imperativo.

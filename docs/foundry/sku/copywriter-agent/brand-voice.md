@@ -2,37 +2,45 @@
 doc_type: brand_voice
 voice_id: brand-voice-ceo
 sku_id: copywriter-agent
-source: instagram_analysis_top_50
+source: synthetic_instagram_corpus
 posts_analyzed: 50
-likes_range: [175, 198452]
 date_extracted: 2026-05-22
 referenced_by:
   - evals/copywriter-agent/cases/case-001 (judge_prompt)
   - evals/copywriter-agent/cases/case-025 a case-029
 ---
 
-# Brand Voice: the CEO
+# Brand Voice: persona "The CEO" (Instagram)
 
 ## Origem dos dados
 
-Análise de 50 posts de maior performance do Instagram @brandprofile (abr–mai 2026).
-Dados extraídos de: `instagram_top_50_with_insights.json`, `instagram_hooks.json`, `instagram_carousels.json`, `instagram_cases.json`.
+> **Disclaimer:** persona e dados **sintéticos**. No projeto original, esta
+> seção derivava da análise dos 50 posts de maior performance de uma conta
+> real de Instagram (likes, comments, formato por post, via export de
+> insights). Os números e exemplos abaixo foram substituídos por valores
+> ilustrativos que preservam as ordens de grandeza, para manter os
+> eval-cases funcionais sem expor conteúdo de terceiros.
+
+Método replicável: exportar top-N posts por engajamento com insights
+(`likes`, `comments`, `format`), classificar hooks por estrutura, correlacionar
+estrutura × engajamento, destilar regras.
 
 ---
 
 ## 1. Regras de hook (primeira linha)
 
-O hook é o ativo mais crítico. Os 5 posts de > 10k likes usam invariavelmente uma das estruturas abaixo.
+O hook é o ativo mais crítico. Os posts de maior engajamento do corpus
+sintético usam invariavelmente uma das estruturas abaixo.
 
-### Estruturas validadas por engajamento
+### Estruturas validadas por engajamento (dados ilustrativos)
 
-| Estrutura | Exemplo real | Likes |
-|-----------|-------------|-------|
-| **Paradoxo/tensão** | "Talento é bom. Mas no ambiente errado, ele morre." | 198.452 |
-| **Negação + virada** | "Você não precisa ser o herói com o extintor sempre na mão." | 27.959 |
-| **Dado chocante + revelação** | "Você está ignorando o óbvio." (→ robôs na China) | 13.100 |
-| **Narrativa frustrada** | "Todo mundo ama falar de sucesso. Ninguém quer viver o começo." | 12.104 |
-| **Paradoxo de custo** | "Crescer dói, mas estagnar custa mais caro." | 6.633 |
+| Estrutura | Exemplo (sintético) | Likes |
+|-----------|---------------------|-------|
+| **Paradoxo/tensão** | "Disciplina é boa. Mas no sistema errado, ela vira desperdício." | ~200k |
+| **Negação + virada** | "Você não precisa apagar todos os incêndios da sua empresa." | ~28k |
+| **Dado chocante + revelação** | "Enquanto você hesita, seu concorrente automatiza." | ~13k |
+| **Narrativa frustrada** | "Todo mundo quer a escala. Ninguém quer o processo." | ~12k |
+| **Paradoxo de custo** | "Crescer custa caro. Ficar parado custa o negócio." | ~7k |
 
 ### Anti-padrões de hook (jamais usar)
 
@@ -40,7 +48,7 @@ O hook é o ativo mais crítico. Os 5 posts de > 10k likes usam invariavelmente 
 - Promessa de lista: "5 dicas para..."
 - Celebração vaga: "Que conquista incrível!"
 - Hashtag no hook
-- Emoji de abertura (exceto 🪷 em conteúdo pessoal muito específico)
+- Emoji de abertura
 
 ---
 
@@ -78,7 +86,7 @@ O hook é o ativo mais crítico. Os 5 posts de > 10k likes usam invariavelmente 
 
 [Bridge — 1 linha conectando ao produto/CTA.]
 
-[CTA — "Comenta [PALAVRA-EM-CAPS] que eu te envio X" + @feneducacao]
+[CTA — "Comenta [PALAVRA-EM-CAPS] que eu te envio X" + @handle do produto educacional (fictício: @ceo.educacao)]
 
 [Pergunta de fechamento — incentiva comentário específico.]
 ```
@@ -89,22 +97,22 @@ O hook é o ativo mais crítico. Os 5 posts de > 10k likes usam invariavelmente 
 
 ## 4. Dados e fontes
 
-### Fontes aceitas (usadas na conta)
+### Fontes aceitas (universo da persona)
 
-Gallup · McKinsey & Company · Sebrae · IBGE · Harvard Business Review · GEM · Gartner · IBM · Dominican University · Simon Sinek · Noel Tichy
+Gallup · McKinsey & Company · Sebrae · IBGE · Harvard Business Review · GEM · Gartner · IBM
 
 ### Formato obrigatório
 
 ```
 ✅ "A Gallup mostrou que 70% da variação no engajamento de uma equipe está ligada ao gestor."
 ✅ "O Sebrae aponta que 29% dos MEIs fecham em até cinco anos."
-✅ "Segundo a McKinsey, empresas que implementam IA de forma estratégica podem aumentar o fluxo de caixa em até 20%."
 
 ❌ "Pesquisas mostram que a maioria das empresas..."
 ❌ "Segundo especialistas..."
 ```
 
-Números específicos superam generalidades em **todos** os posts de alto engajamento.
+Números específicos superam generalidades em **todos** os posts de alto
+engajamento. Em produção, validar o dado antes de publicar.
 
 ---
 
@@ -118,13 +126,13 @@ Comenta [PALAVRA] que eu [ação específica]
 
 ### Palavras-chave validadas
 
-`CÓDIGO` · `BOOT` · `GARGALO` · `ESTRUTURA` · `DIAGNÓSTICO` · `MAPA` · `AULA` · `DECISÃO` · `CLIENTES` · `NEGOCIAR` · `VENDA`
+`CÓDIGO` · `GARGALO` · `ESTRUTURA` · `DIAGNÓSTICO` · `MAPA` · `AULA` · `DECISÃO` · `CLIENTES` · `NEGOCIAR` · `VENDA`
 
 ### Regras
 
 - Sempre uma palavra em caps, nunca frase
 - Sempre seguida de benefício tangível ("eu te envio", "eu te mostro", "eu te mando o material")
-- @feneducacao quando a CTA leva ao produto de mentoria/bootcamp
+- Handle do produto educacional (fictício: `@ceo.educacao`) quando a CTA leva ao produto de mentoria/bootcamp
 
 ---
 
@@ -135,68 +143,66 @@ Obrigatória em posts educativos. Deve ser:
 - Binária ou com resposta curta possível
 - Conectada ao tema do post
 
-**Exemplos reais (alto comentários):**
-> "O que você ainda não conseguiu tirar da sua mão? Comenta aqui." (106 comentários)
-> "Agora me responda: você consegue ficar 3 dias OFF sem prejudicar o seu negócio?" (21 comentários)
-> "Qual foi o pior atendimento que você já recebeu de uma empresa pelo WhatsApp?" (123 comentários)
+**Exemplos (sintéticos):**
+> "O que você ainda não conseguiu tirar da sua mão? Comenta aqui."
+> "Você consegue ficar 3 dias OFF sem prejudicar o seu negócio?"
+> "Qual foi o pior atendimento que você já recebeu de uma empresa pelo WhatsApp?"
 
 ---
 
 ## 7. Vulnerabilidade estratégica
 
-Usar com parsimônia. Quando presente, sempre conectada a aprendizado de negócio — nunca como fim em si.
+Usar com parcimônia. Quando presente, sempre conectada a aprendizado de
+negócio — nunca como fim em si.
 
-**Posts com vulnerabilidade de maior impacto:**
+**Padrões de abertura com vulnerabilidade (sintéticos):**
 
-| Abertura | Lição conectada | Likes |
-|---------|----------------|-------|
-| "Eu perdi R$ 280 mil por ignorar o básico." | percepção de valor vs. estética | 471 |
-| "Faturar R$30k sozinha parece incrível. Até você perceber que o negócio só existe enquanto você aguenta." | estrutura vs. esforço solo | 262 |
-| "Já fiz fertilização in vitro, inseminação artificial e por fim congelei óvulos." | resiliência + não romantizar luta | 2.281 |
+| Abertura | Lição conectada |
+|---------|----------------|
+| "Eu perdi seis dígitos por ignorar o básico." | percepção de valor vs. estética |
+| "Faturar bem sozinha parece incrível. Até você perceber que o negócio só existe enquanto você aguenta." | estrutura vs. esforço solo |
 
 **Regra:** vulnerabilidade no hook → lição clara no corpo → CTA no produto.
+Nunca usar detalhes íntimos reais de qualquer pessoa.
 
 ---
 
 ## 8. Performance por formato (referência para o social-media-agent)
 
+Ordens de grandeza ilustrativas do corpus sintético:
+
 | Formato | Pico de likes | Típico | Melhor uso |
 |---------|-------------|--------|-----------|
-| REEL (vídeo) | 198.452 | 3k–15k | Paradoxos, dados chocantes, narrativas |
-| IMAGE | 27.959 | 200–800 | Afirmações diretas, perguntas, momentos pessoais |
-| CAROUSEL_ALBUM | 4.101 | 150–600 | Conteúdo educativo estruturado, listas, CTAs longas |
+| REEL (vídeo) | ~200k | 3k–15k | Paradoxos, dados chocantes, narrativas |
+| IMAGE | ~28k | 200–800 | Afirmações diretas, perguntas, momentos pessoais |
+| CAROUSEL_ALBUM | ~4k | 150–600 | Conteúdo educativo estruturado, listas, CTAs longas |
 
-**Insight crítico:** Reels dominam alcance. Carrosséis dominam geração de leads via CTA (comentários mais altos proporcionalmente).
+**Insight crítico:** Reels dominam alcance. Carrosséis dominam geração de
+leads via CTA (comentários proporcionalmente mais altos).
 
 ---
 
-## 9. Posts âncora (ground truth canônico de tom)
+## 9. Posts âncora (ground truth sintético de tom)
 
-Estes 3 posts são a referência primária para avaliar tom em qualquer judge_prompt.
+Estes 3 posts sintéticos são a referência primária para avaliar tom em
+qualquer judge_prompt.
 
-### Âncora #1 — Hook paradoxo + ambiente (198k likes)
+### Âncora #1 — Hook paradoxo + ambiente
 ```
-Talento é bom. Mas no ambiente errado, ele morre.
+Disciplina é boa. Mas no sistema errado, ela vira desperdício.
 
-Você pode ter disciplina, visão e execução.
-Mas se estiver cercada por gente que só reclama, nem tenta nada novo ou joga pequeno, você desacelera.
+Você pode ter visão e execução.
+Mas se o seu processo obriga o time a esperar sua aprovação para tudo, você desacelera.
 
-[...]
+- Times com autonomia real entregam até 2x mais rápido (exemplo ilustrativo);
+- Empresas com processos documentados têm margens maiores (exemplo ilustrativo).
 
-- Ambientes colaborativos aumentam a performance em até 50%;
-- Redes de apoio aceleram crescimento em até 3x (Journal of Applied Psychology);
-- Empresas com times fortes têm até 21% mais lucratividade (Gallup).
-
-[...]
-
-Você não cresce acima do ambiente que você tolera.
+Você não cresce acima do sistema que você tolera.
 ```
 
-### Âncora #2 — Negação + lista estruturada (28k likes)
+### Âncora #2 — Negação + lista estruturada
 ```
-Você não precisa ser o herói com o extintor sempre na mão.
-
-[...]
+Você não precisa apagar todos os incêndios da sua empresa.
 
 O crescimento trava quando:
 - A equipe depende de você para decidir tudo.
@@ -211,28 +217,19 @@ Para isso:
 3- Delegue com clareza.
 4- Forme pessoas para pensar, não só executar.
 
-Crescer é fazer melhor com menos dependência de você.
-
 Qual tarefa você ainda não conseguiu tirar da sua mão? Comenta aqui.
 ```
 
-### Âncora #3 — Dado chocante + urgência IA (13k likes)
+### Âncora #3 — Dado chocante + urgência IA
 ```
-Você está ignorando o óbvio.
+Enquanto você hesita, seu concorrente automatiza.
 
-A China já começou a substituir policiais de trânsito por robôs com inteligência artificial.
-
-[...]
-
-Os números já não deixam margem para debate. Empresas que adotam IA podem reduzir custos operacionais em até 30%, segundo a McKinsey. A automação aumenta produtividade em até 40% em operações repetitivas.
-
-E mais de 70% das empresas globais já usam IA em algum nível.
+Os números já não deixam margem para debate. Empresas que adotam IA podem
+reduzir custos operacionais de forma relevante (citar fonte real em produção).
 
 Isso não é tendência. É padrão competitivo.
 
-[...]
-
-Ou você usa tecnologia para crescer. Ou vai competir com quem usa (e não tenho medo de afirmar que vai perder).
+Ou você usa tecnologia para crescer. Ou vai competir com quem usa.
 ```
 
 ---

@@ -2,12 +2,12 @@
 case_id: case-027
 sku_id: copywriter-agent
 outcome_category: instagram_caption
-source_mode: real
+source_mode: synthetic
 criterio_pass: llm_as_judge
 critical_path: false
-ground_truth_post_id: "17982157415994793"
-ground_truth_likes: 13100
-ground_truth_hook: "Você está ignorando o óbvio."
+ground_truth_post_id: "synthetic"
+ground_truth_likes: 0  # ilustrativo — corpus sintético
+ground_truth_hook: "Enquanto você hesita, seu concorrente automatiza."
 nota: "output_type instagram_caption é extensão planejada para integração com social-media-agent"
 input:
   output_type: instagram_caption
@@ -30,7 +30,7 @@ gabarito:
   tone_score_min: 7
 judge_prompt: |
   Você é avaliador de copy para Instagram no tom the CEO.
-  O post de referência real (13k likes) usa o hook: "Você está ignorando o óbvio."
+  O post âncora sintético (ver brand-voice.md) (~13k likes, valor ilustrativo) usa o hook: "Enquanto você hesita, seu concorrente automatiza."
   Seguido de dado sobre robôs na China + números McKinsey sobre IA e produtividade.
 
   Avalie a caption gerada em 5 dimensões:
@@ -81,5 +81,5 @@ judge_prompt: |
 # Case 027 — Dado Chocante + Urgência IA Instagram
 
 Valida hook curto de revelação seguido de escalada com dados IA — padrão do 3º post mais
-performático (13k likes). Testa framing binário "quem usa vs. quem não usa" que é a
+performático (~13k likes, valor ilustrativo). Testa framing binário "quem usa vs. quem não usa" que é a
 estrutura de urgência dominante nos posts de IA da conta.

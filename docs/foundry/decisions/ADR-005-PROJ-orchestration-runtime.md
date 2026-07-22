@@ -2,7 +2,7 @@
 
 **Status:** ✅ Aceito 2026-05-14 — aprovado pelo founder
 **Princípios relacionados:** C5 (ADR) + **C7 (Portability — exceção declarada)** + C8 (Tenant context)
-**Substitui:** decisão informal documentada em `documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md:777` que posicionava LangGraph como "fallback opcional"
+**Substitui:** decisão informal documentada em `documentacao/PLANO_AGENTES_SOCIAL.md:777` que posicionava LangGraph como "fallback opcional"
 
 ---
 

@@ -40,23 +40,23 @@ const llmMockOutput = JSON.stringify({
     },
     {
       role: 'cta',
-      textOverlay: '#DesistirNãoÉOpção',
+      textOverlay: '#FocoNaExecução',
       visualBrief: 'Logo Novais Digital centralizado em background cyan gradient'
     }
   ],
   captions: {
     linkedin:
-      'A pergunta que ouço toda semana: "CEO, vou perder meu emprego para a IA?" Resposta direta: você não vai perder para a IA. Vai perder para quem usa IA. #DesistirNãoÉOpção',
+      'A pergunta que ouço toda semana: "CEO, vou perder meu emprego para a IA?" Resposta direta: você não vai perder para a IA. Vai perder para quem usa IA. #FocoNaExecução',
     instagram:
-      'IA não substitui você. Substitui quem não usa. ⚡ #DesistirNãoÉOpção',
+      'IA não substitui você. Substitui quem não usa. ⚡ #FocoNaExecução',
     facebook:
-      'A pergunta que ouço toda semana. Spoiler: você não vai perder para a IA. #DesistirNãoÉOpção',
+      'A pergunta que ouço toda semana. Spoiler: você não vai perder para a IA. #FocoNaExecução',
     twitter: [
       'IA não substitui você. Substitui quem não usa.',
       '73% das indústrias B2B testaram IA em 2026. Só 12% capturaram valor.',
       'Comece pela operação. Pessoas erram menos quando processo é claro.',
       'O caminho mais curto entre o problema e o resultado se chama execução.',
-      '#DesistirNãoÉOpção'
+      '#FocoNaExecução'
     ]
   }
 });
@@ -164,7 +164,7 @@ describe('GenerateCarrosselUseCase (integration com fakes)', () => {
     });
 
     // Slide 1 tem 7 palavras de texto → Ideogram
-    // Slide 5 tem 1 palavra (#DesistirNãoÉOpção) → Imagen
+    // Slide 5 tem 1 palavra (#FocoNaExecução) → Imagen
     const ideogramCalls = imagenIdeogram.calls.length;
     const imagenCalls = imagenImagen4.calls.length;
 

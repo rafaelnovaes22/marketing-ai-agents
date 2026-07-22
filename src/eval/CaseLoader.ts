@@ -44,7 +44,8 @@ export class CaseLoader {
   }
 
   private parseCase(filePath: string, expectedArtifactId: string): LoadedCase {
-    const content = readFileSync(filePath, 'utf-8');
+    // Normaliza CRLF → LF (checkouts Windows com core.autocrlf=true)
+    const content = readFileSync(filePath, 'utf-8').replace(/\r\n/g, '\n');
     const match = content.match(FRONTMATTER_RE);
     if (!match) {
       throw new Error(`CaseLoader: frontmatter ausente em ${filePath}`);

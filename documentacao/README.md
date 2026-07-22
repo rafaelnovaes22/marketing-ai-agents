@@ -1,4 +1,6 @@
 # 📚 Documentação — Novais Digital Social
+
+> ⚠️ **Case projetado com dados sintéticos.** Números de custo/retorno/ROI neste documento são exercício de planejamento do framework, sem cliente real.
 **Projeto: Agentes de IA para Marketing Digital**
 **Versão: 3.0 | Stack: Claude + Google + Meta | Operação 100% Autônoma**
 
@@ -17,13 +19,13 @@
 
 | Documento | Público | Tempo de Leitura |
 |-----------|---------|:----------------:|
-| [PLANO_AGENTES_DANTUIA_SOCIAL.md](PLANO_AGENTES_DANTUIA_SOCIAL.md) | Time técnico, Product Owner, Engenheiros AI | 30 min |
+| [PLANO_AGENTES_SOCIAL.md](PLANO_AGENTES_SOCIAL.md) | Time técnico, Product Owner, Engenheiros AI | 30 min |
 
 ### 3. Para Design e Branding
 
 | Documento | Público | Tempo de Leitura |
 |-----------|---------|:----------------:|
-| [BRAND_GUIDE_DANTUIA.md](BRAND_GUIDE_DANTUIA.md) | Designer Agent, criativos, designers | 10 min |
+| [BRAND_GUIDE.md](BRAND_GUIDE.md) | Designer Agent, criativos, designers | 10 min |
 | [STITCH_PROMPTS_EXECUTIVE_SUMMARY.md](STITCH_PROMPTS_EXECUTIVE_SUMMARY.md) | Apresentação visual (Claude Design) | 5 min |
 
 ---
@@ -93,19 +95,12 @@ Novais_Social/
 │   ├── README.md                          (este arquivo)
 │   ├── EXECUTIVE_SUMMARY_NOVAIS.md        (síntese 1 página)
 │   ├── AS_IS_TO_BE_NOVAIS.md              (17 slides estruturados)
-│   ├── PLANO_AGENTES_DANTUIA_SOCIAL.md    (plano técnico completo)
-│   ├── BRAND_GUIDE_DANTUIA.md             (identidade visual extraída)
+│   ├── PLANO_AGENTES_SOCIAL.md    (plano técnico completo)
+│   ├── BRAND_GUIDE.md             (identidade visual extraída)
 │   └── STITCH_PROMPTS_EXECUTIVE_SUMMARY.md (prompts para Claude Design)
 │
-├── AS_IS_TO_BE/                          ← Apresentação exportada
-│   └── Novais Digital — Visão Executiva.pdf
-│
-└── brand_extraction/                     ← Artefatos brutos do vídeo
-    ├── audio.mp3
-    ├── transcricao.txt
-    ├── transcricao_segmentos.json
-    └── frames/
-        └── frame_001.jpg ... frame_013.jpg
+└── (assets binários — PDF exportado e artefatos do screencast de brand —
+     removidos da versão pública do repositório)
 ```
 
 ---
@@ -117,8 +112,8 @@ Novais_Social/
 2. Em seguida [`AS_IS_TO_BE_NOVAIS.md`](AS_IS_TO_BE_NOVAIS.md) para o detalhamento visual
 
 ### Para iniciar a implementação:
-1. Leia [`PLANO_AGENTES_DANTUIA_SOCIAL.md`](PLANO_AGENTES_DANTUIA_SOCIAL.md)
-2. Use [`BRAND_GUIDE_DANTUIA.md`](BRAND_GUIDE_DANTUIA.md) para alimentar o Designer Agent
+1. Leia [`PLANO_AGENTES_SOCIAL.md`](PLANO_AGENTES_SOCIAL.md)
+2. Use [`BRAND_GUIDE.md`](BRAND_GUIDE.md) para alimentar o Designer Agent
 
 ### Para criar slides visuais:
 1. Use [`STITCH_PROMPTS_EXECUTIVE_SUMMARY.md`](STITCH_PROMPTS_EXECUTIVE_SUMMARY.md)

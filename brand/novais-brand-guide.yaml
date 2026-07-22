@@ -1,11 +1,11 @@
 # Novais Digital Brand Guide — fonte canônica usada pelo Designer Agent + Brand Validator
-# Extraído de WhatsApp Video 2026-05-13 + análise multimodal (Sonnet 4.6 vision)
-# Versão estruturada de documentacao/BRAND_GUIDE_DANTUIA.md
+# Extraído de screencast de referência via análise multimodal (Sonnet 4.6 vision) — asset não incluído no repo público
+# Versão estruturada de documentacao/BRAND_GUIDE.md
 
 version: 1.0.0
 brand_name: Novais Digital
-logo_wordmark: "D.ANTIA"
-tagline: "Você foca na empresa. A gente cuida em te dar resultado."
+logo_wordmark: "NOVAIS"
+tagline: "Você foca no produto. A gente cuida da sua presença digital."
 
 # ─── Identidade visual ────────────────────────────────────────────
 
@@ -152,19 +152,18 @@ validator_rules:
 # ─── Exemplos canônicos ───────────────────────────────────────────
 
 examples_on_brand:
-  - description: "Hero da landing novais-digital.com.br/social"
+  # Frames de referência do screencast original (removidos do repo público).
+  # Ao aplicar a uma marca real, aponte reference_path para frames do seu screencast.
+  - description: "Hero da landing (frame de referência — asset não incluído)"
     reference_path: "brand_extraction/frames/frame_001.jpg"
-    brand_score: 1.0
-  - description: "Seção governança com badges LGPD/GDPR"
-    reference_path: "brand_extraction/frames/frame_005.jpg"
     brand_score: 1.0
 
 # ─── Metadados ────────────────────────────────────────────────────
 
 metadata:
-  extracted_from: "brand_extraction/frames/* + transcricao.txt"
+  extracted_from: "screencast de referência (assets não incluídos no repo público)"
   extraction_date: "2026-05-13"
   extraction_method: "FFmpeg + Whisper + Claude Sonnet 4.6 vision multimodal"
-  confidence: "high (frames diretos do site oficial Novais Digital)"
+  confidence: "high (frames diretos do screencast de referência)"
   next_review_date: "2026-08-13"
   validated_by: "founder approval pending"

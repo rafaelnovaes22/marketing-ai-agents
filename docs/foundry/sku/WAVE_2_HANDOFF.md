@@ -130,7 +130,7 @@ Nenhum arquivo novo. Auditoria confirmou que `DesignCarrosselUseCase` + retry la
 
 ---
 
-## ⚠️ Insights honestos para o AUDIT_DANTUIA_FOUNDRY futuro
+## ⚠️ Insights honestos para o AUDIT_FOUNDRY futuro
 
 ### Insight 1 — `vitest run tests/**/unit` não expande no Windows
 

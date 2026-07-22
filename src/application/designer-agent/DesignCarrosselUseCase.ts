@@ -259,7 +259,7 @@ export class DesignCarrosselUseCase {
               issues: [
                 {
                   category: 'other',
-                  severity: 'error',
+                  severity: 'critical',
                   description: `Slide failed catastrophically: ${errorMessage}`
                 }
               ],

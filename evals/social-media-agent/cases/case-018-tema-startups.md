@@ -28,7 +28,7 @@ judge_prompt: |
     2. Bloco "Vamos aos fatos:" com ≥ 3 bullets + fonte nomeada + % ou múltiplo
     3. Contraste binário posicionado próximo ao final
     4. CTA: pergunta retórica-cobrança ou mantra de obrigatoriedade
-    5. Hashtags: 2-4 temáticas, sem #DesistirNãoÉOpção
+    5. Hashtags: 2-4 temáticas, sem #FocoNaExecução
     6. Vocabulário 2026: ≥ 3 palavras do núcleo (escala/estrutura/margem/método/etc)
     7. Caption ≤ 2200 chars com CTA explícito
 

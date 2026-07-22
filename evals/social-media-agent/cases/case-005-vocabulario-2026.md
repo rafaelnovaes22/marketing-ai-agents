@@ -40,7 +40,7 @@ judge_prompt: |
 
   Vocabulário obsoleto (do "CEO livro" 2018-2020 — penalize fortemente):
   "fazer acontecer", "sonhar", "status quo", "jornada empreendedora vencedora",
-  "#DesistirNãoÉOpção" (como substituição de conteúdo real)
+  "#FocoNaExecução" (como substituição de conteúdo real)
 
   Critérios:
     1. ≥ 4 palavras do vocabulário 2026 presentes no output
@@ -56,4 +56,4 @@ judge_prompt: |
 
 Valida que o agente usa o vocabulário atual do Código CEO (escala/estrutura/
 margem/método/gargalo) e não o vocabulário do livro antigo (sonho/execução/
-fazer acontecer). Correção feita na refatoração do prompt baseada no corpus real.
+fazer acontecer). Correção feita na refatoração do prompt baseada no corpus de referência da persona sintética.

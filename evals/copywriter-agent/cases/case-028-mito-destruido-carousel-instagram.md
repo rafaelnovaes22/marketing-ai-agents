@@ -2,16 +2,16 @@
 case_id: case-028
 sku_id: copywriter-agent
 outcome_category: instagram_caption
-source_mode: real
+source_mode: synthetic
 criterio_pass: llm_as_judge
 critical_path: false
-ground_truth_post_id: "18108734558305131"
-ground_truth_likes: 1182
-ground_truth_comments: 133
+ground_truth_post_id: "synthetic"
+ground_truth_likes: 0  # ilustrativo — corpus sintético
+ground_truth_comments: 0  # ilustrativo — corpus sintético
 ground_truth_hook: "O mito do empreendedor-herói está quebrando mais negócios do que crises externas."
 ground_truth_format: CAROUSEL_ALBUM
 nota: |
-  Carousel tem comentário/like ratio muito maior que reels (133 comentários / 1182 likes = 11%).
+  Carousel tem comentário/like ratio muito maior que reels (~130 comentários / ~1,2k likes = 11%, valores ilustrativos).
   Reels têm ratio < 1%. Carousel é o formato de geração de lead via comentário.
   output_type instagram_caption é extensão planejada para integração com social-media-agent.
 input:
@@ -38,7 +38,7 @@ gabarito:
   comment_bait: true
 judge_prompt: |
   Você é avaliador de copy para Instagram carousel no tom the CEO.
-  O post de referência real (1.182 likes, 133 comentários = 11% ratio — excepcionalmente alto)
+  O post âncora sintético (ver brand-voice.md) (~1,2k likes, ~130 comentários = 11% ratio — valores ilustrativos)
   usa o hook: "O mito do empreendedor-herói está quebrando mais negócios do que crises externas."
 
   O formato carousel prioriza engajamento via comentários, não alcance.

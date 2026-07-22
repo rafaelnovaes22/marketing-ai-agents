@@ -41,7 +41,7 @@ judge_prompt: |
 
 Valida que o agente inclui o recurso mais característico do Código CEO 2026:
 bullets de estatística com fonte nomeada. Padrão ausente no prompt antigo,
-introduzido na refatoração baseada no corpus real.
+introduzido na refatoração baseada no corpus de referência da persona sintética.
 
 Fontes aceitáveis: McKinsey, Bain & Company, Harvard Business Review, Gong.io,
 Salesforce, Gallup, Forbes, CB Insights, Distrito Dataminer.

@@ -65,7 +65,7 @@ Aspect: social carousel slide. Render exactly the described scene, no extra elem
 `.trim();
 
 // ─── 7 ON-BRAND ──────────────────────────────────────────────────────────────
-// 13 imagens on-brand restantes vêm de brand_extraction/frames/ (Novais Digital real).
+// As demais imagens on-brand vêm dos frames do screencast de referência (não incluídos no repo público).
 // Estas 7 são geradas ancoradas em refs de design B2B SaaS de alta qualidade.
 
 const ON_BRAND: Omit<Spec, 'bucket'>[] = [

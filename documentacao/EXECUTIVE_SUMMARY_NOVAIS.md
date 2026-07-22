@@ -1,6 +1,10 @@
 # EXECUTIVE SUMMARY — Novais Digital Social
 **Transformação Digital via Agentes de IA | Stack Claude + Google | 2026-05-13**
 
+> ⚠️ **Case projetado com dados sintéticos.** Todos os números deste documento
+> (custos, ganhos, ROI) são um exercício de planejamento para demonstrar como o
+> framework estrutura um business case. Não representam resultados de cliente real.
+
 ---
 
 ## A OPORTUNIDADE
@@ -137,6 +141,6 @@ Não Mudar Nada (12 meses):
 
 **Prepared by:** Claude Code | **Data:** 2026-05-13
 **Documentos relacionados:**
-- [Plano completo dos agentes](PLANO_AGENTES_DANTUIA_SOCIAL.md)
+- [Plano completo dos agentes](PLANO_AGENTES_SOCIAL.md)
 - [AS IS / TO BE detalhado](AS_IS_TO_BE_NOVAIS.md)
-- [Brand Guide extraído](BRAND_GUIDE_DANTUIA.md)
+- [Brand Guide extraído](BRAND_GUIDE.md)

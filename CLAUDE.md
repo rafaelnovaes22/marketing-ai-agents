@@ -13,7 +13,7 @@ Novais Digital Social é um SaaS² (SaaS de agentes) que entrega marketing digit
 - **Operação 100% autônoma** — 0 pessoas operacionais, apenas 1 Eng AI manutenção + founder estratégia
 - **Stack consolidado** — Anthropic (Claude) + Google Vertex AI (Imagen 4 + Veo 3) + Meta + **LangGraph (orchestration runtime) + LangSmith (tracing)** [ver [ADR-005-PROJ](./docs/foundry/decisions/ADR-005-PROJ-orchestration-runtime.md) e [ADR-006-PROJ](./docs/foundry/decisions/ADR-006-PROJ-tracing-substitution.md)]
 
-**Números-chave:**
+**Números-chave (projeção com dados sintéticos — exercício de planejamento, sem cliente real):**
 - Investimento Ano 1: R$ 441.490
 - Retorno projetado: R$ 1.343.110
 - ROI Ano 1: 204% | Payback: 4 meses | ROI Ano 2: 450%
@@ -121,8 +121,6 @@ Novais_Social/
 │   ├── foundry                      ← CLI wrapper
 │   └── foundry-doctor.sh            ← validação
 ├── documentacao/                  ← docs de negócio (executive summary, AS IS/TO BE, etc.)
-├── brand_extraction/              ← artefatos brutos do vídeo de brand
-├── AS_IS_TO_BE/                   ← PDF da apresentação executiva
 └── CLAUDE.md                      ← este arquivo
 ```
 
@@ -154,7 +152,7 @@ Novais_Social/
 
 **Fim D14:** 7 agentes em ASSISTED + audit pass + sistema completo.
 
-Detalhes em [`documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md`](./documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md).
+Detalhes em [`documentacao/PLANO_AGENTES_SOCIAL.md`](./documentacao/PLANO_AGENTES_SOCIAL.md).
 
 ---
 
@@ -180,8 +178,8 @@ Mesmo nos limites do `.claude/settings.json`, **sempre** confirme antes de:
 ### Negócio (este projeto)
 - [`documentacao/EXECUTIVE_SUMMARY_NOVAIS.md`](./documentacao/EXECUTIVE_SUMMARY_NOVAIS.md) — síntese executiva
 - [`documentacao/AS_IS_TO_BE_NOVAIS.md`](./documentacao/AS_IS_TO_BE_NOVAIS.md) — 17 slides
-- [`documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md`](./documentacao/PLANO_AGENTES_DANTUIA_SOCIAL.md) — plano técnico completo
-- [`documentacao/BRAND_GUIDE_DANTUIA.md`](./documentacao/BRAND_GUIDE_DANTUIA.md) — identidade visual extraída
+- [`documentacao/PLANO_AGENTES_SOCIAL.md`](./documentacao/PLANO_AGENTES_SOCIAL.md) — plano técnico completo
+- [`documentacao/BRAND_GUIDE.md`](./documentacao/BRAND_GUIDE.md) — identidade visual extraída
 
 ### Onboarding
 - [`HELLO.md`](./HELLO.md) — landing adaptativo *(criar copiando do foundry se quiser)*

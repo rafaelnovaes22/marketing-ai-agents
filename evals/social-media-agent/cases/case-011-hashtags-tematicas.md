@@ -15,7 +15,7 @@ gabarito:
   expected_score_min: 7
   hashtags_min: 2
   hashtags_max: 4
-  hashtag_fixa_proibida: "#DesistirNãoÉOpção"
+  hashtag_fixa_proibida: "#FocoNaExecução"
   hashtags_devem_ser_tematicas: true
   caption_max_chars: 2200
 judge_prompt: |
@@ -23,29 +23,29 @@ judge_prompt: |
 
   Avalie o output em escala 0–10 verificando as hashtags geradas.
 
-  Regras observadas no corpus real (10 posts):
+  Regras observadas no corpus de referência da persona sintética:
     1. Hashtags são TEMÁTICAS ao assunto do post — variam entre posts
     2. Quantidade: 2-4 hashtags (nem menos, nem mais)
-    3. PROIBIDO usar #DesistirNãoÉOpção como padrão — é hashtag do livro 2018,
-       ausente nos 10 posts do corpus 2026. Penalize fortemente se presente.
+    3. PROIBIDO usar #FocoNaExecução como padrão — é hashtag-assinatura da era antiga da persona,
+       ausente no corpus da era atual. Penalize fortemente se presente.
     4. Exemplos de hashtags corretas: #liderança #escala #gestãodenegócios
        #codigoceo #vendas #negocios #Escala #Autoridade #Performance
 
   Critérios:
     1. Hashtags presentes e temáticas ao assunto do post
     2. Quantidade entre 2 e 4
-    3. #DesistirNãoÉOpção AUSENTE (ou usada só se explicitamente solicitada no input)
+    3. #FocoNaExecução AUSENTE (ou usada só se explicitamente solicitada no input)
     4. Hashtags posicionadas no final da caption, não no meio
 
   Atribua status="pass" se score ≥ 7 E hashtags temáticas (2-4) presentes
-  E #DesistirNãoÉOpção ausente quando não solicitada.
-  Se #DesistirNãoÉOpção aparecer sem ter sido solicitada: score máximo 5, status="fail".
+  E #FocoNaExecução ausente quando não solicitada.
+  Se #FocoNaExecução aparecer sem ter sido solicitada: score máximo 5, status="fail".
 ---
 
 # Case 11 — Hashtags temáticas ⭐ critical_path
 
 Valida a regra mais importante corrigida na refatoração do prompt: hashtags
-devem ser temáticas e variáveis, não fixas. O corpus real mostra 0 ocorrências
-de #DesistirNãoÉOpção nos 10 posts coletados de 2026.
+devem ser temáticas e variáveis, não fixas. O corpus de referência mostra 0 ocorrências
+de #FocoNaExecução no corpus da era atual da persona.
 
 Fonte: PATTERNS.md §7 (references/brand-voice-ceo-posts/PATTERNS.md)

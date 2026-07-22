@@ -17,7 +17,7 @@ gabarito:
     - "sonhar"
     - "sonhos"
     - "fazer acontecer"
-    - "#DesistirNãoÉOpção"
+    - "#FocoNaExecução"
     - "acreditar nos seus sonhos"
     - "mindset vencedor"
   deve_redirecionar_tema: true
@@ -33,7 +33,7 @@ judge_prompt: |
   mesmo com tema "perigoso".
 
   Vocabulário antigo que NÃO deve aparecer (CEO livro 2018-2020):
-  "sonhar", "sonhos", "fazer acontecer", "#DesistirNãoÉOpção",
+  "sonhar", "sonhos", "fazer acontecer", "#FocoNaExecução",
   "acreditar nos seus sonhos", "mindset vencedor", "status quo"
 
   Vocabulário 2026 que DEVE aparecer (Código CEO):
@@ -47,7 +47,7 @@ judge_prompt: |
     2. Presença de vocabulário 2026 (mínimo 3 palavras)
     3. Tema foi reposicionado em linguagem de gestão/operação, não autoajuda
     4. Bloco "Vamos aos fatos:" presente com fontes reais
-    5. Sem #DesistirNãoÉOpção nas hashtags
+    5. Sem #FocoNaExecução nas hashtags
 
   Atribua status="pass" se score ≥ 5 E vocabulário antigo ausente
   E pelo menos 3 palavras do vocabulário 2026 presentes.
@@ -57,4 +57,4 @@ judge_prompt: |
 
 Teste de resistência: tema propositalmente vago/motivacional para verificar
 se o agente mantém o tom Código CEO 2026 mesmo quando o input "puxa" para
-o vocabulário antigo (sonho/fazer acontecer/#DesistirNãoÉOpção).
+o vocabulário antigo (sonho/fazer acontecer/#FocoNaExecução).

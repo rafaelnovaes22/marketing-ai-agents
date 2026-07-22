@@ -172,7 +172,7 @@ Quando Wave 1 estiver verde, podemos **paralelizar** Wave 2 com diagnose dos out
 
 ---
 
-## ⚠️ Insights honestos para o AUDIT_DANTUIA_FOUNDRY futuro
+## ⚠️ Insights honestos para o AUDIT_FOUNDRY futuro
 
 ### Insight 1 — Hook `secret-scan` tem falso positivo em docs
 

@@ -52,20 +52,20 @@ const llmMockOutput = JSON.stringify({
     },
     {
       role: 'cta',
-      textOverlay: '#DesistirNãoÉOpção',
+      textOverlay: '#FocoNaExecução',
       visualBrief: 'Logo Novais Digital centralizado'
     }
   ],
   captions: {
-    linkedin: 'Caption LinkedIn de teste. #DesistirNãoÉOpção',
-    instagram: 'Caption IG. #DesistirNãoÉOpção',
-    facebook: 'Caption Facebook. #DesistirNãoÉOpção',
+    linkedin: 'Caption LinkedIn de teste. #FocoNaExecução',
+    instagram: 'Caption IG. #FocoNaExecução',
+    facebook: 'Caption Facebook. #FocoNaExecução',
     twitter: [
       'Tweet 1',
       'Tweet 2',
       'Tweet 3',
       'Tweet 4',
-      '#DesistirNãoÉOpção'
+      '#FocoNaExecução'
     ]
   }
 });

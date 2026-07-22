@@ -2,13 +2,13 @@
 case_id: case-029
 sku_id: copywriter-agent
 outcome_category: instagram_caption
-source_mode: real
+source_mode: synthetic
 criterio_pass: llm_as_judge
 critical_path: false
-ground_truth_post_id: "17990322968969533"
-ground_truth_likes: 262
-ground_truth_comments: 29
-ground_truth_hook: "Faturar R$30k sozinha parece incrível."
+ground_truth_post_id: "synthetic"
+ground_truth_likes: 0  # ilustrativo — corpus sintético
+ground_truth_comments: 0  # ilustrativo — corpus sintético
+ground_truth_hook: "Faturar bem sozinha parece incrível."
 ground_truth_format: REELS
 nota: |
   Posts de vulnerabilidade têm likes menores mas conversão maior (leads qualificados).
@@ -38,7 +38,7 @@ gabarito:
   tone_score_min: 7
 judge_prompt: |
   Você é avaliador de copy para Instagram no tom the CEO.
-  O post de referência real usa o hook: "Faturar R$30k sozinha parece incrível."
+  O post âncora sintético (ver brand-voice.md) usa o hook: "Faturar bem sozinha parece incrível."
   Seguido de: "Até você perceber que o negócio só existe enquanto você aguenta."
   E termina com transformação: faturamento R$30k → R$120k em 4 meses via estrutura.
 

@@ -2,12 +2,12 @@
 case_id: case-025
 sku_id: copywriter-agent
 outcome_category: instagram_caption
-source_mode: real
+source_mode: synthetic
 criterio_pass: llm_as_judge
 critical_path: true
-ground_truth_post_id: "17947804106983178"
-ground_truth_likes: 198452
-ground_truth_hook: "Talento é bom. Mas no ambiente errado, ele morre."
+ground_truth_post_id: "synthetic"
+ground_truth_likes: 0  # ilustrativo — corpus sintético
+ground_truth_hook: "Disciplina é boa. Mas no sistema errado, ela vira desperdício."
 nota: "output_type instagram_caption é extensão planejada para integração com social-media-agent"
 input:
   output_type: instagram_caption
@@ -30,7 +30,7 @@ gabarito:
   tone_score_min: 8
 judge_prompt: |
   Você é avaliador de copy para Instagram no tom the CEO.
-  O post de referência real (198k likes) usa o hook: "Talento é bom. Mas no ambiente errado, ele morre."
+  O post âncora sintético (ver brand-voice.md) (~200k likes, valor ilustrativo) usa o hook: "Disciplina é boa. Mas no sistema errado, ela vira desperdício."
 
   Avalie a caption gerada em 5 dimensões:
 
@@ -83,7 +83,7 @@ judge_prompt: |
 # Case 025 — Hook Paradoxo Instagram ⭐ critical_path
 
 Valida capacidade de gerar hook estrutura paradoxo para reel caption, ancorado no post de
-maior performance da conta (198k likes). Ground truth: padrão X é bom / mas Y.
+maior performance da conta (~200k likes, valor ilustrativo). Ground truth: padrão X é bom / mas Y.
 
 Tom mínimo exigido: 8/10 (acima do threshold padrão de 7) porque paradoxo é o formato
 de maior ROI de engajamento na conta.

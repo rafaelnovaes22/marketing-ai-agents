@@ -15,7 +15,7 @@ Set de 50 imagens curadas humanamente para calibrar o `BrandValidatorAdapter`.
 
 Gere as 50 via **Higgsfield web UI** (one-shot, não como adapter de produção — ver benchmarking 2026-05-20):
 
-1. **on-brand (20)** — Upload os 13 frames de `brand_extraction/frames/` como style reference; gere 7 variações dirigidas mantendo paleta + composição Novais Digital. Os 13 frames originais contam — copie-os para `on-brand/` também (já são `brand_score: 1.0` no `novais-digital-brand-guide.yaml`).
+1. **on-brand (20)** — Upload os frames do screencast de referência (assets não incluídos no repo público) como style reference; gere 7 variações dirigidas mantendo paleta + composição Novais Digital. Os frames originais contam — copie-os para `on-brand/` também (já são `brand_score: 1.0` no `novais-digital-brand-guide.yaml`).
 2. **borderline (15)** — Solte o style strength, peça desvios sutis: "mesma paleta mas tipografia serif", "cores Novais Digital mas composição assimétrica", "Inter mas cantos retos".
 3. **off-brand (15)** — Prompts ostensivamente fora da marca: "Comic Sans, paleta amarelo/vermelho, gradient roxo", "stock photo com texto Times New Roman", "layout caótico cores neon".
 

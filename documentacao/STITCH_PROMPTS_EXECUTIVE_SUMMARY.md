@@ -11,8 +11,8 @@
 ### Brand Identity
 ```yaml
 brand: Novais Digital
-tagline: "Você foca na empresa. A gente cuida em te dar resultado."
-logo_wordmark: "D.ANTIA"
+tagline: "Você foca no produto. A gente cuida da sua presença digital."
+logo_wordmark: "NOVAIS"
 
 colors:
   primary_dark: "#0A1628"     # Background principal (hero, footer)
@@ -75,7 +75,7 @@ LAYOUT:
 - Composição centralizada, muito whitespace
 
 HEADER (topo esquerdo):
-- Logo wordmark "D.ANTIA" em branco, letter-spacing 0.05em, peso geometric sans-serif
+- Logo wordmark "NOVAIS" em branco, letter-spacing 0.05em, peso geometric sans-serif
 - Tamanho: 24px
 
 CENTRO (hero principal):
@@ -166,7 +166,7 @@ Crie um slide comparativo no modo LIGHT:
 
 LAYOUT:
 - Background: #F5F7FA
-- Header dark navy (#0A1628) com logo "D.ANTIA" branco
+- Header dark navy (#0A1628) com logo "NOVAIS" branco
 - Conteúdo center-aligned
 
 TÍTULO PRINCIPAL (centro topo, Inter Bold 56px, #0A1628):
@@ -508,8 +508,8 @@ CTA BUTTON (centro, pill grande):
 - Subtítulo abaixo (#6B7280 14px): "Sem compromisso · Resposta em até 24h"
 
 FOOTER:
-- Logo "D.ANTIA" branco pequeno (lado esquerdo)
-- Texto pequeno (#6B7280): "Você foca na empresa. A gente cuida em te dar resultado."
+- Logo "NOVAIS" branco pequeno (lado esquerdo)
+- Texto pequeno (#6B7280): "Você foca no produto. A gente cuida da sua presença digital."
 ```
 
 ---
@@ -518,7 +518,7 @@ FOOTER:
 
 ### Passo 1 — Criar Design System
 
-Use a ferramenta `create_design_system_from_design_md` apontando para este arquivo OU para o `BRAND_GUIDE_DANTUIA.md`.
+Use a ferramenta `create_design_system_from_design_md` apontando para este arquivo OU para o `BRAND_GUIDE.md`.
 
 ```
 Input:
@@ -566,7 +566,7 @@ mcp__stitch__generate_variants
 Antes de aprovar cada slide, validar:
 
 - [ ] Cores exatas do brand guide aplicadas
-- [ ] Logo "D.ANTIA" presente (não "Novais Digital" ou "NOVAIS DIGITAL")
+- [ ] Logo "NOVAIS" presente (não "Novais Digital" ou "NOVAIS DIGITAL")
 - [ ] Tipografia geometric sans-serif (Inter/Manrope)
 - [ ] Cantos arredondados em todos os elementos
 - [ ] Alternância dark/light respeitada

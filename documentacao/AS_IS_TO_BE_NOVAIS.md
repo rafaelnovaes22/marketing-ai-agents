@@ -1,4 +1,6 @@
 # Novais Digital Social — AS IS / TO BE
+
+> ⚠️ **Case projetado com dados sintéticos.** Números de custo/retorno/ROI neste documento são exercício de planejamento do framework, sem cliente real.
 **Análise de Transformação Digital via Agentes de IA**
 **Stack:** Claude (Anthropic) + Google Vertex AI + Meta
 **Data:** 2026-05-13 | **Versão:** 2.0 | **Status:** Para Apresentação Executiva
@@ -581,7 +583,7 @@ Cenário "Não Mudar Nada" (12 meses):
 
 ---
 
-**"Você foca na empresa. A gente cuida em te dar resultado."**
+**"Você foca no produto. A gente cuida da sua presença digital."**
 **— Agora aplicado à própria operação da Novais Digital.**
 
 ---
