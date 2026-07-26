@@ -1,13 +1,11 @@
-// Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll
-// Testes FALHAM (RED) até Wave 4 plugar VoiceValidator em GenerateCopywriterOutputUseCase.
+// T4.3 Voice Drift Cancel + Re-roll
 //
-// Por que falha: GenerateCopywriterDeps não tem campo voiceValidator.
-// O use case atual não chama VoiceValidator em nenhum momento.
-// Wave 4 deve:
-//   1. Adicionar voiceValidator?: VoiceValidator em GenerateCopywriterDeps
-//   2. Chamar validate() no output gerado (full_landing para Tipo A)
-//   3. Se decision = 'reroll', retentar com prompt de correção (max 2x)
-//   4. Registrar score e re-rolls em observability
+// Escritos como RED na Wave 3 e fechados na Wave 4, que entregou os quatro
+// pontos previstos: voiceValidator?: VoiceValidator em GenerateCopywriterDeps,
+// validate() sobre o output (full_landing, Tipo A), re-roll com prompt de
+// correção quando decision = 'reroll' (max 2x) e registro de score e re-rolls
+// em observability. Os nomes dos casos mantêm o prefixo RED como histórico do
+// ciclo; hoje são testes de regressão e passam.
 
 import { beforeEach, describe, expect, it } from 'vitest';
 import { GenerateCopywriterOutputUseCase } from '../../../src/application/copywriter-agent/GenerateCopywriterOutputUseCase.js';
@@ -84,8 +82,7 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
     const useCase = new GenerateCopywriterOutputUseCase({
       llm,
       observability: obs,
-      // RED: voiceValidator não está em GenerateCopywriterDeps ainda
-      ...(promptMaps() as object),
+      ...promptMaps(),
       voiceValidator: voice
     } as unknown as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
@@ -111,7 +108,7 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
     const useCase = new GenerateCopywriterOutputUseCase({
       llm,
       observability: obs,
-      ...(promptMaps() as object),
+      ...promptMaps(),
       voiceValidator: voice
     } as unknown as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
@@ -134,7 +131,7 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
     const useCase = new GenerateCopywriterOutputUseCase({
       llm,
       observability: obs,
-      ...(promptMaps() as object),
+      ...promptMaps(),
       voiceValidator: voice
     } as unknown as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
@@ -153,7 +150,7 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
     const useCase = new GenerateCopywriterOutputUseCase({
       llm,
       observability: obs,
-      ...(promptMaps() as object),
+      ...promptMaps(),
       voiceValidator: voice
     } as unknown as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
@@ -193,7 +190,6 @@ describe('Wave 3 RED — T4.3 Voice Drift Cancel + Re-roll', () => {
       systemPromptByTom: new Map([[TOM, 'PROMPT_TOM']]),
       systemPromptByFramework: new Map([['soap-opera', 'PROMPT_SOAP']]),
       systemPromptByOutputType: new Map([['email-sequence', 'PROMPT_EMAIL']]),
-      ...(({} as object)),
       voiceValidator: voice
     } as unknown as ConstructorParameters<typeof GenerateCopywriterOutputUseCase>[0]);
 
