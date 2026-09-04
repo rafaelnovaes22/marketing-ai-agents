@@ -19,6 +19,7 @@ import { OutputType } from '../../domain/copywriter/OutputType.js';
 import type { LLMProvider } from '../../domain/ports/LLMProvider.js';
 import type { Observability } from '../../domain/ports/Observability.js';
 import type { VoiceValidator } from '../../domain/ports/VoiceValidator.js';
+import { assertNoInjection } from '../../infrastructure/guardrails/injection.js';
 
 const SCHEMA_VERSION = '1.0.0';
 
@@ -99,6 +100,7 @@ export class GenerateCopywriterOutputUseCase {
   constructor(private readonly deps: GenerateCopywriterDeps) {}
 
   async execute(input: GenerateCopywriterInput): Promise<CopywriterOutput> {
+    assertNoInjection({ product: input.product, audience: input.audience, goal: input.goal, context: input.context });
     // 1. Reconstroi value objects do domain.
     const briefingInput: CopywriterBriefingInput = {
       tenantId: input.tenantId,

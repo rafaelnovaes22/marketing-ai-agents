@@ -9,6 +9,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "guardrails": "vitest run tests/guardrails",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:unit": "vitest run tests/**/unit",

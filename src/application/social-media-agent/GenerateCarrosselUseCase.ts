@@ -15,6 +15,7 @@ import type {
   TraceContext
 } from '../../domain/ports/Observability.js';
 import type { BrandGuide } from '../../domain/carrossel/BrandGuide.js';
+import { assertNoInjection } from '../../infrastructure/guardrails/injection.js';
 
 export interface GenerateCarrosselInput {
   briefingText: string;
@@ -56,6 +57,7 @@ export class GenerateCarrosselUseCase {
   constructor(private readonly deps: GenerateCarrosselDeps) {}
 
   async execute(input: GenerateCarrosselInput): Promise<Carrossel> {
+    assertNoInjection({ briefingText: input.briefingText });
     const ownTrace = !input.parentTrace;
     const traceContext = input.parentTrace ?? this.deps.observability.startTrace({
       tenantId: input.tenantId,

@@ -22,6 +22,7 @@ import type {
   Observability,
   TraceContext
 } from '../../domain/ports/Observability.js';
+import { assertNoInjection } from '../../infrastructure/guardrails/injection.js';
 
 export interface SlideDesignSpec {
   order: number;
@@ -70,6 +71,7 @@ export class DesignCarrosselUseCase {
   }
 
   async execute(input: DesignCarrosselUseCaseInput): Promise<DesignCarrossel> {
+    assertNoInjection(Object.fromEntries(input.slideSpecs.flatMap((s, i) => [[`slides[${i}].visualBrief`, s.visualBrief], [`slides[${i}].textOverlay`, s.textOverlay]])));
     if (input.slideSpecs.length !== input.briefing.numSlides) {
       throw new Error(
         `slideSpecs (${input.slideSpecs.length}) ≠ briefing.numSlides (${input.briefing.numSlides})`
