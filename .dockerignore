@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+.git
+.env
+.env.*.local
+*.log
+brand/calibration-set/on-brand/*
+brand/calibration-set/borderline/*
+brand/calibration-set/off-brand/*
+!brand/calibration-set/on-brand/.gitkeep
+!brand/calibration-set/borderline/.gitkeep
+!brand/calibration-set/off-brand/.gitkeep

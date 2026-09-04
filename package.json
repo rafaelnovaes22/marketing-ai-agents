@@ -8,6 +8,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
+    "start": "tsx src/server.ts",
     "typecheck": "tsc --noEmit",
     "guardrails": "vitest run tests/guardrails",
     "test": "vitest run",
