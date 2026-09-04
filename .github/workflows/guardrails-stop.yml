@@ -1,0 +1,46 @@
+name: guardrails-stop
+
+# PORQUE: break-before-prod (C1-C8). Vermelho aqui bloqueia merge e deploy.
+# Camada 1 injection (32 padroes) + golden anti-alucinacao (>94%) + custo SLM (<25%).
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, "chore/**", "feat/**", "fix/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: guardrails-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guardrails:
+    name: Guardrails stop (injection + golden + custo)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Guardrails (BLOQUEADO se golden <=94% ou custo >=25%)
+        run: npm run guardrails
+
+  gate:
+    needs: [guardrails]
+    runs-on: ubuntu-latest
+    steps:
+      - run: "echo BREAK-BEFORE-PROD-PASS. Merge e deploy liberados."
